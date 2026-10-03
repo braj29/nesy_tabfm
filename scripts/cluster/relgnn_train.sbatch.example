@@ -1,0 +1,28 @@
+#!/bin/bash
+# Starting-point Slurm job for training RelGNN on rel-f1 and dumping per-instance
+# predictions for the RQ1 audit. Edit partition/account/module lines for your cluster.
+# See scripts/cluster/README.md for the relbench version pin and the required patch to
+# examples/relgnn_task_node.py before this will produce a *_predictions.parquet file.
+#
+#SBATCH --job-name=relgnn-rel-f1
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=32G
+#SBATCH --time=04:00:00
+#SBATCH --output=relgnn_rel_f1_%A_%a.log
+#SBATCH --array=0-2
+
+set -euo pipefail
+
+module load cuda/12.1   # match whatever your cluster provides
+source activate relgnn  # conda env created per scripts/cluster/README.md
+
+TASKS=(driver-position driver-dnf driver-top3)
+TASK="${TASKS[$SLURM_ARRAY_TASK_ID]}"
+
+cd "$RELGNN_REPO_DIR"   # set this to your snap-stanford/RelGNN checkout
+python examples/relgnn_task_node.py --dataset rel-f1 --task "$TASK"
+
+mkdir -p "$OUT_DIR"     # set this to where you want the parquet files collected
+mv "${TASK}_predictions.parquet" "$OUT_DIR/"

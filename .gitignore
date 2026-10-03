@@ -1,0 +1,12 @@
+.venv/
+relarena_predict/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+relarena_predict/.env
+*.egg-info/
+.DS_Store
+.claude/settings.local.json
+slogs/
+results_smoke/

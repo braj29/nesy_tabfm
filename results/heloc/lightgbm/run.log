@@ -1,0 +1,9 @@
+2026-09-21 22:09:31,229 | INFO    | HELOC monotonicity audit, model=lightgbm
+2026-09-21 22:09:31,229 | INFO    | START load HELOC
+2026-09-21 22:09:31,327 | INFO    | DONE  load HELOC (0.1s)
+2026-09-21 22:09:31,397 | INFO    | train=8367 rows, test=2092 rows
+2026-09-21 22:09:31,397 | INFO    | START fit lightgbm
+2026-09-21 22:09:32,709 | INFO    | DONE  fit lightgbm (1.3s)
+2026-09-21 22:09:32,798 | INFO    | ExternalRiskEstimate: 354/1984 violations (17.84%) -- FICO's own consolidated risk score; verified corr=+0.46 with Good outcome.
+2026-09-21 22:09:32,818 | INFO    | NetFractionRevolvingBurden: 626/1945 violations (32.19%) -- revolving credit utilization; verified corr=-0.36 with Good outcome.
+2026-09-21 22:09:32,821 | INFO    | wrote /Users/rayb/phd/nesy_tabfm/results/heloc/lightgbm/monotonicity_violation_rates.csv

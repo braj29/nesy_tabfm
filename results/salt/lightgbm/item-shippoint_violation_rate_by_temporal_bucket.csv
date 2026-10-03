@@ -1,0 +1,5 @@
+temporal_bucket,n,n_violations,violation_rate
+bucket_1,100714,0,0.0
+bucket_2,100714,0,0.0
+bucket_3,100713,0,0.0
+bucket_4,100714,0,0.0

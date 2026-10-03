@@ -1,0 +1,9 @@
+name,kind,n_checked,n_violations,violation_rate
+results_fk_race,referential_integrity,26080,0,0.0
+results_fk_driver,referential_integrity,26080,0,0.0
+results_fk_constructor,referential_integrity,26080,0,0.0
+results_unique_per_race_driver,cardinality,25989,85,0.003270614490746085
+standings_unique_per_race_driver,cardinality,34124,0,0.0
+season_points_consistency,aggregate_consistency,3167,79,0.02494474265866751
+qualifying_before_race,temporal_order,9815,0,0.0
+points_non_negative,denial,26080,0,0.0

@@ -1,0 +1,16 @@
+[project]
+name = "relarena-predict"
+version = "0.1.0"
+description = "Runs RelArena-alpha's CPU baselines (lightgbm, tabpfn-rel-local) on rel-f1 and dumps predictions for nesy_tabfm's constraint audit"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    # Deliberately separate from nesy_tabfm's own venv: relarena pins relbench==2.1.2 (the
+    # pre-rewrite relbench.datasets/relbench.tasks API), which conflicts with nesy_tabfm's
+    # own relbench>=3.0. See ../pyproject.toml and README.md here.
+    "relarena[lightgbm,tabpfn-rel-local]",
+    "pyarrow>=15.0",
+]
+
+[tool.uv]
+package = false  # this is a scripts dir (predict.py), not an importable library

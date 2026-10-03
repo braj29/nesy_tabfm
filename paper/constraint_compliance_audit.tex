@@ -1,0 +1,507 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{Constraint Violation Rates in TabPFN:\\Preliminary Findings from an Initial Audit\\Across Relational and Tabular Benchmarks\\\large (with LightGBM as a Reference Baseline)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This is an initial, preliminary audit of constraint-violation rate (CVR) in TabPFN, a genuine
+tabular foundation model, evaluated on real relational and tabular benchmarks rather than
+synthetic data. We ask whether TabPFN's predictions respect the integrity and domain
+constraints that govern the databases it predicts over, using a constraint taxonomy spanning
+eight generic database-integrity types (referential integrity, cardinality, aggregate
+consistency, temporal order, functional dependency, denial constraint, range/domain,
+monotonicity) plus domain-sourced rules requiring external knowledge. Every constraint is
+verified against ground truth before being used to audit predictions, across three benchmarks:
+rel-f1 (Formula 1 results), rel-salt (SAP enterprise sales data, 8 tasks), and HELOC (consumer
+credit risk). TabPFN was run as a single, untuned configuration -- on rel-salt with a
+necessarily small subsample (its CPU inference limits preclude full-scale training) and on
+rel-f1 via RelArena's TabPFN-Rel relational pipeline -- so the TabPFN results reported here are
+preliminary and should be read as a first pass, not a final characterization. LightGBM, a
+conventional (non-foundation-model) gradient-boosted-tree baseline trained on the full
+available data, is included throughout as a reference point, not as the paper's primary
+subject, and its results are reported separately rather than merged into head-to-head
+comparisons. In this initial pass, TabPFN's constraint-violation rates on rel-salt were low
+across most tasks and it did not exhibit the LightGBM reference's one collapsed-prediction
+failure mode; TabPFN was also more monotonic than the LightGBM reference on HELOC's
+credit-risk features. We hold these as preliminary observations pending replication at matched
+sample size and with a tuning sweep.
+\end{abstract}
+
+\section{Introduction}
+
+A relational or tabular foundation model deployed to autocomplete a missing field, forecast an
+outcome, or classify a row is implicitly making a claim about a structured world with its own
+invariants: keys are unique, foreign keys resolve, aggregates sum correctly, some fields
+determine others, and domain-specific rules hold. Accuracy against a held-out label says
+nothing about whether a model's predictions, taken together, respect these invariants.
+
+This report is an initial audit of one such model, TabPFN (a pretrained tabular foundation
+model, not a model trained from scratch per task), for constraint-violation rate (CVR) across
+real relational and tabular benchmarks. TabPFN is the paper's subject: it is the kind of model
+the underlying research question is actually about, an architecture trained once and applied
+to new tasks via in-context learning rather than gradient descent on each new dataset.
+LightGBM, a conventional gradient-boosted-tree model trained from scratch on each task's own
+full training data, is included as a familiar reference point for calibrating what a CVR
+number means in absolute terms -- not because the paper is about comparing the two models, and
+not on equal footing: LightGBM was trained on full datasets, while TabPFN's CPU inference
+limits confined it to small subsamples on the largest benchmark. Results for the two models
+are reported separately throughout, not merged into head-to-head tables, because they are not
+run under comparable conditions.
+
+We treat this as a preliminary, single-configuration pass: no hyperparameter tuning, no
+repeated seeds, and (on rel-salt) a training sample far smaller than what LightGBM sees. Our
+contributions are: (1) a constraint taxonomy spanning generic database-integrity properties and
+domain-sourced rules, each with at least one real, empirically-verified instance; (2)
+functional-dependency constraints derived from an enterprise database's own Operational
+Business Knowledge Graph (OBKG) rather than hand-invented; and (3) an initial, preliminary
+picture of TabPFN's constraint-violation behavior on real relational data, with LightGBM's
+behavior reported alongside as reference context, including one case where a same-relation
+consistency check alone would have understated a real failure in the reference baseline.
+
+\section{Method}
+
+\subsection{Constraint taxonomy}
+
+We distinguish two tiers. \textbf{Tier 1 (database integrity)} covers eight generic constraint
+types that hold for any well-formed relational database regardless of subject matter:
+referential integrity, cardinality, aggregate consistency, temporal order, functional
+dependency, denial constraint, range/domain, and monotonicity. \textbf{Tier 2
+(domain-sourced)} covers rules whose justification requires external knowledge -- a sport's
+rulebook, an ERP system's real business practice, or a fixed regulatory vocabulary -- rather
+than following from the schema alone. The distinction is not always sharp (a functional
+dependency can itself reflect real-world business knowledge), but it separates constraints
+checkable from schema structure alone from those requiring a domain authority. Table
+\ref{tab:examples} gives one real, verified example per type, drawn from this audit rather
+than invented.
+
+\begin{table}[h]
+\centering
+\small
+\caption{One worked example per constraint type, with its measured ground-truth compliance.}
+\label{tab:examples}
+\begin{tabularx}{\linewidth}{@{} l L{4.3cm} X @{}}
+\toprule
+\textbf{Type} & \textbf{Example} & \textbf{Ground truth} \\
+\midrule
+Referential integrity & rel-f1: every \texttt{results.driverId} must exist in
+  \texttt{drivers.driverId} & 0 / 26{,}080 violations \\[3pt]
+Cardinality & rel-f1: at most one \texttt{results} row per (raceId, driverId) pair &
+  85 / 25{,}989 violations (1950--78 shared drives) \\[3pt]
+Aggregate consistency & rel-f1: a driver's final season standings points equal the sum of
+  that driver's individual race points & 79 / 3{,}167 violations (no sprint-results table) \\[3pt]
+Temporal order & rel-f1: a race's qualifying session date precedes the race date &
+  0 / 9{,}815 violations \\[3pt]
+Functional dependency & rel-salt: \texttt{SHIPPINGPOINT} determines \texttt{PLANT} (SAP
+  config table TVSTZ: each shipping point belongs to one plant) & 1{,}356 / 2{,}319{,}540
+  violations (99.94\% hold) \\[3pt]
+Denial constraint & rel-salt: no two items in the same order may disagree on \texttt{PLANT}
+  (ground truth) & 7{,}134 / 32{,}417{,}261 item pairs (99.98\% agree) \\[3pt]
+Range / domain & rel-f1: a driver's points for a race must be non-negative &
+  0 / 26{,}080 violations \\[3pt]
+Monotonicity & HELOC: raising \texttt{ExternalRiskEstimate} (FICO's own risk score) must
+  never lower predicted creditworthiness & real correlation $r=+0.46$ verified before use;
+  violation rate is a prediction-level metric (Section \ref{sec:tabpfn-heloc}) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Benchmarks}
+
+\textbf{rel-f1}: RelBench's Formula 1 database, 1950--2023, three official tasks
+(driver-position, driver-dnf, driver-top3). \textbf{rel-salt}: RelBench v2's SAP SALT-KG
+enterprise sales database (2.3M line-item rows, 500K order headers), eight official
+autocomplete tasks spanning item-level (item-plant, item-shippoint, item-incoterms) and
+header-level (sales-office, sales-group, sales-payterms, sales-shipcond, sales-incoterms)
+entities. \textbf{HELOC}: FICO's single-table consumer credit-risk dataset, audited for
+monotonicity rather than relational constraints.
+
+\subsection{Models}
+
+\textbf{TabPFN v3 (primary model)}, run as a single untuned configuration in two different
+integration paths depending on benchmark, both preliminary:
+
+\begin{itemize}
+\item On \textbf{rel-salt}, we used the plain \texttt{tabpfn} client package (v3 backend)
+  directly on hand-built flat features, in-process. TabPFN's CPU inference has a documented
+  10-class / $\sim$10{,}000-row soft advisory limit and a hard, unbypassable 160-class ceiling
+  (confirmed empirically: sales-group's 502 classes triggered a \texttt{TabPFNValidationError}
+  even with \texttt{ignore\_pretraining\_limits=True}, which we set to run past the soft
+  10-class limit). Because rel-salt's full training tables run to 1.6M rows, we trained on an
+  8{,}000-row random subsample and evaluated on a 1{,}000-row random subsample per task --
+  small enough to fit TabPFN's practical CPU limits, but far smaller than what a from-scratch
+  model like LightGBM can use, and not stratified by class (infeasible across up to 502
+  classes in an 8{,}000-row budget). This is a feasibility trial, not a fully-powered
+  evaluation.
+\item On \textbf{rel-f1}, we used RelArena's \texttt{tabpfn-rel-local} pipeline (TabPFN-Rel),
+  which automatically synthesizes relational features via multi-hop deep feature synthesis
+  (DFS) across the database's foreign-key graph, rather than the hand-built flat features used
+  on rel-salt, and performs its own internal tuning (10 trials) over a depth/hyperparameter
+  grid. This is a materially different pipeline from the rel-salt integration, included
+  because it is RelArena's standard way of running TabPFN on a relational benchmark; the two
+  should not be read as the same experimental protocol.
+\end{itemize}
+
+\textbf{LightGBM (reference baseline)}, trained on the full available training data for every
+task with a fixed, untuned configuration (200 estimators, 63 leaves) -- a conventional,
+non-foundation-model baseline included so CVR numbers have a familiar point of reference, not
+as the object of this study.
+
+\subsection{Procedure}
+
+Every constraint was first checked against real ground truth -- not assumed from a schema
+diagram -- before being used to audit any model's predictions, following the same discipline
+for all three benchmarks: compute the violation rate, and if it is unexpectedly non-zero,
+either find and fix a real bug or document the non-zero rate as a genuine data property. This
+discipline caught two implementation bugs during the audit (a temporal-censoring bug that made
+both models degenerate into constant-class predictors, and a $\sim$1000x constraint-engine
+performance bug from unprojected self-joins on rel-salt's 2.3M-row table), both fixed before
+any result reported here was computed.
+
+\paragraph{Scope of this initial pass.} This is a first, preliminary audit, not a finished
+benchmark. Concretely: (1) TabPFN was run once per task, with no hyperparameter tuning on
+rel-salt and RelArena's own fixed 10-trial tuning on rel-f1 -- neither is a tuning sweep
+matched between the two models; (2) rel-salt's TabPFN subsample sizes (8{,}000 train /
+1{,}000 test) were chosen for CPU feasibility, not statistical power, and no confidence
+intervals are reported; (3) each configuration was run once, not repeated across random seeds,
+so we cannot yet distinguish a stable pattern from sampling noise; (4) LightGBM's numbers are
+reported as a reference point throughout, never merged into a single head-to-head statistic
+with TabPFN's, because the two were not run under comparable data-scale conditions. We draw
+only preliminary conclusions from these results (Section \ref{sec:discussion}) and treat every
+TabPFN number as provisional pending a matched-scale, repeated-seed follow-up.
+
+\section{Results}
+
+\subsection{Ground-truth verification}
+
+Every constraint was checked against real data before being used to audit a model. Six of
+eight rel-f1 constraints and five of eight rel-salt constraints hold exactly. This step is
+model-independent: it validates the constraint specs themselves, not either model's
+predictions.
+
+\begin{table}[h]
+\centering
+\small
+\caption{rel-f1 ground-truth constraint violations.}
+\begin{tabular}{@{} l l r r r @{}}
+\toprule
+\textbf{Constraint} & \textbf{Type} & \textbf{Checked} & \textbf{Violations} & \textbf{Rate} \\
+\midrule
+results\_fk\_race & Referential integrity & 26{,}080 & 0 & 0.00\% \\
+results\_fk\_driver & Referential integrity & 26{,}080 & 0 & 0.00\% \\
+results\_fk\_constructor & Referential integrity & 26{,}080 & 0 & 0.00\% \\
+results\_unique\_per\_race\_driver & Cardinality & 25{,}989 & 85 & 0.33\% \\
+standings\_unique\_per\_race\_driver & Cardinality & 34{,}124 & 0 & 0.00\% \\
+season\_points\_consistency & Aggregate consistency & 3{,}167 & 79 & 2.49\% \\
+qualifying\_before\_race & Temporal order & 9{,}815 & 0 & 0.00\% \\
+points\_non\_negative & Range/domain & 26{,}080 & 0 & 0.00\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The two non-zero rates are known, real data properties, not defects: the 85 duplicate (race,
+driver) pairs are historical ``shared drives'' (1950--1978, two drivers legitimately sharing
+one car); the 2.49\% aggregate mismatch arises because rel-f1 has no sprint-results table, so
+2021+ sprint points are reflected in season standings but not recoverable by summing
+individual race results.
+
+\begin{table}[h]
+\centering
+\small
+\caption{rel-salt ground-truth constraint violations.}
+\begin{tabular}{@{} l l r r r @{}}
+\toprule
+\textbf{Constraint} & \textbf{Type} & \textbf{Checked} & \textbf{Violations} & \textbf{Rate} \\
+\midrule
+item\_fk\_salesdocument & Referential integrity & 2{,}319{,}540 & 0 & 0.00\% \\
+item\_fk\_soldtoparty & Referential integrity & 2{,}319{,}540 & 0 & 0.00\% \\
+customer\_fk\_address & Referential integrity & 139{,}607 & 0 & 0.00\% \\
+order\_has\_at\_least\_one\_item & Cardinality & 500{,}908 & 0 & 0.00\% \\
+salesorg\_determines\_division & Functional dependency & 500{,}908 & 0 & 0.00\% \\
+salesorg\_determines\_billing\_company\_code & Functional dependency & 500{,}908 & 3 & 0.0006\% \\
+shippingpoint\_determines\_plant & Functional dependency & 2{,}319{,}540 & 1{,}356 & 0.0585\% \\
+salesgroup\_determines\_salesoffice & Functional dependency & 500{,}908 & 1{,}399 & 0.2793\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The four functional dependencies were derived from SAP SALT-KG's own Operational Business
+Knowledge Graph, not hand-invented, and all four hold at or above 99.7\% -- consistent with
+real enterprise master-data governance rather than a schema-declared key.
+
+\subsection{TabPFN results (preliminary)}
+\label{sec:tabpfn-results}
+
+TabPFN's numbers below come from the single-configuration, small-sample runs described in
+Sections 2.3--2.4; read them as an initial picture, not a final characterization.
+
+\subsubsection{rel-salt: accuracy by task (1{,}000-row test sample)}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{} l l r r @{}}
+\toprule
+\textbf{Task} & \textbf{Target} & \textbf{$n$} & \textbf{Accuracy} \\
+\midrule
+item-plant & PLANT & 1{,}000 & 98.90\% \\
+item-shippoint & SHIPPINGPOINT & 1{,}000 & 96.90\% \\
+item-incoterms & ITEMINCOTERMSCLASSIFICATION & 1{,}000 & 100.00\% \\
+sales-office & SALESOFFICE & 1{,}000 & 100.00\% \\
+sales-group & SALESGROUP & -- & excluded (502 classes $>$ 160-class ceiling) \\
+sales-payterms & CUSTOMERPAYMENTTERMS & 1{,}000 & 98.90\% \\
+sales-shipcond & SHIPPINGCONDITION & 1{,}000 & 98.80\% \\
+sales-incoterms & HEADERINCOTERMSCLASSIFICATION & 1{,}000 & 100.00\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{rel-salt: prediction-level constraint violations}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\linewidth}{@{} L{6.5cm} l r @{}}
+\toprule
+\textbf{Constraint} & \textbf{$n$} & \textbf{TabPFN CVR} \\
+\midrule
+plant\_consistent\_within\_order & 46 item pairs & 0.00\% (0) \\
+shippingpoint\_consistent\_within\_order & 46 item pairs & 0.00\% (0) \\
+itemincotermsclassification\_consistent\_within\_order & 46 item pairs & 0.00\% (0) \\
+shippingpoint\_pred\_determines\_plant\_pred & 1{,}000 & 0.50\% (5) \\
+salesgroup\_pred\_determines\_salesoffice\_pred & -- & excluded (sales-group not runnable) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{rel-f1 (TabPFN-Rel via RelArena): prediction-level constraint violations}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{} l l r @{}}
+\toprule
+\textbf{Constraint} & \textbf{$n$} & \textbf{TabPFN-Rel CVR} \\
+\midrule
+top3\_predictions\_per\_window & 30 windows & 36.67\% (11) \\
+position\_pred\_in\_domain & 760 & 0.00\% (0) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{HELOC: monotonicity}
+\label{sec:tabpfn-heloc}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{} l l r @{}}
+\toprule
+\textbf{Feature} & \textbf{$n$} & \textbf{TabPFN CVR} \\
+\midrule
+ExternalRiskEstimate & 1{,}984 & 10.53\% (209) \\
+NetFractionRevolvingBurden & 1{,}945 & 19.69\% (383) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In this initial pass, TabPFN's rel-salt accuracy was high ($\geq$96.9\%) on every task it
+could run, its prediction-level constraint violations were at or below 0.5\% everywhere
+measured, and its rel-f1 top3\_predictions\_per\_window rate (36.67\%, 11 of 30 windows) is
+the one figure worth flagging for a closer look given how few test windows back it.
+
+\subsection{LightGBM reference results}
+\label{sec:lgbm-results}
+
+LightGBM was trained on the full available data for every task (Section 2.3) and is reported
+here only as a reference point for what these CVR numbers look like for a conventional,
+fully-trained baseline -- not as a comparison target for TabPFN.
+
+\subsubsection{rel-salt: accuracy by task (full test set)}
+\label{sec:lgbm-accuracy}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{} l l r r @{}}
+\toprule
+\textbf{Task} & \textbf{Target} & \textbf{$n$} & \textbf{Accuracy} \\
+\midrule
+item-plant & PLANT & 402{,}855 & 99.08\% \\
+item-shippoint & SHIPPINGPOINT & 402{,}855 & 2.97\% \\
+item-incoterms & ITEMINCOTERMSCLASSIFICATION & 402{,}855 & 99.99\% \\
+sales-office & SALESOFFICE & 88{,}942 & 100.00\% \\
+sales-group & SALESGROUP & 88{,}942 & 86.04\% \\
+sales-payterms & CUSTOMERPAYMENTTERMS & 88{,}942 & 99.85\% \\
+sales-shipcond & SHIPPINGCONDITION & 88{,}942 & 18.12\% \\
+sales-incoterms & HEADERINCOTERMSCLASSIFICATION & 88{,}942 & 99.98\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+LightGBM's item-shippoint accuracy (2.97\%) falls below the 48.2\% majority-class baseline
+for that task; sales-shipcond shows the same pattern (18.12\%). We do not have a confirmed
+explanation (Section \ref{sec:limitations}).
+
+\subsubsection{rel-salt: prediction-level constraint violations}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\linewidth}{@{} L{6.5cm} l r @{}}
+\toprule
+\textbf{Constraint} & \textbf{$n$} & \textbf{LightGBM CVR} \\
+\midrule
+plant\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0078\% (483) \\
+shippingpoint\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.00\% (0) \\
+itemincotermsclassification\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0049\% (303) \\
+shippingpoint\_pred\_determines\_plant\_pred & 402{,}855 & 27.29\% (109{,}941) \\
+salesgroup\_pred\_determines\_salesoffice\_pred & 88{,}942 & 0.11\% (102) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The shippingpoint\_consistent\_within\_order row (0.00\%) and the
+shippingpoint\_pred\_determines\_plant\_pred row (27.29\%) both concern the same
+item-shippoint predictions; Section \ref{sec:masking} discusses why they disagree so sharply.
+
+\subsubsection{rel-f1 (LightGBM): prediction-level constraint violations}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{} l l r @{}}
+\toprule
+\textbf{Constraint} & \textbf{$n$} & \textbf{LightGBM CVR} \\
+\midrule
+top3\_predictions\_per\_window & 30 windows & 13.33\% (4) \\
+position\_pred\_in\_domain & 760 & 0.00\% (0) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{HELOC: monotonicity}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{} l l r @{}}
+\toprule
+\textbf{Feature} & \textbf{$n$} & \textbf{LightGBM CVR} \\
+\midrule
+ExternalRiskEstimate & 1{,}984 & 17.84\% (354) \\
+NetFractionRevolvingBurden & 1{,}945 & 32.19\% (626) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{TabPFN's preliminary CVR pattern}
+
+In this initial, single-configuration pass, TabPFN's rel-salt predictions showed low
+constraint-violation rates everywhere we could measure them (at or below 0.5\%) alongside
+high accuracy ($\geq$96.9\% on every runnable task), and it did not reproduce the LightGBM
+reference's item-shippoint collapse (Section \ref{sec:masking}). TabPFN was also more
+monotonic than the LightGBM reference on both HELOC features (10.53\%/19.69\% vs.\
+17.84\%/32.19\%). We read these as encouraging preliminary signals, not a settled finding: the
+rel-salt sample is small (1{,}000 test rows per task), untuned, and run once, so we cannot yet
+separate a real property of TabPFN's predictions from sampling variation. The one number that
+stands out enough to flag for follow-up is rel-f1's top3\_predictions\_per\_window via
+TabPFN-Rel (36.67\%, 11 of 30 windows) -- notably higher than the LightGBM reference's figure
+on the same check (13.33\%, 4 of 30), though with only 30 test windows a handful of counts
+move the percentage a great deal, and TabPFN-Rel's RelArena pipeline is a different
+feature-engineering path from anything used on rel-salt (Section 2.3), so we do not read this
+as evidence about TabPFN generally.
+
+\subsection{Why the LightGBM reference needed more than one constraint}
+\label{sec:masking}
+
+One result from the LightGBM reference baseline illustrates why this audit uses more than one
+constraint type per relation, and we include it because it shapes how the TabPFN numbers above
+should be read too. LightGBM's within-order consistency check reports 0.00\% violations for
+its item-shippoint predictions (Section \ref{sec:lgbm-results}) -- an apparently perfect
+result. But item-shippoint's LightGBM accuracy is 2.97\%, below the task's 48.2\%
+majority-class baseline (Section \ref{sec:lgbm-accuracy}): the predictions are not just wrong,
+they concentrate on a handful of classes, so items in the same order trivially agree with each
+other on a wrong answer. The cross-task functional-dependency check
+(shippingpoint\_pred\_determines\_plant\_pred, derived from the same OBKG relation used to
+verify the ground-truth \texttt{SHIPPINGPOINT}$\to$\texttt{PLANT} dependency) exposes the same
+failure directly, at 27.29\%, because a model whose shippingpoint predictions are near-random
+cannot also produce a plant prediction consistent with them.
+
+We take two things from this. First, methodologically: a single same-relation consistency
+check is not sufficient evidence of model competence, for either model audited here -- it is
+why TabPFN's results above are reported across several independent constraint types rather
+than one. Second, and more tentatively: TabPFN did not show this failure mode on the same task
+(96.90\% accuracy, Section \ref{sec:tabpfn-results}), which is worth a matched-scale follow-up
+rather than a conclusion, since the two models were not run on equal-sized samples.
+
+\subsection{Constraint engineering at real scale}
+
+A naive self-join implementation of the within-order and functional-dependency checks took
+15--65 minutes per constraint on rel-salt's 2.3M-row item table, driven by nullable-dtype
+columns carried unnecessarily through the join. Projecting each join down to only the columns
+the predicate needs reduced this to under a second per constraint with identical violation
+counts. Constraint auditing at production scale is not just a modeling exercise; the
+constraint engine itself must be engineered for the data volumes real relational benchmarks
+involve.
+
+\section{Limitations}
+\label{sec:limitations}
+
+\begin{itemize}
+\item \textbf{Unequal statistical power.} TabPFN's rel-salt results use an 8{,}000-row
+  training subsample and a 1{,}000-row test subsample against LightGBM's full $\sim$1.6M
+  training / $\sim$400K test rows, so the two models' violation rates are not equal-power
+  comparisons. On item-level tasks, TabPFN's feature set also drops five near-unique
+  identifier columns that LightGBM retains (Section 2.3).
+\item \textbf{Single run, no matched tuning.} TabPFN was run once per task, untuned on
+  rel-salt, and under RelArena's own fixed 10-trial tuning on rel-f1 -- a different,
+  non-matched regime. We cannot yet distinguish a stable pattern from a lucky or unlucky draw.
+\item \textbf{A hard architectural ceiling.} TabPFN has an unbypassable 160-class limit that
+  excludes it entirely from sales-group (502 classes); every comparison involving that task is
+  one-sided.
+\item \textbf{An unexplained weak point in the LightGBM reference.} LightGBM's item-shippoint
+  and sales-shipcond weakness (Section \ref{sec:lgbm-accuracy}) has a plausible explanation --
+  distribution shift toward customer identities unseen at training time -- that we did not
+  test; raising \texttt{n\_estimators} from 200 to 800 did not change the result, ruling out
+  simple undertraining. This is a property of the reference baseline, not of TabPFN.
+\item \textbf{Two different TabPFN pipelines.} rel-f1's TabPFN-Rel (RelArena, DFS relational
+  features, internal tuning) and rel-salt's plain TabPFN (hand-built flat features, no
+  tuning) are not the same experimental setup; results from the two should not be pooled or
+  treated as evidence about a single ``TabPFN'' condition.
+\item \textbf{Small denominators.} rel-f1's top3\_predictions\_per\_window check has only 30
+  test windows; an 11-vs-4 count difference reads as a large percentage gap (36.7\% vs.\
+  13.3\%).
+\end{itemize}
+
+\section{Conclusion (preliminary)}
+
+This is an initial, single-configuration audit, not a finished evaluation. In this first pass,
+TabPFN showed low constraint-violation rates and high accuracy across most of rel-salt's
+tasks, and did not reproduce the one collapsed-prediction failure mode seen in the LightGBM
+reference baseline; it was also more monotonic than that reference on HELOC. We hold all of
+these as preliminary observations: TabPFN's rel-salt runs used a small, untuned, single-seed
+sample, and its rel-f1 numbers come from a different pipeline (TabPFN-Rel) than its rel-salt
+numbers, so the two should not be pooled into one claim about ``TabPFN.'' The audit's more
+durable finding is methodological: a same-relation consistency check gave a misleadingly
+perfect result for the LightGBM reference's one collapsed-prediction task, and only an
+independently-sourced, cross-task constraint exposed it -- a caution that applies to auditing
+any model, including TabPFN, going forward. A matched-sample-size, repeated-seed, tuned
+follow-up is the natural next step before drawing firmer conclusions about TabPFN's constraint
+compliance.
+
+\end{document}

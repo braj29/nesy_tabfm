@@ -1,0 +1,46 @@
+2026-09-21 22:18:34,274 | INFO    | rel-f1 audit, model=tabpfn-rel-local, output=/Users/rayb/phd/nesy_tabfm/results/rel_f1/tabpfn-rel-local
+2026-09-21 22:18:34,274 | INFO    | START load rel-f1
+2026-09-21 22:18:35,019 | INFO    | DONE  load rel-f1 (0.7s)
+2026-09-21 22:18:35,089 | INFO    | results_fk_race                                         referential_integrity  checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-09-21 22:18:35,102 | INFO    | results_fk_driver                                       referential_integrity  checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-09-21 22:18:35,111 | INFO    | results_fk_constructor                                  referential_integrity  checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-09-21 22:18:35,129 | INFO    | results_unique_per_race_driver                          cardinality            checked=25989      violations=85       rate=0.003271 (0.0s)
+2026-09-21 22:18:35,150 | INFO    | standings_unique_per_race_driver                        cardinality            checked=34124      violations=0        rate=0.000000 (0.0s)
+2026-09-21 22:18:35,160 | INFO    | season_points_consistency                               aggregate_consistency  checked=3167       violations=79       rate=0.024945 (0.0s)
+2026-09-21 22:18:35,164 | INFO    | qualifying_before_race                                  temporal_order         checked=9815       violations=0        rate=0.000000 (0.0s)
+2026-09-21 22:18:35,164 | INFO    | points_non_negative                                     denial                 checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-09-21 22:18:35,166 | INFO    | fia_scoring_position_eligibility                        denial                 checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-09-21 22:18:35,306 | INFO    | START predictions for driver-position
+2026-09-21 22:18:35,309 | INFO    | DONE  predictions for driver-position (0.0s)
+2026-09-21 22:18:35,315 | INFO    | START predictions for driver-dnf
+2026-09-21 22:18:35,317 | INFO    | DONE  predictions for driver-dnf (0.0s)
+2026-09-21 22:18:35,321 | INFO    | START predictions for driver-top3
+2026-09-21 22:18:35,323 | INFO    | DONE  predictions for driver-top3 (0.0s)
+2026-09-21 22:18:35,381 | INFO    | prediction-level results:
+                       name        kind  n_checked  n_violations  violation_rate
+top3_predictions_per_window cardinality         30            11        0.366667
+    position_pred_in_domain      denial        760             0        0.000000
+2026-09-21 22:18:35,384 | INFO    | wrote /Users/rayb/phd/nesy_tabfm/results/rel_f1/tabpfn-rel-local/findings.md
+2026-09-27 14:39:38,217 | INFO    | rel-f1 audit, model=tabpfn-rel-local, output=/Users/rayb/phd/nesy_tabfm/results/rel_f1/tabpfn-rel-local
+2026-09-27 14:39:38,217 | INFO    | START load rel-f1
+2026-09-27 14:39:39,060 | INFO    | DONE  load rel-f1 (0.8s)
+2026-09-27 14:39:39,092 | INFO    | results_fk_race                                         referential_integrity  checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-09-27 14:39:39,097 | INFO    | results_fk_driver                                       referential_integrity  checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-09-27 14:39:39,101 | INFO    | results_fk_constructor                                  referential_integrity  checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-09-27 14:39:39,109 | INFO    | results_unique_per_race_driver                          cardinality            checked=25989      violations=85       rate=0.003271 (0.0s)
+2026-09-27 14:39:39,120 | INFO    | standings_unique_per_race_driver                        cardinality            checked=34124      violations=0        rate=0.000000 (0.0s)
+2026-09-27 14:39:39,124 | INFO    | season_points_consistency                               aggregate_consistency  checked=3167       violations=79       rate=0.024945 (0.0s)
+2026-09-27 14:39:39,126 | INFO    | qualifying_before_race                                  temporal_order         checked=9815       violations=0        rate=0.000000 (0.0s)
+2026-09-27 14:39:39,127 | INFO    | points_non_negative                                     denial                 checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-09-27 14:39:39,127 | INFO    | fia_scoring_position_eligibility                        denial                 checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-09-27 14:39:39,285 | INFO    | START predictions for driver-position
+2026-09-27 14:39:39,287 | INFO    | DONE  predictions for driver-position (0.0s)
+2026-09-27 14:39:39,293 | INFO    | START predictions for driver-dnf
+2026-09-27 14:39:39,295 | INFO    | DONE  predictions for driver-dnf (0.0s)
+2026-09-27 14:39:39,298 | INFO    | START predictions for driver-top3
+2026-09-27 14:39:39,299 | INFO    | DONE  predictions for driver-top3 (0.0s)
+2026-09-27 14:39:39,349 | INFO    | prediction-level results:
+                       name        kind  n_checked  n_violations  violation_rate
+top3_predictions_per_window cardinality         30            11        0.366667
+    position_pred_in_domain      denial        760             0        0.000000
+2026-09-27 14:39:39,352 | INFO    | wrote /Users/rayb/phd/nesy_tabfm/results/rel_f1/tabpfn-rel-local/findings.md

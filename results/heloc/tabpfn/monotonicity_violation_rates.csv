@@ -1,0 +1,3 @@
+name,kind,n_checked,n_violations,violation_rate
+ExternalRiskEstimate_monotonic,monotonicity,1984,209,0.10534274193548387
+NetFractionRevolvingBurden_monotonic,monotonicity,1945,383,0.19691516709511567

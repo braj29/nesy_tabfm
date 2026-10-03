@@ -1,0 +1,9 @@
+2026-09-21 22:09:38,920 | INFO    | HELOC monotonicity audit, model=tabpfn
+2026-09-21 22:09:38,921 | INFO    | START load HELOC
+2026-09-21 22:09:39,022 | INFO    | DONE  load HELOC (0.1s)
+2026-09-21 22:09:40,863 | INFO    | train=8367 rows, test=2092 rows
+2026-09-21 22:09:40,863 | INFO    | START fit tabpfn
+2026-09-21 22:09:41,665 | INFO    | DONE  fit tabpfn (0.8s)
+2026-09-21 22:13:49,993 | INFO    | ExternalRiskEstimate: 209/1984 violations (10.53%) -- FICO's own consolidated risk score; verified corr=+0.46 with Good outcome.
+2026-09-21 22:17:51,005 | INFO    | NetFractionRevolvingBurden: 383/1945 violations (19.69%) -- revolving credit utilization; verified corr=-0.36 with Good outcome.
+2026-09-21 22:17:51,009 | INFO    | wrote /Users/rayb/phd/nesy_tabfm/results/heloc/tabpfn/monotonicity_violation_rates.csv

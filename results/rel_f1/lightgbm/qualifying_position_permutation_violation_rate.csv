@@ -1,0 +1,2 @@
+name,kind,n_checked,n_violations,violation_rate
+qualifying_position_no_duplicates_per_race,cardinality,2346,1132,0.4825234441602728

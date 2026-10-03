@@ -1,0 +1,9 @@
+name,kind,n_checked,n_violations,violation_rate
+item_fk_salesdocument,referential_integrity,2319540,0,0.0
+item_fk_soldtoparty,referential_integrity,2319540,0,0.0
+customer_fk_address,referential_integrity,139607,0,0.0
+order_has_at_least_one_item,cardinality,500908,0,0.0
+salesorg_determines_division,functional_dependency,500908,0,0.0
+salesorg_determines_billing_company_code,functional_dependency,500908,3,5.989123751267698e-06
+shippingpoint_determines_plant,functional_dependency,2319540,1356,0.0005845986704260327
+salesgroup_determines_salesoffice,functional_dependency,500908,1399,0.002792928042674503

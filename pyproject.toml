@@ -1,0 +1,64 @@
+[project]
+name = "nesy-tabfm"
+version = "0.1.0"
+description = "Neurosymbolic audit of database constraint violations in tabular/relational foundation models (RQ1)"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "pandas>=2.2",
+    "numpy>=1.26",
+    "pyyaml>=6.0",
+    # relbench 3.x (manifest-driven `relbench.load_dataset("org/repo/subdir")` API) -- this
+    # is what nesy_tabfm's own loader/specs/audit code is written against, for loading
+    # rel-f1's ground-truth tables and task metadata (entity/time/target columns). Core, not
+    # optional: every constraint check needs it, not just one model path.
+    "relbench>=3.0",
+]
+
+[project.optional-dependencies]
+plot = [
+    "matplotlib>=3.8",
+]
+dev = [
+    "pytest>=8.0",
+]
+# SALT baseline: a small in-repo LightGBM classifier (models/salt_lgbm.py). Unlike rel-f1,
+# RelArena-α can't drive SALT -- it pins relbench==2.1.2 (pre-rewrite class-registry API),
+# and SALT only exists on the new Hugging-Hub-manifest system (added to relbench in 2026),
+# so it's simply not in relarena's dataset registry. Plain `lightgbm`/`scikit-learn` need no
+# such pin and run fine directly against this repo's own relbench>=3.0.
+salt = [
+    "lightgbm>=4.0",
+    "scikit-learn>=1.4",
+    "tabpfn>=2.0",
+]
+# HELOC monotonicity baseline (single-table, TabArena's curated OpenML data -- no relbench
+# involved at all). openml fetches the dataset; lightgbm/scikit-learn and tabpfn are both
+# queried live on synthetic counterfactual rows (see models/heloc_*.py), not just a static
+# test set, which the monotonicity constraint needs and rel-f1/SALT's parquet-file adapters
+# didn't. tabpfn needs a one-time TABPFN_TOKEN license (see relarena_predict/README.md).
+heloc = [
+    "openml>=0.14",
+    "lightgbm>=4.0",
+    "scikit-learn>=1.4",
+    "tabpfn>=2.0",
+]
+
+# There is deliberately no model-training extra for rel-f1: every adapter for it is
+# `models/precomputed.py`, which just reads a parquet file -- actual model training/inference
+# for RelGNN (cluster) and the RelArena-α baselines (relarena_predict/) happens in separate
+# processes with their own venvs. That's not just tidiness -- it's required. Both of those
+# upstream projects import `relbench.datasets`/`relbench.tasks`, the *pre-rewrite* relbench
+# API: RelGNN needs `relbench==1.1.0` (see scripts/cluster/README.md), relarena pins
+# `relbench==2.1.2` exactly (see relarena_predict/README.md). Neither coexists with this
+# repo's own `relbench>=3.0` in one venv.
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nesy_tabfm"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

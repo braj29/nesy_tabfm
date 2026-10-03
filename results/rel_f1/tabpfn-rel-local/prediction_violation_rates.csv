@@ -1,0 +1,3 @@
+name,kind,n_checked,n_violations,violation_rate
+top3_predictions_per_window,cardinality,30,11,0.36666666666666664
+position_pred_in_domain,denial,760,0,0.0

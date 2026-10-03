@@ -1,0 +1,7 @@
+name,kind,n_checked,n_violations,violation_rate
+plant_consistent_within_order,denial,6184238,483,7.810178068825942e-05
+shippingpoint_consistent_within_order,denial,6184238,0,0.0
+itemincotermsclassification_consistent_within_order,denial,6184238,303,4.899552701561615e-05
+shippingpoint_pred_determines_plant_pred,functional_dependency,402855,109941,0.2729046431098038
+salesgroup_pred_determines_salesoffice_pred,functional_dependency,88942,102,0.0011468147781700435
+item_incoterms_pred_matches_header_incoterms_pred,denial,402855,306,0.0007595785083963213
