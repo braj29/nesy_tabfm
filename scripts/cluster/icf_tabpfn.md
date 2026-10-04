@@ -71,7 +71,10 @@ python scripts/run_heloc_audit.py --model tabpfn --tabpfn-device cuda
 python scripts/run_tier1.py
 ```
 
-Outputs go to `results/salt/tabpfn/`, `results/heloc/tabpfn/`, and the tier-1 summary.
+Outputs go to `results_cluster/salt/tabpfn/`, `results_cluster/heloc/tabpfn/`, and the tier-1
+summary -- a separate directory from the committed, paper-cited `results/`, so this run never
+overwrites it. Pass `RESULTS_ROOT=$PWD/results` explicitly if you do want to replace the
+committed numbers.
 
 ## 5. Submit the full experiment with TabPFN first
 
@@ -91,7 +94,7 @@ Use environment variables before `sbatch` to change the job without editing the 
 
 ```bash
 export REPO_DIR="$PWD"
-export RESULTS_ROOT="$PWD/results_cluster"
+export RESULTS_ROOT="$PWD/results_cluster"  # already the default for the two full jobs
 export TABPFN_DEVICE="cuda"
 export SALT_TRAIN_SAMPLE_SIZE=8000
 export SALT_TEST_SAMPLE_SIZE=1000
