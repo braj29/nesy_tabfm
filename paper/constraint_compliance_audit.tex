@@ -169,12 +169,18 @@ both models degenerate into constant-class predictors, and a $\sim$1000x constra
 performance bug from unprojected self-joins on rel-salt's 2.3M-row table), both fixed before
 any result reported here was computed.
 
+All decision-level violation rates reported in Section 3 are accompanied by a Wilson 95\%
+confidence interval rather than a bare point estimate, since several checks -- most visibly
+rel-salt's within-order consistency checks at $n=46$ item pairs -- rest on samples small
+enough that a point estimate alone would overstate precision.
+
 \paragraph{Scope of this initial pass.} This is a first, preliminary audit, not a finished
 benchmark. Concretely: (1) TabPFN was run once per task, with no hyperparameter tuning on
 rel-salt and RelArena's own fixed 10-trial tuning on rel-f1 -- neither is a tuning sweep
 matched between the two models; (2) rel-salt's TabPFN subsample sizes (8{,}000 train /
-1{,}000 test) were chosen for CPU feasibility, not statistical power, and no confidence
-intervals are reported; (3) each configuration was run once, not repeated across random seeds,
+1{,}000 test) were chosen for CPU feasibility, not statistical power -- the Wilson intervals
+reported alongside each decision-level rate reflect that small sample, they do not remove its
+effect; (3) each configuration was run once, not repeated across random seeds,
 so we cannot yet distinguish a stable pattern from sampling noise; (4) LightGBM's numbers are
 reported as a reference point throughout, never merged into a single head-to-head statistic
 with TabPFN's, because the two were not run under comparable data-scale conditions. We draw
@@ -272,15 +278,15 @@ sales-incoterms & HEADERINCOTERMSCLASSIFICATION & 1{,}000 & 100.00\% \\
 \begin{table}[h]
 \centering
 \small
-\begin{tabularx}{\linewidth}{@{} L{6.5cm} l r @{}}
+\begin{tabularx}{\linewidth}{@{} L{5.7cm} l r l @{}}
 \toprule
-\textbf{Constraint} & \textbf{$n$} & \textbf{TabPFN CVR} \\
+\textbf{Constraint} & \textbf{$n$} & \textbf{TabPFN CVR} & \textbf{95\% CI (Wilson)} \\
 \midrule
-plant\_consistent\_within\_order & 46 item pairs & 0.00\% (0) \\
-shippingpoint\_consistent\_within\_order & 46 item pairs & 0.00\% (0) \\
-itemincotermsclassification\_consistent\_within\_order & 46 item pairs & 0.00\% (0) \\
-shippingpoint\_pred\_determines\_plant\_pred & 1{,}000 & 0.50\% (5) \\
-salesgroup\_pred\_determines\_salesoffice\_pred & -- & excluded (sales-group not runnable) \\
+plant\_consistent\_within\_order & 46 item pairs & 0.00\% (0) & [0.00, 7.71] \\
+shippingpoint\_consistent\_within\_order & 46 item pairs & 0.00\% (0) & [0.00, 7.71] \\
+itemincotermsclassification\_consistent\_within\_order & 46 item pairs & 0.00\% (0) & [0.00, 7.71] \\
+shippingpoint\_pred\_determines\_plant\_pred & 1{,}000 & 0.50\% (5) & [0.21, 1.17] \\
+salesgroup\_pred\_determines\_salesoffice\_pred & -- & excluded (sales-group not runnable) & -- \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -290,12 +296,12 @@ salesgroup\_pred\_determines\_salesoffice\_pred & -- & excluded (sales-group not
 \begin{table}[h]
 \centering
 \small
-\begin{tabular}{@{} l l r @{}}
+\begin{tabular}{@{} l l r l @{}}
 \toprule
-\textbf{Constraint} & \textbf{$n$} & \textbf{TabPFN-Rel CVR} \\
+\textbf{Constraint} & \textbf{$n$} & \textbf{TabPFN-Rel CVR} & \textbf{95\% CI (Wilson)} \\
 \midrule
-top3\_predictions\_per\_window & 30 windows & 36.67\% (11) \\
-position\_pred\_in\_domain & 760 & 0.00\% (0) \\
+top3\_predictions\_per\_window & 30 windows & 36.67\% (11) & [21.87, 54.49] \\
+position\_pred\_in\_domain & 760 & 0.00\% (0) & [0.00, 0.50] \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -306,12 +312,12 @@ position\_pred\_in\_domain & 760 & 0.00\% (0) \\
 \begin{table}[h]
 \centering
 \small
-\begin{tabular}{@{} l l r @{}}
+\begin{tabular}{@{} l l r l @{}}
 \toprule
-\textbf{Feature} & \textbf{$n$} & \textbf{TabPFN CVR} \\
+\textbf{Feature} & \textbf{$n$} & \textbf{TabPFN CVR} & \textbf{95\% CI (Wilson)} \\
 \midrule
-ExternalRiskEstimate & 1{,}984 & 10.53\% (209) \\
-NetFractionRevolvingBurden & 1{,}945 & 19.69\% (383) \\
+ExternalRiskEstimate & 1{,}984 & 10.53\% (209) & [9.26, 11.96] \\
+NetFractionRevolvingBurden & 1{,}945 & 19.69\% (383) & [17.98, 21.52] \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -359,15 +365,15 @@ explanation (Section \ref{sec:limitations}).
 \begin{table}[h]
 \centering
 \small
-\begin{tabularx}{\linewidth}{@{} L{6.5cm} l r @{}}
+\begin{tabularx}{\linewidth}{@{} L{5.7cm} l r l @{}}
 \toprule
-\textbf{Constraint} & \textbf{$n$} & \textbf{LightGBM CVR} \\
+\textbf{Constraint} & \textbf{$n$} & \textbf{LightGBM CVR} & \textbf{95\% CI (Wilson)} \\
 \midrule
-plant\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0078\% (483) \\
-shippingpoint\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.00\% (0) \\
-itemincotermsclassification\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0049\% (303) \\
-shippingpoint\_pred\_determines\_plant\_pred & 402{,}855 & 27.29\% (109{,}941) \\
-salesgroup\_pred\_determines\_salesoffice\_pred & 88{,}942 & 0.11\% (102) \\
+plant\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0078\% (483) & [0.0071, 0.0085] \\
+shippingpoint\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.00\% (0) & [0.00, 0.0001] \\
+itemincotermsclassification\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0049\% (303) & [0.0044, 0.0055] \\
+shippingpoint\_pred\_determines\_plant\_pred & 402{,}855 & 27.29\% (109{,}941) & [27.15, 27.43] \\
+salesgroup\_pred\_determines\_salesoffice\_pred & 88{,}942 & 0.11\% (102) & [0.09, 0.14] \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -381,12 +387,12 @@ item-shippoint predictions; Section \ref{sec:masking} discusses why they disagre
 \begin{table}[h]
 \centering
 \small
-\begin{tabular}{@{} l l r @{}}
+\begin{tabular}{@{} l l r l @{}}
 \toprule
-\textbf{Constraint} & \textbf{$n$} & \textbf{LightGBM CVR} \\
+\textbf{Constraint} & \textbf{$n$} & \textbf{LightGBM CVR} & \textbf{95\% CI (Wilson)} \\
 \midrule
-top3\_predictions\_per\_window & 30 windows & 13.33\% (4) \\
-position\_pred\_in\_domain & 760 & 0.00\% (0) \\
+top3\_predictions\_per\_window & 30 windows & 13.33\% (4) & [5.31, 29.68] \\
+position\_pred\_in\_domain & 760 & 0.00\% (0) & [0.00, 0.50] \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -396,12 +402,12 @@ position\_pred\_in\_domain & 760 & 0.00\% (0) \\
 \begin{table}[h]
 \centering
 \small
-\begin{tabular}{@{} l l r @{}}
+\begin{tabular}{@{} l l r l @{}}
 \toprule
-\textbf{Feature} & \textbf{$n$} & \textbf{LightGBM CVR} \\
+\textbf{Feature} & \textbf{$n$} & \textbf{LightGBM CVR} & \textbf{95\% CI (Wilson)} \\
 \midrule
-ExternalRiskEstimate & 1{,}984 & 17.84\% (354) \\
-NetFractionRevolvingBurden & 1{,}945 & 32.19\% (626) \\
+ExternalRiskEstimate & 1{,}984 & 17.84\% (354) & [16.22, 19.59] \\
+NetFractionRevolvingBurden & 1{,}945 & 32.19\% (626) & [30.15, 34.29] \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -422,9 +428,12 @@ separate a real property of TabPFN's predictions from sampling variation. The on
 stands out enough to flag for follow-up is rel-f1's top3\_predictions\_per\_window via
 TabPFN-Rel (36.67\%, 11 of 30 windows) -- notably higher than the LightGBM reference's figure
 on the same check (13.33\%, 4 of 30), though with only 30 test windows a handful of counts
-move the percentage a great deal, and TabPFN-Rel's RelArena pipeline is a different
-feature-engineering path from anything used on rel-salt (Section 2.3), so we do not read this
-as evidence about TabPFN generally.
+move the percentage a great deal: a two-sided Fisher exact test on the 11-vs-4-of-30 counts
+gives $p=0.07$, so at this sample size the gap does not reach significance. TabPFN-Rel's
+RelArena pipeline is also a different feature-engineering path from anything used on rel-salt
+(Section 2.3). We therefore read this result as evidence that per-cell predictors generally
+lack a mechanism for enforcing this kind of cross-row cardinality constraint, not as a ranking
+between the two models audited here, and not as evidence about TabPFN specifically.
 
 \subsection{Why the LightGBM reference needed more than one constraint}
 \label{sec:masking}
