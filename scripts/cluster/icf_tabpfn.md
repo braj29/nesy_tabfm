@@ -23,6 +23,19 @@ TabPFN may need a license/API token. Put it in the environment before `sbatch`:
 export TABPFN_TOKEN="<your-token>"
 ```
 
+Alternatively, create a private `.env` file in the repository directory. The Slurm scripts
+load `.env` automatically and accept either name:
+
+```bash
+TABPFN_TOKEN="<your-token>"
+```
+
+or:
+
+```bash
+tabpfn_token="<your-token>"
+```
+
 For a persistent setup, add that export to a private shell startup file on the cluster.
 
 ## 3. Submit a smoke test first

@@ -38,6 +38,15 @@ REL_F1_LIGHTGBM_PREDS="${REL_F1_LIGHTGBM_PREDS:-$REPO_DIR/relarena_predict/resul
 cd "$REPO_DIR"
 mkdir -p slogs "$RESULTS_ROOT"
 
+if [[ -f .env ]]; then
+  set -a
+  source .env
+  set +a
+fi
+if [[ -z "${TABPFN_TOKEN:-}" && -n "${tabpfn_token:-}" ]]; then
+  export TABPFN_TOKEN="$tabpfn_token"
+fi
+
 module add cuda || true
 
 if ! command -v uv >/dev/null 2>&1; then
