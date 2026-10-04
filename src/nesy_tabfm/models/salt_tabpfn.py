@@ -46,11 +46,13 @@ class SaltTabPFNAdapter:
         self,
         train_sample_size: int | None = 8000,
         test_sample_size: int | None = 1000,
+        predict_batch_size: int | None = None,
         seed: int = 0,
         **tabpfn_kwargs: Any,
     ):
         self.train_sample_size = train_sample_size
         self.test_sample_size = test_sample_size
+        self.predict_batch_size = predict_batch_size
         self.seed = seed
         self.tabpfn_kwargs = {"ignore_pretraining_limits": True, "device": "cpu", **tabpfn_kwargs}
 
@@ -93,7 +95,17 @@ class SaltTabPFNAdapter:
         with timed("TabPFN fit"):
             model.fit(x_train, y_train)
         with timed(f"TabPFN predict ({len(x_test)} rows)"):
-            y_pred = model.predict(x_test)
+            if self.predict_batch_size is None or self.predict_batch_size <= 0:
+                y_pred = model.predict(x_test)
+            else:
+                chunks = []
+                for start in range(0, len(x_test), self.predict_batch_size):
+                    stop = min(start + self.predict_batch_size, len(x_test))
+                    get_logger().info("TabPFN predict rows %d:%d", start, stop)
+                    chunks.append(model.predict(x_test.iloc[start:stop]))
+                import numpy as np
+
+                y_pred = np.concatenate(chunks)
 
         return pd.DataFrame(
             {

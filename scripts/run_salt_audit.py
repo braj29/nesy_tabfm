@@ -31,6 +31,7 @@ def build_adapter(args: argparse.Namespace):
         return SaltTabPFNAdapter(
             train_sample_size=None if args.train_sample_size <= 0 else args.train_sample_size,
             test_sample_size=None if args.test_sample_size <= 0 else args.test_sample_size,
+            predict_batch_size=None if args.predict_batch_size <= 0 else args.predict_batch_size,
             seed=args.seed,
             **tabpfn_kwargs,
         )
@@ -57,6 +58,12 @@ def main() -> None:
         type=int,
         default=1000,
         help="TabPFN test rows for rel-salt; use 0 for the full test split.",
+    )
+    parser.add_argument(
+        "--predict-batch-size",
+        type=int,
+        default=0,
+        help="Batch size for TabPFN prediction; use 0 to predict the test split in one call.",
     )
     parser.add_argument("--seed", type=int, default=0, help="TabPFN sampling seed.")
     args = parser.parse_args()

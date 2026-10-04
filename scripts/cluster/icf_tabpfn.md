@@ -88,6 +88,19 @@ It runs TabPFN first, then LightGBM reference baselines, then `run_tier1.py`. If
 prediction directories already exist under `relarena_predict/results/`, it audits them too;
 otherwise it prints a skip message for rel-f1 and keeps going.
 
+## 6. Submit rel-salt TabPFN on the full test split
+
+The main full experiment keeps rel-salt TabPFN at the feasibility-trial default of 1,000
+test rows per task. For paper-grade rel-salt TabPFN numbers over the full test split, run:
+
+```bash
+sbatch scripts/cluster/icf_tabpfn_salt_full_test.sbatch
+```
+
+This still uses an 8,000-row TabPFN context/train sample by default, because full-train
+rel-salt has up to ~1.6M rows and is outside TabPFN's practical context size. It evaluates
+all test rows in batches and writes to `results_cluster_fulltest/`.
+
 ## Useful overrides
 
 Use environment variables before `sbatch` to change the job without editing the script:
