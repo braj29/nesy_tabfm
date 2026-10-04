@@ -47,7 +47,10 @@ if [[ -z "${TABPFN_TOKEN:-}" ]]; then
   exit 1
 fi
 
+set +u  # ICF's module/Lmod environment scripts reference vars (e.g. CRICHTON_DEBUG)
+        # that aren't nounset-safe; relax -u around site module commands only.
 module add cuda || true
+set -u
 
 if command -v nvidia-smi >/dev/null 2>&1; then
   echo "--- nvidia-smi ---"
@@ -70,9 +73,11 @@ source .venv/bin/activate
 # ICF advertises add_pytorch as the bridge from a project venv to the site PyTorch/CUDA venv.
 # If the command is unavailable, continue; the project's own locked environment may already
 # provide torch.
+set +u
 if command -v add_pytorch >/dev/null 2>&1; then
   add_pytorch || true
 fi
+set -u
 
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
