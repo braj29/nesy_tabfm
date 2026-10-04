@@ -56,8 +56,15 @@ if command -v nvidia-smi >/dev/null 2>&1; then
 fi
 
 if ! command -v uv >/dev/null 2>&1; then
-  echo "uv is required on the cluster login/compute environment." >&2
-  echo "Install or load uv, then resubmit this job." >&2
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+if ! command -v uv >/dev/null 2>&1; then
+  echo "uv not found; installing to --user site with pip."
+  python3 -m pip install --user uv
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+if ! command -v uv >/dev/null 2>&1; then
+  echo "ERROR: uv is still unavailable after attempted install." >&2
   exit 1
 fi
 
