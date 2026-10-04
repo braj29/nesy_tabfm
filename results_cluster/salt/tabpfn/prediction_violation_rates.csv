@@ -1,0 +1,6 @@
+name,kind,n_checked,n_violations,violation_rate
+plant_consistent_within_order,denial,46,0,0.0
+shippingpoint_consistent_within_order,denial,46,0,0.0
+itemincotermsclassification_consistent_within_order,denial,46,0,0.0
+shippingpoint_pred_determines_plant_pred,functional_dependency,1000,5,0.005
+item_incoterms_pred_matches_header_incoterms_pred,denial,8,0,0.0

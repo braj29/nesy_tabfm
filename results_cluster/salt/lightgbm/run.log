@@ -1,0 +1,108 @@
+2026-10-04 15:33:15,147 | INFO    | rel-salt audit, model=lightgbm, output=/home/pminervi/workspace/nesy_tabfm/results_cluster/salt/lightgbm
+2026-10-04 15:33:15,148 | INFO    | START load rel-salt
+2026-10-04 15:33:16,290 | INFO    | DONE  load rel-salt (1.1s)
+2026-10-04 15:33:16,290 | INFO    | START build full db
+2026-10-04 15:33:17,036 | INFO    | DONE  build full db (0.7s)
+2026-10-04 15:33:17,155 | INFO    | item_fk_salesdocument                                   referential_integrity  checked=2319540    violations=0        rate=0.000000 (0.1s)
+2026-10-04 15:33:17,274 | INFO    | item_fk_soldtoparty                                     referential_integrity  checked=2319540    violations=0        rate=0.000000 (0.1s)
+2026-10-04 15:33:17,426 | INFO    | customer_fk_address                                     referential_integrity  checked=139607     violations=0        rate=0.000000 (0.2s)
+2026-10-04 15:33:17,496 | INFO    | order_has_at_least_one_item                             cardinality            checked=500908     violations=0        rate=0.000000 (0.1s)
+2026-10-04 15:33:21,622 | INFO    | items_share_plant_within_order                          denial                 checked=32417261   violations=7134     rate=0.000220 (4.1s)
+2026-10-04 15:33:25,764 | INFO    | items_share_shippingpoint_within_order                  denial                 checked=32417261   violations=7155     rate=0.000221 (4.1s)
+2026-10-04 15:33:29,898 | INFO    | items_share_itemincotermsclassification_within_order    denial                 checked=32417261   violations=2582     rate=0.000080 (4.1s)
+2026-10-04 15:33:30,086 | INFO    | salesorg_determines_division                            functional_dependency  checked=500908     violations=0        rate=0.000000 (0.2s)
+2026-10-04 15:33:30,257 | INFO    | salesorg_determines_billing_company_code                functional_dependency  checked=500908     violations=3        rate=0.000006 (0.2s)
+2026-10-04 15:33:30,388 | INFO    | shippingpoint_determines_plant                          functional_dependency  checked=2319540    violations=1356     rate=0.000585 (0.1s)
+2026-10-04 15:33:30,443 | INFO    | salesgroup_determines_salesoffice                       functional_dependency  checked=500908     violations=1399     rate=0.002793 (0.1s)
+2026-10-04 15:33:30,768 | INFO    | item_incoterms_matches_header_incoterms                 denial                 checked=2319540    violations=1701     rate=0.000733 (0.3s)
+2026-10-04 15:33:30,781 | INFO    | item_incoterms_in_fixed_vocabulary                      denial                 checked=2319540    violations=0        rate=0.000000 (0.0s)
+2026-10-04 15:33:30,783 | INFO    | header_incoterms_in_fixed_vocabulary                    denial                 checked=500908     violations=0        rate=0.000000 (0.0s)
+2026-10-04 15:33:32,027 | INFO    | START lightgbm on item-plant
+2026-10-04 15:33:32,110 | INFO    | PLANT: train=1622789 test=402855 rows, 34 classes
+2026-10-04 15:33:32,110 | INFO    | START build features
+2026-10-04 15:33:32,515 | INFO    | DONE  build features (0.4s)
+2026-10-04 15:33:33,572 | INFO    | START LightGBM fit (1622789 rows, 14 features)
+2026-10-04 15:34:53,703 | INFO    | DONE  LightGBM fit (1622789 rows, 14 features) (80.1s)
+2026-10-04 15:34:53,703 | INFO    | START LightGBM predict (402855 rows)
+2026-10-04 15:35:08,079 | INFO    | DONE  LightGBM predict (402855 rows) (14.4s)
+2026-10-04 15:35:08,090 | INFO    | DONE  lightgbm on item-plant (96.1s)
+2026-10-04 15:35:08,170 | INFO    | item-plant accuracy=0.9908 on n=402855
+2026-10-04 15:35:09,368 | INFO    | START lightgbm on item-shippoint
+2026-10-04 15:35:09,464 | INFO    | SHIPPINGPOINT: train=1622789 test=402855 rows, 81 classes
+2026-10-04 15:35:09,464 | INFO    | START build features
+2026-10-04 15:35:09,946 | INFO    | DONE  build features (0.5s)
+2026-10-04 15:35:11,021 | INFO    | START LightGBM fit (1622789 rows, 14 features)
+2026-10-04 15:37:44,283 | INFO    | DONE  LightGBM fit (1622789 rows, 14 features) (153.3s)
+2026-10-04 15:37:44,283 | INFO    | START LightGBM predict (402855 rows)
+2026-10-04 15:38:02,832 | INFO    | DONE  LightGBM predict (402855 rows) (18.5s)
+2026-10-04 15:38:02,846 | INFO    | DONE  lightgbm on item-shippoint (173.5s)
+2026-10-04 15:38:03,009 | INFO    | item-shippoint accuracy=0.5967 on n=402855
+2026-10-04 15:38:04,336 | INFO    | START lightgbm on item-incoterms
+2026-10-04 15:38:04,458 | INFO    | ITEMINCOTERMSCLASSIFICATION: train=1622789 test=402855 rows, 13 classes
+2026-10-04 15:38:04,458 | INFO    | START build features
+2026-10-04 15:38:04,942 | INFO    | DONE  build features (0.5s)
+2026-10-04 15:38:06,005 | INFO    | START LightGBM fit (1622789 rows, 15 features)
+2026-10-04 15:38:34,922 | INFO    | DONE  LightGBM fit (1622789 rows, 15 features) (28.9s)
+2026-10-04 15:38:34,922 | INFO    | START LightGBM predict (402855 rows)
+2026-10-04 15:38:37,782 | INFO    | DONE  LightGBM predict (402855 rows) (2.9s)
+2026-10-04 15:38:37,790 | INFO    | DONE  lightgbm on item-incoterms (33.5s)
+2026-10-04 15:38:37,902 | INFO    | item-incoterms accuracy=0.9999 on n=402855
+2026-10-04 15:38:39,126 | INFO    | START lightgbm on sales-office
+2026-10-04 15:38:39,172 | INFO    | SALESOFFICE: train=340492 test=88942 rows, 30 classes
+2026-10-04 15:38:39,172 | INFO    | START build features
+2026-10-04 15:38:39,228 | INFO    | DONE  build features (0.1s)
+2026-10-04 15:38:39,342 | INFO    | START LightGBM fit (340492 rows, 7 features)
+2026-10-04 15:38:50,286 | INFO    | DONE  LightGBM fit (340492 rows, 7 features) (10.9s)
+2026-10-04 15:38:50,286 | INFO    | START LightGBM predict (88942 rows)
+2026-10-04 15:38:52,541 | INFO    | DONE  LightGBM predict (88942 rows) (2.3s)
+2026-10-04 15:38:52,545 | INFO    | DONE  lightgbm on sales-office (13.4s)
+2026-10-04 15:38:52,756 | INFO    | sales-office accuracy=1.0000 on n=88942
+2026-10-04 15:38:54,047 | INFO    | START lightgbm on sales-group
+2026-10-04 15:38:54,107 | INFO    | SALESGROUP: train=340492 test=88942 rows, 502 classes
+2026-10-04 15:38:54,107 | INFO    | START build features
+2026-10-04 15:38:54,144 | INFO    | DONE  build features (0.0s)
+2026-10-04 15:38:54,255 | INFO    | START LightGBM fit (340492 rows, 7 features)
+2026-10-04 15:42:39,627 | INFO    | DONE  LightGBM fit (340492 rows, 7 features) (225.4s)
+2026-10-04 15:42:39,627 | INFO    | START LightGBM predict (88942 rows)
+2026-10-04 15:43:37,940 | INFO    | DONE  LightGBM predict (88942 rows) (58.3s)
+2026-10-04 15:43:40,287 | INFO    | DONE  lightgbm on sales-group (286.2s)
+2026-10-04 15:43:42,723 | INFO    | sales-group accuracy=0.8561 on n=88942
+2026-10-04 15:43:48,690 | INFO    | START lightgbm on sales-payterms
+2026-10-04 15:43:48,945 | INFO    | CUSTOMERPAYMENTTERMS: train=340492 test=88942 rows, 154 classes
+2026-10-04 15:43:48,946 | INFO    | START build features
+2026-10-04 15:43:49,590 | INFO    | DONE  build features (0.6s)
+2026-10-04 15:43:49,886 | INFO    | START LightGBM fit (340492 rows, 7 features)
+2026-10-04 15:44:40,382 | INFO    | DONE  LightGBM fit (340492 rows, 7 features) (50.5s)
+2026-10-04 15:44:40,382 | INFO    | START LightGBM predict (88942 rows)
+2026-10-04 15:44:49,544 | INFO    | DONE  LightGBM predict (88942 rows) (9.2s)
+2026-10-04 15:44:49,557 | INFO    | DONE  lightgbm on sales-payterms (60.9s)
+2026-10-04 15:44:49,712 | INFO    | sales-payterms accuracy=0.9985 on n=88942
+2026-10-04 15:44:51,050 | INFO    | START lightgbm on sales-shipcond
+2026-10-04 15:44:51,231 | INFO    | SHIPPINGCONDITION: train=340492 test=88942 rows, 46 classes
+2026-10-04 15:44:51,231 | INFO    | START build features
+2026-10-04 15:44:51,320 | INFO    | DONE  build features (0.1s)
+2026-10-04 15:44:51,484 | INFO    | START LightGBM fit (340492 rows, 7 features)
+2026-10-04 15:45:08,255 | INFO    | DONE  LightGBM fit (340492 rows, 7 features) (16.8s)
+2026-10-04 15:45:08,255 | INFO    | START LightGBM predict (88942 rows)
+2026-10-04 15:45:10,320 | INFO    | DONE  LightGBM predict (88942 rows) (2.1s)
+2026-10-04 15:45:10,562 | INFO    | DONE  lightgbm on sales-shipcond (19.5s)
+2026-10-04 15:45:10,599 | INFO    | sales-shipcond accuracy=0.1146 on n=88942
+2026-10-04 15:45:11,776 | INFO    | START lightgbm on sales-incoterms
+2026-10-04 15:45:12,126 | INFO    | HEADERINCOTERMSCLASSIFICATION: train=340492 test=88942 rows, 13 classes
+2026-10-04 15:45:12,126 | INFO    | START build features
+2026-10-04 15:45:12,231 | INFO    | DONE  build features (0.1s)
+2026-10-04 15:45:12,348 | INFO    | START LightGBM fit (340492 rows, 7 features)
+2026-10-04 15:45:18,366 | INFO    | DONE  LightGBM fit (340492 rows, 7 features) (6.0s)
+2026-10-04 15:45:18,366 | INFO    | START LightGBM predict (88942 rows)
+2026-10-04 15:45:19,150 | INFO    | DONE  LightGBM predict (88942 rows) (0.8s)
+2026-10-04 15:45:19,153 | INFO    | DONE  lightgbm on sales-incoterms (7.4s)
+2026-10-04 15:45:19,185 | INFO    | sales-incoterms accuracy=0.9998 on n=88942
+2026-10-04 15:45:26,408 | INFO    | prediction-level results:
+                                               name                  kind  n_checked  n_violations  violation_rate
+                      plant_consistent_within_order                denial    6184238           501        0.000081
+              shippingpoint_consistent_within_order                denial    6184238         75537        0.012214
+itemincotermsclassification_consistent_within_order                denial    6184238           303        0.000049
+           shippingpoint_pred_determines_plant_pred functional_dependency     402855        106256        0.263757
+        salesgroup_pred_determines_salesoffice_pred functional_dependency      88942           103        0.001158
+  item_incoterms_pred_matches_header_incoterms_pred                denial     402855           306        0.000760
+2026-10-04 15:45:26,440 | INFO    | wrote /home/pminervi/workspace/nesy_tabfm/results_cluster/salt/lightgbm/findings.md

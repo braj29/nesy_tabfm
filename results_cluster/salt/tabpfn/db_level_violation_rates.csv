@@ -1,0 +1,15 @@
+name,kind,n_checked,n_violations,violation_rate
+item_fk_salesdocument,referential_integrity,2319540,0,0.0
+item_fk_soldtoparty,referential_integrity,2319540,0,0.0
+customer_fk_address,referential_integrity,139607,0,0.0
+order_has_at_least_one_item,cardinality,500908,0,0.0
+items_share_plant_within_order,denial,32417261,7134,0.00022006794466688595
+items_share_shippingpoint_within_order,denial,32417261,7155,0.00022071574769996763
+items_share_itemincotermsclassification_within_order,denial,32417261,2582,7.964892530556483e-05
+salesorg_determines_division,functional_dependency,500908,0,0.0
+salesorg_determines_billing_company_code,functional_dependency,500908,3,5.989123751267698e-06
+shippingpoint_determines_plant,functional_dependency,2319540,1356,0.0005845986704260327
+salesgroup_determines_salesoffice,functional_dependency,500908,1399,0.002792928042674503
+item_incoterms_matches_header_incoterms,denial,2319540,1701,0.0007333350578131871
+item_incoterms_in_fixed_vocabulary,denial,2319540,0,0.0
+header_incoterms_in_fixed_vocabulary,denial,500908,0,0.0

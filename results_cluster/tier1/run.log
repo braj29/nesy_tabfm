@@ -1,0 +1,23 @@
+2026-10-04 15:46:53,305 | INFO    | START load rel-f1
+2026-10-04 15:46:54,572 | INFO    | DONE  load rel-f1 (1.3s)
+2026-10-04 15:46:54,602 | INFO    | results_fk_race                                         referential_integrity  checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-10-04 15:46:54,608 | INFO    | results_fk_driver                                       referential_integrity  checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-10-04 15:46:54,614 | INFO    | results_fk_constructor                                  referential_integrity  checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-10-04 15:46:54,627 | INFO    | results_unique_per_race_driver                          cardinality            checked=25989      violations=85       rate=0.003271 (0.0s)
+2026-10-04 15:46:54,637 | INFO    | standings_unique_per_race_driver                        cardinality            checked=34124      violations=0        rate=0.000000 (0.0s)
+2026-10-04 15:46:54,642 | INFO    | season_points_consistency                               aggregate_consistency  checked=3167       violations=79       rate=0.024945 (0.0s)
+2026-10-04 15:46:54,645 | INFO    | qualifying_before_race                                  temporal_order         checked=9815       violations=0        rate=0.000000 (0.0s)
+2026-10-04 15:46:54,646 | INFO    | points_non_negative                                     denial                 checked=26080      violations=0        rate=0.000000 (0.0s)
+2026-10-04 15:46:54,646 | INFO    | START load rel-salt
+2026-10-04 15:46:55,538 | INFO    | DONE  load rel-salt (0.9s)
+2026-10-04 15:46:55,658 | INFO    | item_fk_salesdocument                                   referential_integrity  checked=2319540    violations=0        rate=0.000000 (0.1s)
+2026-10-04 15:46:55,777 | INFO    | item_fk_soldtoparty                                     referential_integrity  checked=2319540    violations=0        rate=0.000000 (0.1s)
+2026-10-04 15:46:55,933 | INFO    | customer_fk_address                                     referential_integrity  checked=139607     violations=0        rate=0.000000 (0.2s)
+2026-10-04 15:46:56,003 | INFO    | order_has_at_least_one_item                             cardinality            checked=500908     violations=0        rate=0.000000 (0.1s)
+2026-10-04 15:46:56,509 | INFO    | salesorg_determines_division                            functional_dependency  checked=500908     violations=0        rate=0.000000 (0.5s)
+2026-10-04 15:46:56,688 | INFO    | salesorg_determines_billing_company_code                functional_dependency  checked=500908     violations=3        rate=0.000006 (0.2s)
+2026-10-04 15:46:56,820 | INFO    | shippingpoint_determines_plant                          functional_dependency  checked=2319540    violations=1356     rate=0.000585 (0.1s)
+2026-10-04 15:46:56,876 | INFO    | salesgroup_determines_salesoffice                       functional_dependency  checked=500908     violations=1399     rate=0.002793 (0.1s)
+2026-10-04 15:46:56,885 | INFO    | wrote /home/pminervi/workspace/nesy_tabfm/results_cluster/tier1/db_level_rel-f1.csv (8 constraints)
+2026-10-04 15:46:56,890 | INFO    | wrote /home/pminervi/workspace/nesy_tabfm/results_cluster/tier1/db_level_rel-salt.csv (8 constraints)
+2026-10-04 15:46:57,254 | INFO    | wrote /home/pminervi/workspace/nesy_tabfm/results_cluster/tier1_db_integrity.md
