@@ -13,7 +13,10 @@
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=80G
-#SBATCH --time=2-00:00:00
+#SBATCH --time=02:00:00
+# Measured via a 20,000-row-per-task canary on 2026-10-10 (job 3675684, scotia01):
+# ~1,740 rows/sec, ~20-30 min extrapolated for the full test split across all 8 tasks.
+# 2h leaves ~4-6x margin; override with `sbatch --time=...` for a one-off change.
 #SBATCH --output=slogs/%x-%j.out
 #SBATCH --error=slogs/%x-%j.err
 
