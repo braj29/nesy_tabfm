@@ -1,0 +1,2248 @@
+2026-10-04 21:38:06,647 | INFO    | rel-salt audit, model=tabpfn, output=/home/pminervi/workspace/nesy_tabfm/results_cluster_fulltest/salt/tabpfn
+2026-10-04 21:38:06,653 | INFO    | START load rel-salt
+2026-10-04 21:38:09,977 | INFO    | DONE  load rel-salt (3.3s)
+2026-10-04 21:38:09,978 | INFO    | START build full db
+2026-10-04 21:38:18,679 | INFO    | DONE  build full db (8.7s)
+2026-10-04 21:38:19,519 | INFO    | item_fk_salesdocument                                   referential_integrity  checked=2319540    violations=0        rate=0.000000 (0.8s)
+2026-10-04 21:38:19,896 | INFO    | item_fk_soldtoparty                                     referential_integrity  checked=2319540    violations=0        rate=0.000000 (0.4s)
+2026-10-04 21:38:20,175 | INFO    | customer_fk_address                                     referential_integrity  checked=139607     violations=0        rate=0.000000 (0.3s)
+2026-10-04 21:38:20,554 | INFO    | order_has_at_least_one_item                             cardinality            checked=500908     violations=0        rate=0.000000 (0.4s)
+2026-10-04 21:38:25,295 | INFO    | items_share_plant_within_order                          denial                 checked=32417261   violations=7134     rate=0.000220 (4.7s)
+2026-10-04 21:38:29,233 | INFO    | items_share_shippingpoint_within_order                  denial                 checked=32417261   violations=7155     rate=0.000221 (3.9s)
+2026-10-04 21:38:33,175 | INFO    | items_share_itemincotermsclassification_within_order    denial                 checked=32417261   violations=2582     rate=0.000080 (3.9s)
+2026-10-04 21:38:33,554 | INFO    | salesorg_determines_division                            functional_dependency  checked=500908     violations=0        rate=0.000000 (0.4s)
+2026-10-04 21:38:33,749 | INFO    | salesorg_determines_billing_company_code                functional_dependency  checked=500908     violations=3        rate=0.000006 (0.2s)
+2026-10-04 21:38:33,891 | INFO    | shippingpoint_determines_plant                          functional_dependency  checked=2319540    violations=1356     rate=0.000585 (0.1s)
+2026-10-04 21:38:33,955 | INFO    | salesgroup_determines_salesoffice                       functional_dependency  checked=500908     violations=1399     rate=0.002793 (0.1s)
+2026-10-04 21:38:34,303 | INFO    | item_incoterms_matches_header_incoterms                 denial                 checked=2319540    violations=1701     rate=0.000733 (0.3s)
+2026-10-04 21:38:34,349 | INFO    | item_incoterms_in_fixed_vocabulary                      denial                 checked=2319540    violations=0        rate=0.000000 (0.0s)
+2026-10-04 21:38:34,352 | INFO    | header_incoterms_in_fixed_vocabulary                    denial                 checked=500908     violations=0        rate=0.000000 (0.0s)
+2026-10-04 21:38:35,710 | INFO    | START tabpfn on item-plant
+2026-10-04 21:38:36,189 | INFO    | PLANT: TabPFN context=8000 rows, test=20000 rows, 30 classes in context
+2026-10-04 21:38:36,189 | INFO    | START build features
+2026-10-04 21:38:36,604 | INFO    | DONE  build features (0.4s)
+2026-10-04 21:38:36,633 | INFO    | START TabPFN fit
+2026-10-04 21:38:48,418 | INFO    | DONE  TabPFN fit (11.8s)
+2026-10-04 21:38:48,418 | INFO    | START TabPFN predict (20000 rows)
+2026-10-04 21:38:48,418 | INFO    | TabPFN predict rows 0:1024
+2026-10-04 21:39:24,222 | INFO    | TabPFN predict rows 1024:2048
+2026-10-04 21:39:25,026 | INFO    | TabPFN predict rows 2048:3072
+2026-10-04 21:39:25,698 | INFO    | TabPFN predict rows 3072:4096
+2026-10-04 21:39:26,309 | INFO    | TabPFN predict rows 4096:5120
+2026-10-04 21:39:27,012 | INFO    | TabPFN predict rows 5120:6144
+2026-10-04 21:39:27,620 | INFO    | TabPFN predict rows 6144:7168
+2026-10-04 21:39:28,229 | INFO    | TabPFN predict rows 7168:8192
+2026-10-04 21:39:28,836 | INFO    | TabPFN predict rows 8192:9216
+2026-10-04 21:39:29,444 | INFO    | TabPFN predict rows 9216:10240
+2026-10-04 21:39:30,047 | INFO    | TabPFN predict rows 10240:11264
+2026-10-04 21:39:30,654 | INFO    | TabPFN predict rows 11264:12288
+2026-10-04 21:39:31,262 | INFO    | TabPFN predict rows 12288:13312
+2026-10-04 21:39:31,866 | INFO    | TabPFN predict rows 13312:14336
+2026-10-04 21:39:32,478 | INFO    | TabPFN predict rows 14336:15360
+2026-10-04 21:39:33,095 | INFO    | TabPFN predict rows 15360:16384
+2026-10-04 21:39:33,710 | INFO    | TabPFN predict rows 16384:17408
+2026-10-04 21:39:34,327 | INFO    | TabPFN predict rows 17408:18432
+2026-10-04 21:39:34,943 | INFO    | TabPFN predict rows 18432:19456
+2026-10-04 21:39:35,559 | INFO    | TabPFN predict rows 19456:20000
+2026-10-04 21:39:36,155 | INFO    | DONE  TabPFN predict (20000 rows) (47.7s)
+2026-10-04 21:39:36,156 | INFO    | DONE  tabpfn on item-plant (60.4s)
+2026-10-04 21:39:36,889 | INFO    | item-plant accuracy=0.9893 on n=20000
+2026-10-04 21:39:39,069 | INFO    | START tabpfn on item-shippoint
+2026-10-04 21:39:39,583 | INFO    | SHIPPINGPOINT: TabPFN context=8000 rows, test=20000 rows, 57 classes in context
+2026-10-04 21:39:39,583 | INFO    | START build features
+2026-10-04 21:39:40,063 | INFO    | DONE  build features (0.5s)
+2026-10-04 21:39:40,097 | INFO    | START TabPFN fit
+2026-10-04 21:39:40,590 | INFO    | DONE  TabPFN fit (0.5s)
+2026-10-04 21:39:40,590 | INFO    | START TabPFN predict (20000 rows)
+2026-10-04 21:39:40,590 | INFO    | TabPFN predict rows 0:1024
+2026-10-04 21:39:41,209 | INFO    | TabPFN predict rows 1024:2048
+2026-10-04 21:39:41,824 | INFO    | TabPFN predict rows 2048:3072
+2026-10-04 21:39:42,437 | INFO    | TabPFN predict rows 3072:4096
+2026-10-04 21:39:43,050 | INFO    | TabPFN predict rows 4096:5120
+2026-10-04 21:39:43,665 | INFO    | TabPFN predict rows 5120:6144
+2026-10-04 21:39:44,278 | INFO    | TabPFN predict rows 6144:7168
+2026-10-04 21:39:44,890 | INFO    | TabPFN predict rows 7168:8192
+2026-10-04 21:39:45,503 | INFO    | TabPFN predict rows 8192:9216
+2026-10-04 21:39:46,109 | INFO    | TabPFN predict rows 9216:10240
+2026-10-04 21:39:46,713 | INFO    | TabPFN predict rows 10240:11264
+2026-10-04 21:39:47,312 | INFO    | TabPFN predict rows 11264:12288
+2026-10-04 21:39:47,911 | INFO    | TabPFN predict rows 12288:13312
+2026-10-04 21:39:48,513 | INFO    | TabPFN predict rows 13312:14336
+2026-10-04 21:39:49,114 | INFO    | TabPFN predict rows 14336:15360
+2026-10-04 21:39:49,715 | INFO    | TabPFN predict rows 15360:16384
+2026-10-04 21:39:50,318 | INFO    | TabPFN predict rows 16384:17408
+2026-10-04 21:39:50,922 | INFO    | TabPFN predict rows 17408:18432
+2026-10-04 21:39:51,525 | INFO    | TabPFN predict rows 18432:19456
+2026-10-04 21:39:52,129 | INFO    | TabPFN predict rows 19456:20000
+2026-10-04 21:39:52,721 | INFO    | DONE  TabPFN predict (20000 rows) (12.1s)
+2026-10-04 21:39:52,722 | INFO    | DONE  tabpfn on item-shippoint (13.7s)
+2026-10-04 21:39:52,780 | INFO    | item-shippoint accuracy=0.9701 on n=20000
+2026-10-04 21:39:54,003 | INFO    | START tabpfn on item-incoterms
+2026-10-04 21:39:54,561 | INFO    | ITEMINCOTERMSCLASSIFICATION: TabPFN context=8000 rows, test=20000 rows, 12 classes in context
+2026-10-04 21:39:54,562 | INFO    | START build features
+2026-10-04 21:39:55,042 | INFO    | DONE  build features (0.5s)
+2026-10-04 21:39:55,069 | INFO    | START TabPFN fit
+2026-10-04 21:39:55,543 | INFO    | DONE  TabPFN fit (0.5s)
+2026-10-04 21:39:55,543 | INFO    | START TabPFN predict (20000 rows)
+2026-10-04 21:39:55,544 | INFO    | TabPFN predict rows 0:1024
+2026-10-04 21:39:56,201 | INFO    | TabPFN predict rows 1024:2048
+2026-10-04 21:39:56,806 | INFO    | TabPFN predict rows 2048:3072
+2026-10-04 21:39:57,415 | INFO    | TabPFN predict rows 3072:4096
+2026-10-04 21:39:58,028 | INFO    | TabPFN predict rows 4096:5120
+2026-10-04 21:39:58,641 | INFO    | TabPFN predict rows 5120:6144
+2026-10-04 21:39:59,254 | INFO    | TabPFN predict rows 6144:7168
+2026-10-04 21:39:59,866 | INFO    | TabPFN predict rows 7168:8192
+2026-10-04 21:40:00,478 | INFO    | TabPFN predict rows 8192:9216
+2026-10-04 21:40:01,090 | INFO    | TabPFN predict rows 9216:10240
+2026-10-04 21:40:01,702 | INFO    | TabPFN predict rows 10240:11264
+2026-10-04 21:40:02,317 | INFO    | TabPFN predict rows 11264:12288
+2026-10-04 21:40:02,932 | INFO    | TabPFN predict rows 12288:13312
+2026-10-04 21:40:03,545 | INFO    | TabPFN predict rows 13312:14336
+2026-10-04 21:40:04,158 | INFO    | TabPFN predict rows 14336:15360
+2026-10-04 21:40:04,771 | INFO    | TabPFN predict rows 15360:16384
+2026-10-04 21:40:05,383 | INFO    | TabPFN predict rows 16384:17408
+2026-10-04 21:40:05,996 | INFO    | TabPFN predict rows 17408:18432
+2026-10-04 21:40:06,634 | INFO    | TabPFN predict rows 18432:19456
+2026-10-04 21:40:07,249 | INFO    | TabPFN predict rows 19456:20000
+2026-10-04 21:40:07,844 | INFO    | DONE  TabPFN predict (20000 rows) (12.3s)
+2026-10-04 21:40:07,846 | INFO    | DONE  tabpfn on item-incoterms (13.8s)
+2026-10-04 21:40:07,887 | INFO    | item-incoterms accuracy=1.0000 on n=20000
+2026-10-04 21:40:09,130 | INFO    | START tabpfn on sales-office
+2026-10-04 21:40:09,450 | INFO    | SALESOFFICE: TabPFN context=8000 rows, test=20000 rows, 11 classes in context
+2026-10-04 21:40:09,450 | INFO    | START build features
+2026-10-04 21:40:09,511 | INFO    | DONE  build features (0.1s)
+2026-10-04 21:40:09,535 | INFO    | START TabPFN fit
+2026-10-04 21:40:09,971 | INFO    | DONE  TabPFN fit (0.4s)
+2026-10-04 21:40:09,971 | INFO    | START TabPFN predict (20000 rows)
+2026-10-04 21:40:09,971 | INFO    | TabPFN predict rows 0:1024
+2026-10-04 21:40:10,664 | INFO    | TabPFN predict rows 1024:2048
+2026-10-04 21:40:11,264 | INFO    | TabPFN predict rows 2048:3072
+2026-10-04 21:40:11,863 | INFO    | TabPFN predict rows 3072:4096
+2026-10-04 21:40:12,462 | INFO    | TabPFN predict rows 4096:5120
+2026-10-04 21:40:13,064 | INFO    | TabPFN predict rows 5120:6144
+2026-10-04 21:40:13,663 | INFO    | TabPFN predict rows 6144:7168
+2026-10-04 21:40:14,262 | INFO    | TabPFN predict rows 7168:8192
+2026-10-04 21:40:14,862 | INFO    | TabPFN predict rows 8192:9216
+2026-10-04 21:40:15,463 | INFO    | TabPFN predict rows 9216:10240
+2026-10-04 21:40:16,062 | INFO    | TabPFN predict rows 10240:11264
+2026-10-04 21:40:16,661 | INFO    | TabPFN predict rows 11264:12288
+2026-10-04 21:40:17,260 | INFO    | TabPFN predict rows 12288:13312
+2026-10-04 21:40:17,858 | INFO    | TabPFN predict rows 13312:14336
+2026-10-04 21:40:18,457 | INFO    | TabPFN predict rows 14336:15360
+2026-10-04 21:40:19,056 | INFO    | TabPFN predict rows 15360:16384
+2026-10-04 21:40:19,661 | INFO    | TabPFN predict rows 16384:17408
+2026-10-04 21:40:20,260 | INFO    | TabPFN predict rows 17408:18432
+2026-10-04 21:40:20,859 | INFO    | TabPFN predict rows 18432:19456
+2026-10-04 21:40:21,455 | INFO    | TabPFN predict rows 19456:20000
+2026-10-04 21:40:22,027 | INFO    | DONE  TabPFN predict (20000 rows) (12.1s)
+2026-10-04 21:40:22,029 | INFO    | DONE  tabpfn on sales-office (12.9s)
+2026-10-04 21:40:22,086 | INFO    | sales-office accuracy=1.0000 on n=20000
+2026-10-04 21:40:23,257 | INFO    | START tabpfn on sales-group
+2026-10-04 21:40:23,603 | INFO    | SALESGROUP: TabPFN context=8000 rows, test=20000 rows, 378 classes in context
+2026-10-04 21:40:23,603 | INFO    | START build features
+2026-10-04 21:40:23,656 | INFO    | DONE  build features (0.1s)
+2026-10-04 21:40:23,679 | INFO    | START TabPFN fit
+2026-10-04 21:40:24,071 | ERROR   | FAILED TabPFN fit after 0.4s
+Traceback (most recent call last):
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/progress.py", line 64, in timed
+    yield
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/models/salt_tabpfn.py", line 96, in fit_predict
+    model.fit(x_train, y_train)
+  File "/home/pminervi/.local/share/uv/python/cpython-3.11.17-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 843, in fit
+    ensemble_configs, X, y = self._initialize_dataset_preprocessing(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 753, in _initialize_dataset_preprocessing
+    y, label_metadata = self.label_encoder_.fit_transform(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/preprocessing/label_encoder.py", line 57, in fit_transform
+    validate_num_classes(
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/validation.py", line 242, in validate_num_classes
+    raise TabPFNValidationError(
+tabpfn.errors.TabPFNValidationError: Number of classes `378` exceeds the maximum number of classes `160` officially supported by TabPFN.
+2026-10-04 21:40:24,188 | ERROR   | FAILED tabpfn on sales-group after 0.9s
+Traceback (most recent call last):
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/progress.py", line 64, in timed
+    yield
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/audit/salt_runner.py", line 86, in run_audit
+    preds = model_adapter.fit_predict(task, db_full)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/models/salt_tabpfn.py", line 96, in fit_predict
+    model.fit(x_train, y_train)
+  File "/home/pminervi/.local/share/uv/python/cpython-3.11.17-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 843, in fit
+    ensemble_configs, X, y = self._initialize_dataset_preprocessing(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 753, in _initialize_dataset_preprocessing
+    y, label_metadata = self.label_encoder_.fit_transform(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/preprocessing/label_encoder.py", line 57, in fit_transform
+    validate_num_classes(
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/validation.py", line 242, in validate_num_classes
+    raise TabPFNValidationError(
+tabpfn.errors.TabPFNValidationError: Number of classes `378` exceeds the maximum number of classes `160` officially supported by TabPFN.
+2026-10-04 21:40:24,191 | ERROR   | sales-group FAILED: Number of classes `378` exceeds the maximum number of classes `160` officially supported by TabPFN.
+2026-10-04 21:40:25,334 | INFO    | START tabpfn on sales-payterms
+2026-10-04 21:40:25,664 | INFO    | CUSTOMERPAYMENTTERMS: TabPFN context=8000 rows, test=20000 rows, 102 classes in context
+2026-10-04 21:40:25,664 | INFO    | START build features
+2026-10-04 21:40:25,716 | INFO    | DONE  build features (0.1s)
+2026-10-04 21:40:25,738 | INFO    | START TabPFN fit
+2026-10-04 21:40:26,175 | INFO    | DONE  TabPFN fit (0.4s)
+2026-10-04 21:40:26,175 | INFO    | START TabPFN predict (20000 rows)
+2026-10-04 21:40:26,175 | INFO    | TabPFN predict rows 0:1024
+2026-10-04 21:40:26,776 | INFO    | TabPFN predict rows 1024:2048
+2026-10-04 21:40:27,376 | INFO    | TabPFN predict rows 2048:3072
+2026-10-04 21:40:27,976 | INFO    | TabPFN predict rows 3072:4096
+2026-10-04 21:40:28,575 | INFO    | TabPFN predict rows 4096:5120
+2026-10-04 21:40:29,176 | INFO    | TabPFN predict rows 5120:6144
+2026-10-04 21:40:29,775 | INFO    | TabPFN predict rows 6144:7168
+2026-10-04 21:40:30,374 | INFO    | TabPFN predict rows 7168:8192
+2026-10-04 21:40:30,974 | INFO    | TabPFN predict rows 8192:9216
+2026-10-04 21:40:31,566 | INFO    | TabPFN predict rows 9216:10240
+2026-10-04 21:40:32,163 | INFO    | TabPFN predict rows 10240:11264
+2026-10-04 21:40:32,762 | INFO    | TabPFN predict rows 11264:12288
+2026-10-04 21:40:33,362 | INFO    | TabPFN predict rows 12288:13312
+2026-10-04 21:40:33,961 | INFO    | TabPFN predict rows 13312:14336
+2026-10-04 21:40:34,562 | INFO    | TabPFN predict rows 14336:15360
+2026-10-04 21:40:35,161 | INFO    | TabPFN predict rows 15360:16384
+2026-10-04 21:40:35,762 | INFO    | TabPFN predict rows 16384:17408
+2026-10-04 21:40:36,355 | INFO    | TabPFN predict rows 17408:18432
+2026-10-04 21:40:36,944 | INFO    | TabPFN predict rows 18432:19456
+2026-10-04 21:40:37,531 | INFO    | TabPFN predict rows 19456:20000
+2026-10-04 21:40:38,104 | INFO    | DONE  TabPFN predict (20000 rows) (11.9s)
+2026-10-04 21:40:38,105 | INFO    | DONE  tabpfn on sales-payterms (12.8s)
+2026-10-04 21:40:38,152 | INFO    | sales-payterms accuracy=0.9908 on n=20000
+2026-10-04 21:40:40,353 | INFO    | START tabpfn on sales-shipcond
+2026-10-04 21:40:40,731 | INFO    | SHIPPINGCONDITION: TabPFN context=8000 rows, test=20000 rows, 31 classes in context
+2026-10-04 21:40:40,731 | INFO    | START build features
+2026-10-04 21:40:40,796 | INFO    | DONE  build features (0.1s)
+2026-10-04 21:40:40,822 | INFO    | START TabPFN fit
+2026-10-04 21:40:41,286 | INFO    | DONE  TabPFN fit (0.5s)
+2026-10-04 21:40:41,286 | INFO    | START TabPFN predict (20000 rows)
+2026-10-04 21:40:41,286 | INFO    | TabPFN predict rows 0:1024
+2026-10-04 21:40:41,883 | INFO    | TabPFN predict rows 1024:2048
+2026-10-04 21:40:42,478 | INFO    | TabPFN predict rows 2048:3072
+2026-10-04 21:40:43,068 | INFO    | TabPFN predict rows 3072:4096
+2026-10-04 21:40:43,658 | INFO    | TabPFN predict rows 4096:5120
+2026-10-04 21:40:44,249 | INFO    | TabPFN predict rows 5120:6144
+2026-10-04 21:40:44,846 | INFO    | TabPFN predict rows 6144:7168
+2026-10-04 21:40:45,447 | INFO    | TabPFN predict rows 7168:8192
+2026-10-04 21:40:46,046 | INFO    | TabPFN predict rows 8192:9216
+2026-10-04 21:40:46,647 | INFO    | TabPFN predict rows 9216:10240
+2026-10-04 21:40:47,250 | INFO    | TabPFN predict rows 10240:11264
+2026-10-04 21:40:47,851 | INFO    | TabPFN predict rows 11264:12288
+2026-10-04 21:40:48,451 | INFO    | TabPFN predict rows 12288:13312
+2026-10-04 21:40:49,051 | INFO    | TabPFN predict rows 13312:14336
+2026-10-04 21:40:49,643 | INFO    | TabPFN predict rows 14336:15360
+2026-10-04 21:40:50,231 | INFO    | TabPFN predict rows 15360:16384
+2026-10-04 21:40:50,822 | INFO    | TabPFN predict rows 16384:17408
+2026-10-04 21:40:51,413 | INFO    | TabPFN predict rows 17408:18432
+2026-10-04 21:40:52,006 | INFO    | TabPFN predict rows 18432:19456
+2026-10-04 21:40:52,602 | INFO    | TabPFN predict rows 19456:20000
+2026-10-04 21:40:53,188 | INFO    | DONE  TabPFN predict (20000 rows) (11.9s)
+2026-10-04 21:40:53,190 | INFO    | DONE  tabpfn on sales-shipcond (12.8s)
+2026-10-04 21:40:53,250 | INFO    | sales-shipcond accuracy=0.9886 on n=20000
+2026-10-04 21:40:54,410 | INFO    | START tabpfn on sales-incoterms
+2026-10-04 21:40:54,809 | INFO    | HEADERINCOTERMSCLASSIFICATION: TabPFN context=8000 rows, test=20000 rows, 12 classes in context
+2026-10-04 21:40:54,809 | INFO    | START build features
+2026-10-04 21:40:54,891 | INFO    | DONE  build features (0.1s)
+2026-10-04 21:40:54,912 | INFO    | START TabPFN fit
+2026-10-04 21:40:55,348 | INFO    | DONE  TabPFN fit (0.4s)
+2026-10-04 21:40:55,348 | INFO    | START TabPFN predict (20000 rows)
+2026-10-04 21:40:55,348 | INFO    | TabPFN predict rows 0:1024
+2026-10-04 21:40:55,950 | INFO    | TabPFN predict rows 1024:2048
+2026-10-04 21:40:56,550 | INFO    | TabPFN predict rows 2048:3072
+2026-10-04 21:40:57,151 | INFO    | TabPFN predict rows 3072:4096
+2026-10-04 21:40:57,750 | INFO    | TabPFN predict rows 4096:5120
+2026-10-04 21:40:58,349 | INFO    | TabPFN predict rows 5120:6144
+2026-10-04 21:40:58,947 | INFO    | TabPFN predict rows 6144:7168
+2026-10-04 21:40:59,546 | INFO    | TabPFN predict rows 7168:8192
+2026-10-04 21:41:00,146 | INFO    | TabPFN predict rows 8192:9216
+2026-10-04 21:41:00,746 | INFO    | TabPFN predict rows 9216:10240
+2026-10-04 21:41:01,346 | INFO    | TabPFN predict rows 10240:11264
+2026-10-04 21:41:01,951 | INFO    | TabPFN predict rows 11264:12288
+2026-10-04 21:41:02,556 | INFO    | TabPFN predict rows 12288:13312
+2026-10-04 21:41:03,157 | INFO    | TabPFN predict rows 13312:14336
+2026-10-04 21:41:03,757 | INFO    | TabPFN predict rows 14336:15360
+2026-10-04 21:41:04,358 | INFO    | TabPFN predict rows 15360:16384
+2026-10-04 21:41:04,960 | INFO    | TabPFN predict rows 16384:17408
+2026-10-04 21:41:05,560 | INFO    | TabPFN predict rows 17408:18432
+2026-10-04 21:41:06,161 | INFO    | TabPFN predict rows 18432:19456
+2026-10-04 21:41:06,761 | INFO    | TabPFN predict rows 19456:20000
+2026-10-04 21:41:07,338 | INFO    | DONE  TabPFN predict (20000 rows) (12.0s)
+2026-10-04 21:41:07,340 | INFO    | DONE  tabpfn on sales-incoterms (12.9s)
+2026-10-04 21:41:07,383 | INFO    | sales-incoterms accuracy=0.9999 on n=20000
+2026-10-04 21:41:12,535 | INFO    | prediction-level results:
+                                               name                  kind  n_checked  n_violations  violation_rate
+                      plant_consistent_within_order                denial      15385             0        0.000000
+              shippingpoint_consistent_within_order                denial      15385             4        0.000260
+itemincotermsclassification_consistent_within_order                denial      15385             0        0.000000
+           shippingpoint_pred_determines_plant_pred functional_dependency      20000           113        0.005650
+  item_incoterms_pred_matches_header_incoterms_pred                denial       4533             3        0.000662
+2026-10-04 21:41:12,548 | INFO    | wrote /home/pminervi/workspace/nesy_tabfm/results_cluster_fulltest/salt/tabpfn/findings.md
+2026-10-10 14:38:39,000 | INFO    | rel-salt audit, model=tabpfn, output=/home/pminervi/workspace/nesy_tabfm/results_cluster_fulltest/salt/tabpfn
+2026-10-10 14:38:39,050 | INFO    | START load rel-salt
+2026-10-10 14:38:44,694 | INFO    | DONE  load rel-salt (5.6s)
+2026-10-10 14:38:44,694 | INFO    | START build full db
+2026-10-10 14:38:56,440 | INFO    | DONE  build full db (11.7s)
+2026-10-10 14:38:57,392 | INFO    | item_fk_salesdocument                                   referential_integrity  checked=2319540    violations=0        rate=0.000000 (1.0s)
+2026-10-10 14:38:57,973 | INFO    | item_fk_soldtoparty                                     referential_integrity  checked=2319540    violations=0        rate=0.000000 (0.6s)
+2026-10-10 14:38:58,250 | INFO    | customer_fk_address                                     referential_integrity  checked=139607     violations=0        rate=0.000000 (0.3s)
+2026-10-10 14:38:58,791 | INFO    | order_has_at_least_one_item                             cardinality            checked=500908     violations=0        rate=0.000000 (0.5s)
+2026-10-10 14:39:03,814 | INFO    | items_share_plant_within_order                          denial                 checked=32417261   violations=7134     rate=0.000220 (5.0s)
+2026-10-10 14:39:07,857 | INFO    | items_share_shippingpoint_within_order                  denial                 checked=32417261   violations=7155     rate=0.000221 (4.0s)
+2026-10-10 14:39:11,911 | INFO    | items_share_itemincotermsclassification_within_order    denial                 checked=32417261   violations=2582     rate=0.000080 (4.1s)
+2026-10-10 14:39:12,270 | INFO    | salesorg_determines_division                            functional_dependency  checked=500908     violations=0        rate=0.000000 (0.4s)
+2026-10-10 14:39:12,444 | INFO    | salesorg_determines_billing_company_code                functional_dependency  checked=500908     violations=3        rate=0.000006 (0.2s)
+2026-10-10 14:39:12,577 | INFO    | shippingpoint_determines_plant                          functional_dependency  checked=2319540    violations=1356     rate=0.000585 (0.1s)
+2026-10-10 14:39:12,629 | INFO    | salesgroup_determines_salesoffice                       functional_dependency  checked=500908     violations=1399     rate=0.002793 (0.1s)
+2026-10-10 14:39:12,950 | INFO    | item_incoterms_matches_header_incoterms                 denial                 checked=2319540    violations=1701     rate=0.000733 (0.3s)
+2026-10-10 14:39:13,013 | INFO    | item_incoterms_in_fixed_vocabulary                      denial                 checked=2319540    violations=0        rate=0.000000 (0.1s)
+2026-10-10 14:39:13,015 | INFO    | header_incoterms_in_fixed_vocabulary                    denial                 checked=500908     violations=0        rate=0.000000 (0.0s)
+2026-10-10 14:39:14,584 | INFO    | START tabpfn on item-plant
+2026-10-10 14:39:15,061 | INFO    | PLANT: TabPFN context=8000 rows, test=20000 rows, 30 classes in context
+2026-10-10 14:39:15,061 | INFO    | START build features
+2026-10-10 14:39:15,454 | INFO    | DONE  build features (0.4s)
+2026-10-10 14:39:15,481 | INFO    | START TabPFN fit
+2026-10-10 14:39:29,917 | INFO    | DONE  TabPFN fit (14.4s)
+2026-10-10 14:39:29,917 | INFO    | START TabPFN predict (20000 rows)
+2026-10-10 14:39:29,917 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 14:40:13,542 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 14:40:14,117 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 14:40:14,775 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 14:40:15,343 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 14:40:15,912 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 14:40:16,485 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 14:40:17,055 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 14:40:17,621 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 14:40:18,189 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 14:40:18,755 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 14:40:19,320 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 14:40:19,889 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 14:40:20,455 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 14:40:21,023 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 14:40:21,592 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 14:40:22,159 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 14:40:22,727 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 14:40:23,302 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 14:40:23,871 | INFO    | TabPFN predict rows 19456:20000
+2026-10-10 14:40:24,426 | INFO    | DONE  TabPFN predict (20000 rows) (54.5s)
+2026-10-10 14:40:24,428 | INFO    | DONE  tabpfn on item-plant (69.8s)
+2026-10-10 14:40:25,538 | INFO    | item-plant accuracy=0.9893 on n=20000
+2026-10-10 14:40:26,982 | INFO    | START tabpfn on item-shippoint
+2026-10-10 14:40:27,594 | INFO    | SHIPPINGPOINT: TabPFN context=8000 rows, test=20000 rows, 57 classes in context
+2026-10-10 14:40:27,594 | INFO    | START build features
+2026-10-10 14:40:28,092 | INFO    | DONE  build features (0.5s)
+2026-10-10 14:40:28,127 | INFO    | START TabPFN fit
+2026-10-10 14:40:28,617 | INFO    | DONE  TabPFN fit (0.5s)
+2026-10-10 14:40:28,617 | INFO    | START TabPFN predict (20000 rows)
+2026-10-10 14:40:28,617 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 14:40:29,183 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 14:40:29,751 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 14:40:30,318 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 14:40:30,884 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 14:40:31,450 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 14:40:32,016 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 14:40:32,581 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 14:40:33,146 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 14:40:33,714 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 14:40:34,281 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 14:40:34,846 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 14:40:35,411 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 14:40:35,976 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 14:40:36,542 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 14:40:37,105 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 14:40:37,667 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 14:40:38,234 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 14:40:38,803 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 14:40:39,368 | INFO    | TabPFN predict rows 19456:20000
+2026-10-10 14:40:39,912 | INFO    | DONE  TabPFN predict (20000 rows) (11.3s)
+2026-10-10 14:40:39,913 | INFO    | DONE  tabpfn on item-shippoint (12.9s)
+2026-10-10 14:40:40,012 | INFO    | item-shippoint accuracy=0.9701 on n=20000
+2026-10-10 14:40:41,192 | INFO    | START tabpfn on item-incoterms
+2026-10-10 14:40:41,733 | INFO    | ITEMINCOTERMSCLASSIFICATION: TabPFN context=8000 rows, test=20000 rows, 12 classes in context
+2026-10-10 14:40:41,733 | INFO    | START build features
+2026-10-10 14:40:42,313 | INFO    | DONE  build features (0.6s)
+2026-10-10 14:40:42,349 | INFO    | START TabPFN fit
+2026-10-10 14:40:42,799 | INFO    | DONE  TabPFN fit (0.5s)
+2026-10-10 14:40:42,800 | INFO    | START TabPFN predict (20000 rows)
+2026-10-10 14:40:42,800 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 14:40:43,407 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 14:40:43,977 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 14:40:44,545 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 14:40:45,113 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 14:40:45,680 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 14:40:46,246 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 14:40:46,814 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 14:40:47,379 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 14:40:47,946 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 14:40:48,514 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 14:40:49,079 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 14:40:49,646 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 14:40:50,213 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 14:40:50,780 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 14:40:51,344 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 14:40:51,912 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 14:40:52,483 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 14:40:53,074 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 14:40:53,646 | INFO    | TabPFN predict rows 19456:20000
+2026-10-10 14:40:54,196 | INFO    | DONE  TabPFN predict (20000 rows) (11.4s)
+2026-10-10 14:40:54,198 | INFO    | DONE  tabpfn on item-incoterms (13.0s)
+2026-10-10 14:40:54,321 | INFO    | item-incoterms accuracy=1.0000 on n=20000
+2026-10-10 14:40:55,632 | INFO    | START tabpfn on sales-office
+2026-10-10 14:40:56,051 | INFO    | SALESOFFICE: TabPFN context=8000 rows, test=20000 rows, 11 classes in context
+2026-10-10 14:40:56,051 | INFO    | START build features
+2026-10-10 14:40:56,118 | INFO    | DONE  build features (0.1s)
+2026-10-10 14:40:56,145 | INFO    | START TabPFN fit
+2026-10-10 14:40:56,677 | INFO    | DONE  TabPFN fit (0.5s)
+2026-10-10 14:40:56,678 | INFO    | START TabPFN predict (20000 rows)
+2026-10-10 14:40:56,678 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 14:40:57,340 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 14:40:57,894 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 14:40:58,444 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 14:40:58,995 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 14:40:59,548 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 14:41:00,102 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 14:41:00,654 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 14:41:01,205 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 14:41:01,757 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 14:41:02,311 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 14:41:02,860 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 14:41:03,413 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 14:41:03,971 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 14:41:04,521 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 14:41:05,069 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 14:41:05,624 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 14:41:06,175 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 14:41:06,727 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 14:41:07,277 | INFO    | TabPFN predict rows 19456:20000
+2026-10-10 14:41:07,813 | INFO    | DONE  TabPFN predict (20000 rows) (11.1s)
+2026-10-10 14:41:07,815 | INFO    | DONE  tabpfn on sales-office (12.2s)
+2026-10-10 14:41:07,896 | INFO    | sales-office accuracy=1.0000 on n=20000
+2026-10-10 14:41:09,021 | INFO    | START tabpfn on sales-group
+2026-10-10 14:41:09,468 | INFO    | SALESGROUP: TabPFN context=8000 rows, test=20000 rows, 378 classes in context
+2026-10-10 14:41:09,468 | INFO    | START build features
+2026-10-10 14:41:09,518 | INFO    | DONE  build features (0.0s)
+2026-10-10 14:41:09,538 | INFO    | START TabPFN fit
+2026-10-10 14:41:09,864 | ERROR   | FAILED TabPFN fit after 0.3s
+Traceback (most recent call last):
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/progress.py", line 64, in timed
+    yield
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/models/salt_tabpfn.py", line 96, in fit_predict
+    model.fit(x_train, y_train)
+  File "/home/pminervi/.local/share/uv/python/cpython-3.11.17-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 843, in fit
+    ensemble_configs, X, y = self._initialize_dataset_preprocessing(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 753, in _initialize_dataset_preprocessing
+    y, label_metadata = self.label_encoder_.fit_transform(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/preprocessing/label_encoder.py", line 57, in fit_transform
+    validate_num_classes(
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/validation.py", line 242, in validate_num_classes
+    raise TabPFNValidationError(
+tabpfn.errors.TabPFNValidationError: Number of classes `378` exceeds the maximum number of classes `160` officially supported by TabPFN.
+2026-10-10 14:41:09,966 | ERROR   | FAILED tabpfn on sales-group after 0.9s
+Traceback (most recent call last):
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/progress.py", line 64, in timed
+    yield
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/audit/salt_runner.py", line 86, in run_audit
+    preds = model_adapter.fit_predict(task, db_full)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/models/salt_tabpfn.py", line 96, in fit_predict
+    model.fit(x_train, y_train)
+  File "/home/pminervi/.local/share/uv/python/cpython-3.11.17-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 843, in fit
+    ensemble_configs, X, y = self._initialize_dataset_preprocessing(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 753, in _initialize_dataset_preprocessing
+    y, label_metadata = self.label_encoder_.fit_transform(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/preprocessing/label_encoder.py", line 57, in fit_transform
+    validate_num_classes(
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/validation.py", line 242, in validate_num_classes
+    raise TabPFNValidationError(
+tabpfn.errors.TabPFNValidationError: Number of classes `378` exceeds the maximum number of classes `160` officially supported by TabPFN.
+2026-10-10 14:41:09,972 | ERROR   | sales-group FAILED: Number of classes `378` exceeds the maximum number of classes `160` officially supported by TabPFN.
+2026-10-10 14:41:11,230 | INFO    | START tabpfn on sales-payterms
+2026-10-10 14:41:11,597 | INFO    | CUSTOMERPAYMENTTERMS: TabPFN context=8000 rows, test=20000 rows, 102 classes in context
+2026-10-10 14:41:11,597 | INFO    | START build features
+2026-10-10 14:41:11,655 | INFO    | DONE  build features (0.1s)
+2026-10-10 14:41:11,680 | INFO    | START TabPFN fit
+2026-10-10 14:41:12,259 | INFO    | DONE  TabPFN fit (0.6s)
+2026-10-10 14:41:12,259 | INFO    | START TabPFN predict (20000 rows)
+2026-10-10 14:41:12,259 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 14:41:12,999 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 14:41:13,687 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 14:41:14,238 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 14:41:14,789 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 14:41:15,339 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 14:41:15,889 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 14:41:16,440 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 14:41:16,991 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 14:41:17,543 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 14:41:18,091 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 14:41:18,642 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 14:41:19,193 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 14:41:19,742 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 14:41:20,295 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 14:41:20,848 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 14:41:21,400 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 14:41:21,953 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 14:41:22,505 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 14:41:23,054 | INFO    | TabPFN predict rows 19456:20000
+2026-10-10 14:41:23,589 | INFO    | DONE  TabPFN predict (20000 rows) (11.3s)
+2026-10-10 14:41:23,590 | INFO    | DONE  tabpfn on sales-payterms (12.4s)
+2026-10-10 14:41:23,701 | INFO    | sales-payterms accuracy=0.9908 on n=20000
+2026-10-10 14:41:24,892 | INFO    | START tabpfn on sales-shipcond
+2026-10-10 14:41:25,262 | INFO    | SHIPPINGCONDITION: TabPFN context=8000 rows, test=20000 rows, 31 classes in context
+2026-10-10 14:41:25,262 | INFO    | START build features
+2026-10-10 14:41:25,320 | INFO    | DONE  build features (0.1s)
+2026-10-10 14:41:25,345 | INFO    | START TabPFN fit
+2026-10-10 14:41:25,798 | INFO    | DONE  TabPFN fit (0.5s)
+2026-10-10 14:41:25,798 | INFO    | START TabPFN predict (20000 rows)
+2026-10-10 14:41:25,798 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 14:41:26,350 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 14:41:26,901 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 14:41:27,455 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 14:41:28,009 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 14:41:28,563 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 14:41:29,114 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 14:41:29,664 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 14:41:30,214 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 14:41:30,766 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 14:41:31,315 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 14:41:31,866 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 14:41:32,416 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 14:41:32,968 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 14:41:33,518 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 14:41:34,068 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 14:41:34,619 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 14:41:35,170 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 14:41:35,719 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 14:41:36,275 | INFO    | TabPFN predict rows 19456:20000
+2026-10-10 14:41:36,811 | INFO    | DONE  TabPFN predict (20000 rows) (11.0s)
+2026-10-10 14:41:36,813 | INFO    | DONE  tabpfn on sales-shipcond (11.9s)
+2026-10-10 14:41:36,929 | INFO    | sales-shipcond accuracy=0.9886 on n=20000
+2026-10-10 14:41:38,376 | INFO    | START tabpfn on sales-incoterms
+2026-10-10 14:41:38,707 | INFO    | HEADERINCOTERMSCLASSIFICATION: TabPFN context=8000 rows, test=20000 rows, 12 classes in context
+2026-10-10 14:41:38,707 | INFO    | START build features
+2026-10-10 14:41:38,766 | INFO    | DONE  build features (0.1s)
+2026-10-10 14:41:38,791 | INFO    | START TabPFN fit
+2026-10-10 14:41:39,370 | INFO    | DONE  TabPFN fit (0.6s)
+2026-10-10 14:41:39,370 | INFO    | START TabPFN predict (20000 rows)
+2026-10-10 14:41:39,370 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 14:41:40,113 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 14:41:40,853 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 14:41:41,512 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 14:41:42,065 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 14:41:42,616 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 14:41:43,167 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 14:41:43,720 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 14:41:44,273 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 14:41:44,821 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 14:41:45,370 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 14:41:45,925 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 14:41:46,477 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 14:41:47,028 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 14:41:47,579 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 14:41:48,131 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 14:41:48,683 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 14:41:49,236 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 14:41:49,788 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 14:41:50,338 | INFO    | TabPFN predict rows 19456:20000
+2026-10-10 14:41:50,872 | INFO    | DONE  TabPFN predict (20000 rows) (11.5s)
+2026-10-10 14:41:50,874 | INFO    | DONE  tabpfn on sales-incoterms (12.5s)
+2026-10-10 14:41:50,957 | INFO    | sales-incoterms accuracy=0.9999 on n=20000
+2026-10-10 14:41:56,160 | INFO    | prediction-level results:
+                                               name                  kind  n_checked  n_violations  violation_rate
+                      plant_consistent_within_order                denial      15385             0        0.000000
+              shippingpoint_consistent_within_order                denial      15385             4        0.000260
+itemincotermsclassification_consistent_within_order                denial      15385             0        0.000000
+           shippingpoint_pred_determines_plant_pred functional_dependency      20000           113        0.005650
+  item_incoterms_pred_matches_header_incoterms_pred                denial       4533             3        0.000662
+2026-10-10 14:41:56,178 | INFO    | wrote /home/pminervi/workspace/nesy_tabfm/results_cluster_fulltest/salt/tabpfn/findings.md
+2026-10-10 15:33:02,068 | INFO    | rel-salt audit, model=tabpfn, output=/home/pminervi/workspace/nesy_tabfm/results_cluster_fulltest/salt/tabpfn
+2026-10-10 15:33:02,118 | INFO    | START load rel-salt
+2026-10-10 15:33:05,242 | INFO    | DONE  load rel-salt (3.1s)
+2026-10-10 15:33:05,242 | INFO    | START build full db
+2026-10-10 15:33:13,834 | INFO    | DONE  build full db (8.6s)
+2026-10-10 15:33:14,545 | INFO    | item_fk_salesdocument                                   referential_integrity  checked=2319540    violations=0        rate=0.000000 (0.7s)
+2026-10-10 15:33:15,033 | INFO    | item_fk_soldtoparty                                     referential_integrity  checked=2319540    violations=0        rate=0.000000 (0.5s)
+2026-10-10 15:33:15,247 | INFO    | customer_fk_address                                     referential_integrity  checked=139607     violations=0        rate=0.000000 (0.2s)
+2026-10-10 15:33:15,547 | INFO    | order_has_at_least_one_item                             cardinality            checked=500908     violations=0        rate=0.000000 (0.3s)
+2026-10-10 15:33:20,087 | INFO    | items_share_plant_within_order                          denial                 checked=32417261   violations=7134     rate=0.000220 (4.5s)
+2026-10-10 15:33:23,930 | INFO    | items_share_shippingpoint_within_order                  denial                 checked=32417261   violations=7155     rate=0.000221 (3.8s)
+2026-10-10 15:33:27,761 | INFO    | items_share_itemincotermsclassification_within_order    denial                 checked=32417261   violations=2582     rate=0.000080 (3.8s)
+2026-10-10 15:33:28,046 | INFO    | salesorg_determines_division                            functional_dependency  checked=500908     violations=0        rate=0.000000 (0.3s)
+2026-10-10 15:33:28,216 | INFO    | salesorg_determines_billing_company_code                functional_dependency  checked=500908     violations=3        rate=0.000006 (0.2s)
+2026-10-10 15:33:28,346 | INFO    | shippingpoint_determines_plant                          functional_dependency  checked=2319540    violations=1356     rate=0.000585 (0.1s)
+2026-10-10 15:33:28,399 | INFO    | salesgroup_determines_salesoffice                       functional_dependency  checked=500908     violations=1399     rate=0.002793 (0.1s)
+2026-10-10 15:33:28,719 | INFO    | item_incoterms_matches_header_incoterms                 denial                 checked=2319540    violations=1701     rate=0.000733 (0.3s)
+2026-10-10 15:33:28,771 | INFO    | item_incoterms_in_fixed_vocabulary                      denial                 checked=2319540    violations=0        rate=0.000000 (0.1s)
+2026-10-10 15:33:28,774 | INFO    | header_incoterms_in_fixed_vocabulary                    denial                 checked=500908     violations=0        rate=0.000000 (0.0s)
+2026-10-10 15:33:30,153 | INFO    | START tabpfn on item-plant
+2026-10-10 15:33:30,760 | INFO    | PLANT: TabPFN context=8000 rows, test=402855 rows, 30 classes in context
+2026-10-10 15:33:30,760 | INFO    | START build features
+2026-10-10 15:33:31,111 | INFO    | DONE  build features (0.4s)
+2026-10-10 15:33:31,322 | INFO    | START TabPFN fit
+2026-10-10 15:33:41,536 | INFO    | DONE  TabPFN fit (10.2s)
+2026-10-10 15:33:41,537 | INFO    | START TabPFN predict (402855 rows)
+2026-10-10 15:33:41,537 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 15:34:09,512 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 15:34:10,278 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 15:34:11,037 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 15:34:11,734 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 15:34:12,422 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 15:34:13,008 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 15:34:13,594 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 15:34:14,176 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 15:34:14,753 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 15:34:15,333 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 15:34:15,918 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 15:34:16,494 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 15:34:17,074 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 15:34:17,653 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 15:34:18,233 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 15:34:18,812 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 15:34:19,399 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 15:34:19,981 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 15:34:20,563 | INFO    | TabPFN predict rows 19456:20480
+2026-10-10 15:34:21,145 | INFO    | TabPFN predict rows 20480:21504
+2026-10-10 15:34:21,729 | INFO    | TabPFN predict rows 21504:22528
+2026-10-10 15:34:22,305 | INFO    | TabPFN predict rows 22528:23552
+2026-10-10 15:34:22,889 | INFO    | TabPFN predict rows 23552:24576
+2026-10-10 15:34:23,477 | INFO    | TabPFN predict rows 24576:25600
+2026-10-10 15:34:24,059 | INFO    | TabPFN predict rows 25600:26624
+2026-10-10 15:34:24,642 | INFO    | TabPFN predict rows 26624:27648
+2026-10-10 15:34:25,220 | INFO    | TabPFN predict rows 27648:28672
+2026-10-10 15:34:25,798 | INFO    | TabPFN predict rows 28672:29696
+2026-10-10 15:34:26,382 | INFO    | TabPFN predict rows 29696:30720
+2026-10-10 15:34:26,961 | INFO    | TabPFN predict rows 30720:31744
+2026-10-10 15:34:27,540 | INFO    | TabPFN predict rows 31744:32768
+2026-10-10 15:34:28,120 | INFO    | TabPFN predict rows 32768:33792
+2026-10-10 15:34:28,705 | INFO    | TabPFN predict rows 33792:34816
+2026-10-10 15:34:29,284 | INFO    | TabPFN predict rows 34816:35840
+2026-10-10 15:34:29,864 | INFO    | TabPFN predict rows 35840:36864
+2026-10-10 15:34:30,446 | INFO    | TabPFN predict rows 36864:37888
+2026-10-10 15:34:31,032 | INFO    | TabPFN predict rows 37888:38912
+2026-10-10 15:34:31,610 | INFO    | TabPFN predict rows 38912:39936
+2026-10-10 15:34:32,193 | INFO    | TabPFN predict rows 39936:40960
+2026-10-10 15:34:32,774 | INFO    | TabPFN predict rows 40960:41984
+2026-10-10 15:34:33,353 | INFO    | TabPFN predict rows 41984:43008
+2026-10-10 15:34:33,931 | INFO    | TabPFN predict rows 43008:44032
+2026-10-10 15:34:34,510 | INFO    | TabPFN predict rows 44032:45056
+2026-10-10 15:34:35,085 | INFO    | TabPFN predict rows 45056:46080
+2026-10-10 15:34:35,662 | INFO    | TabPFN predict rows 46080:47104
+2026-10-10 15:34:36,244 | INFO    | TabPFN predict rows 47104:48128
+2026-10-10 15:34:36,825 | INFO    | TabPFN predict rows 48128:49152
+2026-10-10 15:34:37,407 | INFO    | TabPFN predict rows 49152:50176
+2026-10-10 15:34:37,992 | INFO    | TabPFN predict rows 50176:51200
+2026-10-10 15:34:38,569 | INFO    | TabPFN predict rows 51200:52224
+2026-10-10 15:34:39,146 | INFO    | TabPFN predict rows 52224:53248
+2026-10-10 15:34:39,724 | INFO    | TabPFN predict rows 53248:54272
+2026-10-10 15:34:40,301 | INFO    | TabPFN predict rows 54272:55296
+2026-10-10 15:34:40,879 | INFO    | TabPFN predict rows 55296:56320
+2026-10-10 15:34:41,463 | INFO    | TabPFN predict rows 56320:57344
+2026-10-10 15:34:42,044 | INFO    | TabPFN predict rows 57344:58368
+2026-10-10 15:34:42,622 | INFO    | TabPFN predict rows 58368:59392
+2026-10-10 15:34:43,204 | INFO    | TabPFN predict rows 59392:60416
+2026-10-10 15:34:43,781 | INFO    | TabPFN predict rows 60416:61440
+2026-10-10 15:34:44,357 | INFO    | TabPFN predict rows 61440:62464
+2026-10-10 15:34:44,937 | INFO    | TabPFN predict rows 62464:63488
+2026-10-10 15:34:45,517 | INFO    | TabPFN predict rows 63488:64512
+2026-10-10 15:34:46,099 | INFO    | TabPFN predict rows 64512:65536
+2026-10-10 15:34:46,685 | INFO    | TabPFN predict rows 65536:66560
+2026-10-10 15:34:47,269 | INFO    | TabPFN predict rows 66560:67584
+2026-10-10 15:34:47,853 | INFO    | TabPFN predict rows 67584:68608
+2026-10-10 15:34:48,431 | INFO    | TabPFN predict rows 68608:69632
+2026-10-10 15:34:49,014 | INFO    | TabPFN predict rows 69632:70656
+2026-10-10 15:34:49,590 | INFO    | TabPFN predict rows 70656:71680
+2026-10-10 15:34:50,174 | INFO    | TabPFN predict rows 71680:72704
+2026-10-10 15:34:50,760 | INFO    | TabPFN predict rows 72704:73728
+2026-10-10 15:34:51,338 | INFO    | TabPFN predict rows 73728:74752
+2026-10-10 15:34:51,919 | INFO    | TabPFN predict rows 74752:75776
+2026-10-10 15:34:52,504 | INFO    | TabPFN predict rows 75776:76800
+2026-10-10 15:34:53,085 | INFO    | TabPFN predict rows 76800:77824
+2026-10-10 15:34:53,666 | INFO    | TabPFN predict rows 77824:78848
+2026-10-10 15:34:54,251 | INFO    | TabPFN predict rows 78848:79872
+2026-10-10 15:34:54,832 | INFO    | TabPFN predict rows 79872:80896
+2026-10-10 15:34:55,404 | INFO    | TabPFN predict rows 80896:81920
+2026-10-10 15:34:55,987 | INFO    | TabPFN predict rows 81920:82944
+2026-10-10 15:34:56,570 | INFO    | TabPFN predict rows 82944:83968
+2026-10-10 15:34:57,156 | INFO    | TabPFN predict rows 83968:84992
+2026-10-10 15:34:57,739 | INFO    | TabPFN predict rows 84992:86016
+2026-10-10 15:34:58,321 | INFO    | TabPFN predict rows 86016:87040
+2026-10-10 15:34:58,907 | INFO    | TabPFN predict rows 87040:88064
+2026-10-10 15:34:59,491 | INFO    | TabPFN predict rows 88064:89088
+2026-10-10 15:35:00,072 | INFO    | TabPFN predict rows 89088:90112
+2026-10-10 15:35:00,655 | INFO    | TabPFN predict rows 90112:91136
+2026-10-10 15:35:01,238 | INFO    | TabPFN predict rows 91136:92160
+2026-10-10 15:35:01,823 | INFO    | TabPFN predict rows 92160:93184
+2026-10-10 15:35:02,407 | INFO    | TabPFN predict rows 93184:94208
+2026-10-10 15:35:02,992 | INFO    | TabPFN predict rows 94208:95232
+2026-10-10 15:35:03,577 | INFO    | TabPFN predict rows 95232:96256
+2026-10-10 15:35:04,164 | INFO    | TabPFN predict rows 96256:97280
+2026-10-10 15:35:04,753 | INFO    | TabPFN predict rows 97280:98304
+2026-10-10 15:35:05,337 | INFO    | TabPFN predict rows 98304:99328
+2026-10-10 15:35:05,919 | INFO    | TabPFN predict rows 99328:100352
+2026-10-10 15:35:06,506 | INFO    | TabPFN predict rows 100352:101376
+2026-10-10 15:35:07,089 | INFO    | TabPFN predict rows 101376:102400
+2026-10-10 15:35:07,676 | INFO    | TabPFN predict rows 102400:103424
+2026-10-10 15:35:08,262 | INFO    | TabPFN predict rows 103424:104448
+2026-10-10 15:35:08,850 | INFO    | TabPFN predict rows 104448:105472
+2026-10-10 15:35:09,440 | INFO    | TabPFN predict rows 105472:106496
+2026-10-10 15:35:10,022 | INFO    | TabPFN predict rows 106496:107520
+2026-10-10 15:35:10,601 | INFO    | TabPFN predict rows 107520:108544
+2026-10-10 15:35:11,188 | INFO    | TabPFN predict rows 108544:109568
+2026-10-10 15:35:11,780 | INFO    | TabPFN predict rows 109568:110592
+2026-10-10 15:35:12,365 | INFO    | TabPFN predict rows 110592:111616
+2026-10-10 15:35:12,952 | INFO    | TabPFN predict rows 111616:112640
+2026-10-10 15:35:13,540 | INFO    | TabPFN predict rows 112640:113664
+2026-10-10 15:35:14,125 | INFO    | TabPFN predict rows 113664:114688
+2026-10-10 15:35:14,698 | INFO    | TabPFN predict rows 114688:115712
+2026-10-10 15:35:15,283 | INFO    | TabPFN predict rows 115712:116736
+2026-10-10 15:35:15,865 | INFO    | TabPFN predict rows 116736:117760
+2026-10-10 15:35:16,455 | INFO    | TabPFN predict rows 117760:118784
+2026-10-10 15:35:17,040 | INFO    | TabPFN predict rows 118784:119808
+2026-10-10 15:35:17,623 | INFO    | TabPFN predict rows 119808:120832
+2026-10-10 15:35:18,202 | INFO    | TabPFN predict rows 120832:121856
+2026-10-10 15:35:18,782 | INFO    | TabPFN predict rows 121856:122880
+2026-10-10 15:35:19,361 | INFO    | TabPFN predict rows 122880:123904
+2026-10-10 15:35:19,941 | INFO    | TabPFN predict rows 123904:124928
+2026-10-10 15:35:20,518 | INFO    | TabPFN predict rows 124928:125952
+2026-10-10 15:35:21,100 | INFO    | TabPFN predict rows 125952:126976
+2026-10-10 15:35:21,682 | INFO    | TabPFN predict rows 126976:128000
+2026-10-10 15:35:22,264 | INFO    | TabPFN predict rows 128000:129024
+2026-10-10 15:35:22,846 | INFO    | TabPFN predict rows 129024:130048
+2026-10-10 15:35:23,432 | INFO    | TabPFN predict rows 130048:131072
+2026-10-10 15:35:24,011 | INFO    | TabPFN predict rows 131072:132096
+2026-10-10 15:35:24,599 | INFO    | TabPFN predict rows 132096:133120
+2026-10-10 15:35:25,194 | INFO    | TabPFN predict rows 133120:134144
+2026-10-10 15:35:25,783 | INFO    | TabPFN predict rows 134144:135168
+2026-10-10 15:35:26,378 | INFO    | TabPFN predict rows 135168:136192
+2026-10-10 15:35:26,968 | INFO    | TabPFN predict rows 136192:137216
+2026-10-10 15:35:27,554 | INFO    | TabPFN predict rows 137216:138240
+2026-10-10 15:35:28,140 | INFO    | TabPFN predict rows 138240:139264
+2026-10-10 15:35:28,728 | INFO    | TabPFN predict rows 139264:140288
+2026-10-10 15:35:29,315 | INFO    | TabPFN predict rows 140288:141312
+2026-10-10 15:35:29,905 | INFO    | TabPFN predict rows 141312:142336
+2026-10-10 15:35:30,492 | INFO    | TabPFN predict rows 142336:143360
+2026-10-10 15:35:31,085 | INFO    | TabPFN predict rows 143360:144384
+2026-10-10 15:35:31,686 | INFO    | TabPFN predict rows 144384:145408
+2026-10-10 15:35:32,281 | INFO    | TabPFN predict rows 145408:146432
+2026-10-10 15:35:32,877 | INFO    | TabPFN predict rows 146432:147456
+2026-10-10 15:35:33,464 | INFO    | TabPFN predict rows 147456:148480
+2026-10-10 15:35:34,057 | INFO    | TabPFN predict rows 148480:149504
+2026-10-10 15:35:34,651 | INFO    | TabPFN predict rows 149504:150528
+2026-10-10 15:35:35,248 | INFO    | TabPFN predict rows 150528:151552
+2026-10-10 15:35:35,839 | INFO    | TabPFN predict rows 151552:152576
+2026-10-10 15:35:36,439 | INFO    | TabPFN predict rows 152576:153600
+2026-10-10 15:35:37,033 | INFO    | TabPFN predict rows 153600:154624
+2026-10-10 15:35:37,629 | INFO    | TabPFN predict rows 154624:155648
+2026-10-10 15:35:38,218 | INFO    | TabPFN predict rows 155648:156672
+2026-10-10 15:35:38,809 | INFO    | TabPFN predict rows 156672:157696
+2026-10-10 15:35:39,398 | INFO    | TabPFN predict rows 157696:158720
+2026-10-10 15:35:39,978 | INFO    | TabPFN predict rows 158720:159744
+2026-10-10 15:35:40,561 | INFO    | TabPFN predict rows 159744:160768
+2026-10-10 15:35:41,146 | INFO    | TabPFN predict rows 160768:161792
+2026-10-10 15:35:41,737 | INFO    | TabPFN predict rows 161792:162816
+2026-10-10 15:35:42,322 | INFO    | TabPFN predict rows 162816:163840
+2026-10-10 15:35:42,904 | INFO    | TabPFN predict rows 163840:164864
+2026-10-10 15:35:43,490 | INFO    | TabPFN predict rows 164864:165888
+2026-10-10 15:35:44,073 | INFO    | TabPFN predict rows 165888:166912
+2026-10-10 15:35:44,661 | INFO    | TabPFN predict rows 166912:167936
+2026-10-10 15:35:45,257 | INFO    | TabPFN predict rows 167936:168960
+2026-10-10 15:35:45,846 | INFO    | TabPFN predict rows 168960:169984
+2026-10-10 15:35:46,431 | INFO    | TabPFN predict rows 169984:171008
+2026-10-10 15:35:47,026 | INFO    | TabPFN predict rows 171008:172032
+2026-10-10 15:35:47,612 | INFO    | TabPFN predict rows 172032:173056
+2026-10-10 15:35:48,194 | INFO    | TabPFN predict rows 173056:174080
+2026-10-10 15:35:48,786 | INFO    | TabPFN predict rows 174080:175104
+2026-10-10 15:35:49,367 | INFO    | TabPFN predict rows 175104:176128
+2026-10-10 15:35:49,954 | INFO    | TabPFN predict rows 176128:177152
+2026-10-10 15:35:50,545 | INFO    | TabPFN predict rows 177152:178176
+2026-10-10 15:35:51,147 | INFO    | TabPFN predict rows 178176:179200
+2026-10-10 15:35:51,736 | INFO    | TabPFN predict rows 179200:180224
+2026-10-10 15:35:52,322 | INFO    | TabPFN predict rows 180224:181248
+2026-10-10 15:35:52,910 | INFO    | TabPFN predict rows 181248:182272
+2026-10-10 15:35:53,494 | INFO    | TabPFN predict rows 182272:183296
+2026-10-10 15:35:54,085 | INFO    | TabPFN predict rows 183296:184320
+2026-10-10 15:35:54,673 | INFO    | TabPFN predict rows 184320:185344
+2026-10-10 15:35:55,261 | INFO    | TabPFN predict rows 185344:186368
+2026-10-10 15:35:55,858 | INFO    | TabPFN predict rows 186368:187392
+2026-10-10 15:35:56,451 | INFO    | TabPFN predict rows 187392:188416
+2026-10-10 15:35:57,047 | INFO    | TabPFN predict rows 188416:189440
+2026-10-10 15:35:57,632 | INFO    | TabPFN predict rows 189440:190464
+2026-10-10 15:35:58,219 | INFO    | TabPFN predict rows 190464:191488
+2026-10-10 15:35:58,810 | INFO    | TabPFN predict rows 191488:192512
+2026-10-10 15:35:59,394 | INFO    | TabPFN predict rows 192512:193536
+2026-10-10 15:35:59,992 | INFO    | TabPFN predict rows 193536:194560
+2026-10-10 15:36:00,577 | INFO    | TabPFN predict rows 194560:195584
+2026-10-10 15:36:01,160 | INFO    | TabPFN predict rows 195584:196608
+2026-10-10 15:36:01,756 | INFO    | TabPFN predict rows 196608:197632
+2026-10-10 15:36:02,342 | INFO    | TabPFN predict rows 197632:198656
+2026-10-10 15:36:02,925 | INFO    | TabPFN predict rows 198656:199680
+2026-10-10 15:36:03,506 | INFO    | TabPFN predict rows 199680:200704
+2026-10-10 15:36:04,093 | INFO    | TabPFN predict rows 200704:201728
+2026-10-10 15:36:04,685 | INFO    | TabPFN predict rows 201728:202752
+2026-10-10 15:36:05,272 | INFO    | TabPFN predict rows 202752:203776
+2026-10-10 15:36:05,863 | INFO    | TabPFN predict rows 203776:204800
+2026-10-10 15:36:06,454 | INFO    | TabPFN predict rows 204800:205824
+2026-10-10 15:36:07,042 | INFO    | TabPFN predict rows 205824:206848
+2026-10-10 15:36:07,636 | INFO    | TabPFN predict rows 206848:207872
+2026-10-10 15:36:08,229 | INFO    | TabPFN predict rows 207872:208896
+2026-10-10 15:36:08,819 | INFO    | TabPFN predict rows 208896:209920
+2026-10-10 15:36:09,414 | INFO    | TabPFN predict rows 209920:210944
+2026-10-10 15:36:09,995 | INFO    | TabPFN predict rows 210944:211968
+2026-10-10 15:36:10,586 | INFO    | TabPFN predict rows 211968:212992
+2026-10-10 15:36:11,173 | INFO    | TabPFN predict rows 212992:214016
+2026-10-10 15:36:11,765 | INFO    | TabPFN predict rows 214016:215040
+2026-10-10 15:36:12,360 | INFO    | TabPFN predict rows 215040:216064
+2026-10-10 15:36:12,947 | INFO    | TabPFN predict rows 216064:217088
+2026-10-10 15:36:13,533 | INFO    | TabPFN predict rows 217088:218112
+2026-10-10 15:36:14,115 | INFO    | TabPFN predict rows 218112:219136
+2026-10-10 15:36:14,704 | INFO    | TabPFN predict rows 219136:220160
+2026-10-10 15:36:15,295 | INFO    | TabPFN predict rows 220160:221184
+2026-10-10 15:36:15,884 | INFO    | TabPFN predict rows 221184:222208
+2026-10-10 15:36:16,470 | INFO    | TabPFN predict rows 222208:223232
+2026-10-10 15:36:17,060 | INFO    | TabPFN predict rows 223232:224256
+2026-10-10 15:36:17,644 | INFO    | TabPFN predict rows 224256:225280
+2026-10-10 15:36:18,223 | INFO    | TabPFN predict rows 225280:226304
+2026-10-10 15:36:18,801 | INFO    | TabPFN predict rows 226304:227328
+2026-10-10 15:36:19,383 | INFO    | TabPFN predict rows 227328:228352
+2026-10-10 15:36:19,963 | INFO    | TabPFN predict rows 228352:229376
+2026-10-10 15:36:20,544 | INFO    | TabPFN predict rows 229376:230400
+2026-10-10 15:36:21,131 | INFO    | TabPFN predict rows 230400:231424
+2026-10-10 15:36:21,717 | INFO    | TabPFN predict rows 231424:232448
+2026-10-10 15:36:22,308 | INFO    | TabPFN predict rows 232448:233472
+2026-10-10 15:36:22,895 | INFO    | TabPFN predict rows 233472:234496
+2026-10-10 15:36:23,478 | INFO    | TabPFN predict rows 234496:235520
+2026-10-10 15:36:24,062 | INFO    | TabPFN predict rows 235520:236544
+2026-10-10 15:36:24,650 | INFO    | TabPFN predict rows 236544:237568
+2026-10-10 15:36:25,237 | INFO    | TabPFN predict rows 237568:238592
+2026-10-10 15:36:25,819 | INFO    | TabPFN predict rows 238592:239616
+2026-10-10 15:36:26,411 | INFO    | TabPFN predict rows 239616:240640
+2026-10-10 15:36:26,996 | INFO    | TabPFN predict rows 240640:241664
+2026-10-10 15:36:27,584 | INFO    | TabPFN predict rows 241664:242688
+2026-10-10 15:36:28,166 | INFO    | TabPFN predict rows 242688:243712
+2026-10-10 15:36:28,753 | INFO    | TabPFN predict rows 243712:244736
+2026-10-10 15:36:29,337 | INFO    | TabPFN predict rows 244736:245760
+2026-10-10 15:36:29,918 | INFO    | TabPFN predict rows 245760:246784
+2026-10-10 15:36:30,495 | INFO    | TabPFN predict rows 246784:247808
+2026-10-10 15:36:31,073 | INFO    | TabPFN predict rows 247808:248832
+2026-10-10 15:36:31,657 | INFO    | TabPFN predict rows 248832:249856
+2026-10-10 15:36:32,238 | INFO    | TabPFN predict rows 249856:250880
+2026-10-10 15:36:32,822 | INFO    | TabPFN predict rows 250880:251904
+2026-10-10 15:36:33,409 | INFO    | TabPFN predict rows 251904:252928
+2026-10-10 15:36:33,995 | INFO    | TabPFN predict rows 252928:253952
+2026-10-10 15:36:34,577 | INFO    | TabPFN predict rows 253952:254976
+2026-10-10 15:36:35,157 | INFO    | TabPFN predict rows 254976:256000
+2026-10-10 15:36:35,736 | INFO    | TabPFN predict rows 256000:257024
+2026-10-10 15:36:36,318 | INFO    | TabPFN predict rows 257024:258048
+2026-10-10 15:36:36,905 | INFO    | TabPFN predict rows 258048:259072
+2026-10-10 15:36:37,495 | INFO    | TabPFN predict rows 259072:260096
+2026-10-10 15:36:38,073 | INFO    | TabPFN predict rows 260096:261120
+2026-10-10 15:36:38,651 | INFO    | TabPFN predict rows 261120:262144
+2026-10-10 15:36:39,230 | INFO    | TabPFN predict rows 262144:263168
+2026-10-10 15:36:39,814 | INFO    | TabPFN predict rows 263168:264192
+2026-10-10 15:36:40,402 | INFO    | TabPFN predict rows 264192:265216
+2026-10-10 15:36:40,985 | INFO    | TabPFN predict rows 265216:266240
+2026-10-10 15:36:41,626 | INFO    | TabPFN predict rows 266240:267264
+2026-10-10 15:36:42,211 | INFO    | TabPFN predict rows 267264:268288
+2026-10-10 15:36:42,797 | INFO    | TabPFN predict rows 268288:269312
+2026-10-10 15:36:43,379 | INFO    | TabPFN predict rows 269312:270336
+2026-10-10 15:36:43,959 | INFO    | TabPFN predict rows 270336:271360
+2026-10-10 15:36:44,542 | INFO    | TabPFN predict rows 271360:272384
+2026-10-10 15:36:45,122 | INFO    | TabPFN predict rows 272384:273408
+2026-10-10 15:36:45,706 | INFO    | TabPFN predict rows 273408:274432
+2026-10-10 15:36:46,295 | INFO    | TabPFN predict rows 274432:275456
+2026-10-10 15:36:46,885 | INFO    | TabPFN predict rows 275456:276480
+2026-10-10 15:36:47,473 | INFO    | TabPFN predict rows 276480:277504
+2026-10-10 15:36:48,061 | INFO    | TabPFN predict rows 277504:278528
+2026-10-10 15:36:48,647 | INFO    | TabPFN predict rows 278528:279552
+2026-10-10 15:36:49,231 | INFO    | TabPFN predict rows 279552:280576
+2026-10-10 15:36:49,815 | INFO    | TabPFN predict rows 280576:281600
+2026-10-10 15:36:50,396 | INFO    | TabPFN predict rows 281600:282624
+2026-10-10 15:36:50,977 | INFO    | TabPFN predict rows 282624:283648
+2026-10-10 15:36:51,557 | INFO    | TabPFN predict rows 283648:284672
+2026-10-10 15:36:52,138 | INFO    | TabPFN predict rows 284672:285696
+2026-10-10 15:36:52,723 | INFO    | TabPFN predict rows 285696:286720
+2026-10-10 15:36:53,310 | INFO    | TabPFN predict rows 286720:287744
+2026-10-10 15:36:53,896 | INFO    | TabPFN predict rows 287744:288768
+2026-10-10 15:36:54,482 | INFO    | TabPFN predict rows 288768:289792
+2026-10-10 15:36:55,067 | INFO    | TabPFN predict rows 289792:290816
+2026-10-10 15:36:55,652 | INFO    | TabPFN predict rows 290816:291840
+2026-10-10 15:36:56,237 | INFO    | TabPFN predict rows 291840:292864
+2026-10-10 15:36:56,825 | INFO    | TabPFN predict rows 292864:293888
+2026-10-10 15:36:57,411 | INFO    | TabPFN predict rows 293888:294912
+2026-10-10 15:36:57,999 | INFO    | TabPFN predict rows 294912:295936
+2026-10-10 15:36:58,586 | INFO    | TabPFN predict rows 295936:296960
+2026-10-10 15:36:59,171 | INFO    | TabPFN predict rows 296960:297984
+2026-10-10 15:36:59,754 | INFO    | TabPFN predict rows 297984:299008
+2026-10-10 15:37:00,342 | INFO    | TabPFN predict rows 299008:300032
+2026-10-10 15:37:00,924 | INFO    | TabPFN predict rows 300032:301056
+2026-10-10 15:37:01,510 | INFO    | TabPFN predict rows 301056:302080
+2026-10-10 15:37:02,093 | INFO    | TabPFN predict rows 302080:303104
+2026-10-10 15:37:02,683 | INFO    | TabPFN predict rows 303104:304128
+2026-10-10 15:37:03,265 | INFO    | TabPFN predict rows 304128:305152
+2026-10-10 15:37:03,846 | INFO    | TabPFN predict rows 305152:306176
+2026-10-10 15:37:04,428 | INFO    | TabPFN predict rows 306176:307200
+2026-10-10 15:37:05,009 | INFO    | TabPFN predict rows 307200:308224
+2026-10-10 15:37:05,589 | INFO    | TabPFN predict rows 308224:309248
+2026-10-10 15:37:06,169 | INFO    | TabPFN predict rows 309248:310272
+2026-10-10 15:37:06,751 | INFO    | TabPFN predict rows 310272:311296
+2026-10-10 15:37:07,334 | INFO    | TabPFN predict rows 311296:312320
+2026-10-10 15:37:07,920 | INFO    | TabPFN predict rows 312320:313344
+2026-10-10 15:37:08,508 | INFO    | TabPFN predict rows 313344:314368
+2026-10-10 15:37:09,094 | INFO    | TabPFN predict rows 314368:315392
+2026-10-10 15:37:09,675 | INFO    | TabPFN predict rows 315392:316416
+2026-10-10 15:37:10,257 | INFO    | TabPFN predict rows 316416:317440
+2026-10-10 15:37:10,838 | INFO    | TabPFN predict rows 317440:318464
+2026-10-10 15:37:11,425 | INFO    | TabPFN predict rows 318464:319488
+2026-10-10 15:37:12,013 | INFO    | TabPFN predict rows 319488:320512
+2026-10-10 15:37:12,606 | INFO    | TabPFN predict rows 320512:321536
+2026-10-10 15:37:13,189 | INFO    | TabPFN predict rows 321536:322560
+2026-10-10 15:37:13,773 | INFO    | TabPFN predict rows 322560:323584
+2026-10-10 15:37:14,360 | INFO    | TabPFN predict rows 323584:324608
+2026-10-10 15:37:14,950 | INFO    | TabPFN predict rows 324608:325632
+2026-10-10 15:37:15,533 | INFO    | TabPFN predict rows 325632:326656
+2026-10-10 15:37:16,115 | INFO    | TabPFN predict rows 326656:327680
+2026-10-10 15:37:16,699 | INFO    | TabPFN predict rows 327680:328704
+2026-10-10 15:37:17,289 | INFO    | TabPFN predict rows 328704:329728
+2026-10-10 15:37:17,876 | INFO    | TabPFN predict rows 329728:330752
+2026-10-10 15:37:18,465 | INFO    | TabPFN predict rows 330752:331776
+2026-10-10 15:37:19,051 | INFO    | TabPFN predict rows 331776:332800
+2026-10-10 15:37:19,637 | INFO    | TabPFN predict rows 332800:333824
+2026-10-10 15:37:20,220 | INFO    | TabPFN predict rows 333824:334848
+2026-10-10 15:37:20,805 | INFO    | TabPFN predict rows 334848:335872
+2026-10-10 15:37:21,385 | INFO    | TabPFN predict rows 335872:336896
+2026-10-10 15:37:21,973 | INFO    | TabPFN predict rows 336896:337920
+2026-10-10 15:37:22,562 | INFO    | TabPFN predict rows 337920:338944
+2026-10-10 15:37:23,152 | INFO    | TabPFN predict rows 338944:339968
+2026-10-10 15:37:23,743 | INFO    | TabPFN predict rows 339968:340992
+2026-10-10 15:37:24,333 | INFO    | TabPFN predict rows 340992:342016
+2026-10-10 15:37:24,926 | INFO    | TabPFN predict rows 342016:343040
+2026-10-10 15:37:25,509 | INFO    | TabPFN predict rows 343040:344064
+2026-10-10 15:37:26,095 | INFO    | TabPFN predict rows 344064:345088
+2026-10-10 15:37:26,682 | INFO    | TabPFN predict rows 345088:346112
+2026-10-10 15:37:27,273 | INFO    | TabPFN predict rows 346112:347136
+2026-10-10 15:37:27,855 | INFO    | TabPFN predict rows 347136:348160
+2026-10-10 15:37:28,441 | INFO    | TabPFN predict rows 348160:349184
+2026-10-10 15:37:29,029 | INFO    | TabPFN predict rows 349184:350208
+2026-10-10 15:37:29,619 | INFO    | TabPFN predict rows 350208:351232
+2026-10-10 15:37:30,203 | INFO    | TabPFN predict rows 351232:352256
+2026-10-10 15:37:30,784 | INFO    | TabPFN predict rows 352256:353280
+2026-10-10 15:37:31,371 | INFO    | TabPFN predict rows 353280:354304
+2026-10-10 15:37:31,955 | INFO    | TabPFN predict rows 354304:355328
+2026-10-10 15:37:32,545 | INFO    | TabPFN predict rows 355328:356352
+2026-10-10 15:37:33,132 | INFO    | TabPFN predict rows 356352:357376
+2026-10-10 15:37:33,721 | INFO    | TabPFN predict rows 357376:358400
+2026-10-10 15:37:34,312 | INFO    | TabPFN predict rows 358400:359424
+2026-10-10 15:37:34,897 | INFO    | TabPFN predict rows 359424:360448
+2026-10-10 15:37:35,482 | INFO    | TabPFN predict rows 360448:361472
+2026-10-10 15:37:36,063 | INFO    | TabPFN predict rows 361472:362496
+2026-10-10 15:37:36,646 | INFO    | TabPFN predict rows 362496:363520
+2026-10-10 15:37:37,228 | INFO    | TabPFN predict rows 363520:364544
+2026-10-10 15:37:37,811 | INFO    | TabPFN predict rows 364544:365568
+2026-10-10 15:37:38,388 | INFO    | TabPFN predict rows 365568:366592
+2026-10-10 15:37:38,971 | INFO    | TabPFN predict rows 366592:367616
+2026-10-10 15:37:39,547 | INFO    | TabPFN predict rows 367616:368640
+2026-10-10 15:37:40,129 | INFO    | TabPFN predict rows 368640:369664
+2026-10-10 15:37:40,716 | INFO    | TabPFN predict rows 369664:370688
+2026-10-10 15:37:41,301 | INFO    | TabPFN predict rows 370688:371712
+2026-10-10 15:37:41,886 | INFO    | TabPFN predict rows 371712:372736
+2026-10-10 15:37:42,474 | INFO    | TabPFN predict rows 372736:373760
+2026-10-10 15:37:43,061 | INFO    | TabPFN predict rows 373760:374784
+2026-10-10 15:37:43,644 | INFO    | TabPFN predict rows 374784:375808
+2026-10-10 15:37:44,227 | INFO    | TabPFN predict rows 375808:376832
+2026-10-10 15:37:44,807 | INFO    | TabPFN predict rows 376832:377856
+2026-10-10 15:37:45,390 | INFO    | TabPFN predict rows 377856:378880
+2026-10-10 15:37:45,972 | INFO    | TabPFN predict rows 378880:379904
+2026-10-10 15:37:46,555 | INFO    | TabPFN predict rows 379904:380928
+2026-10-10 15:37:47,144 | INFO    | TabPFN predict rows 380928:381952
+2026-10-10 15:37:47,728 | INFO    | TabPFN predict rows 381952:382976
+2026-10-10 15:37:48,313 | INFO    | TabPFN predict rows 382976:384000
+2026-10-10 15:37:48,901 | INFO    | TabPFN predict rows 384000:385024
+2026-10-10 15:37:49,487 | INFO    | TabPFN predict rows 385024:386048
+2026-10-10 15:37:50,069 | INFO    | TabPFN predict rows 386048:387072
+2026-10-10 15:37:50,650 | INFO    | TabPFN predict rows 387072:388096
+2026-10-10 15:37:51,229 | INFO    | TabPFN predict rows 388096:389120
+2026-10-10 15:37:51,809 | INFO    | TabPFN predict rows 389120:390144
+2026-10-10 15:37:52,384 | INFO    | TabPFN predict rows 390144:391168
+2026-10-10 15:37:52,963 | INFO    | TabPFN predict rows 391168:392192
+2026-10-10 15:37:53,545 | INFO    | TabPFN predict rows 392192:393216
+2026-10-10 15:37:54,126 | INFO    | TabPFN predict rows 393216:394240
+2026-10-10 15:37:54,709 | INFO    | TabPFN predict rows 394240:395264
+2026-10-10 15:37:55,293 | INFO    | TabPFN predict rows 395264:396288
+2026-10-10 15:37:55,873 | INFO    | TabPFN predict rows 396288:397312
+2026-10-10 15:37:56,455 | INFO    | TabPFN predict rows 397312:398336
+2026-10-10 15:37:57,037 | INFO    | TabPFN predict rows 398336:399360
+2026-10-10 15:37:57,619 | INFO    | TabPFN predict rows 399360:400384
+2026-10-10 15:37:58,198 | INFO    | TabPFN predict rows 400384:401408
+2026-10-10 15:37:58,784 | INFO    | TabPFN predict rows 401408:402432
+2026-10-10 15:37:59,368 | INFO    | TabPFN predict rows 402432:402855
+2026-10-10 15:37:59,930 | INFO    | DONE  TabPFN predict (402855 rows) (258.4s)
+2026-10-10 15:37:59,944 | INFO    | DONE  tabpfn on item-plant (269.8s)
+2026-10-10 15:38:00,723 | INFO    | item-plant accuracy=0.9890 on n=402855
+2026-10-10 15:38:02,163 | INFO    | START tabpfn on item-shippoint
+2026-10-10 15:38:02,594 | INFO    | SHIPPINGPOINT: TabPFN context=8000 rows, test=402855 rows, 57 classes in context
+2026-10-10 15:38:02,594 | INFO    | START build features
+2026-10-10 15:38:03,163 | INFO    | DONE  build features (0.6s)
+2026-10-10 15:38:03,482 | INFO    | START TabPFN fit
+2026-10-10 15:38:04,089 | INFO    | DONE  TabPFN fit (0.6s)
+2026-10-10 15:38:04,089 | INFO    | START TabPFN predict (402855 rows)
+2026-10-10 15:38:04,089 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 15:38:04,851 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 15:38:05,506 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 15:38:06,089 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 15:38:06,667 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 15:38:07,246 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 15:38:07,828 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 15:38:08,404 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 15:38:08,984 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 15:38:09,567 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 15:38:10,154 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 15:38:10,730 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 15:38:11,315 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 15:38:11,896 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 15:38:12,474 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 15:38:13,049 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 15:38:13,629 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 15:38:14,208 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 15:38:14,784 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 15:38:15,363 | INFO    | TabPFN predict rows 19456:20480
+2026-10-10 15:38:15,941 | INFO    | TabPFN predict rows 20480:21504
+2026-10-10 15:38:16,523 | INFO    | TabPFN predict rows 21504:22528
+2026-10-10 15:38:17,098 | INFO    | TabPFN predict rows 22528:23552
+2026-10-10 15:38:17,680 | INFO    | TabPFN predict rows 23552:24576
+2026-10-10 15:38:18,252 | INFO    | TabPFN predict rows 24576:25600
+2026-10-10 15:38:18,826 | INFO    | TabPFN predict rows 25600:26624
+2026-10-10 15:38:19,405 | INFO    | TabPFN predict rows 26624:27648
+2026-10-10 15:38:19,985 | INFO    | TabPFN predict rows 27648:28672
+2026-10-10 15:38:20,564 | INFO    | TabPFN predict rows 28672:29696
+2026-10-10 15:38:21,143 | INFO    | TabPFN predict rows 29696:30720
+2026-10-10 15:38:21,720 | INFO    | TabPFN predict rows 30720:31744
+2026-10-10 15:38:22,298 | INFO    | TabPFN predict rows 31744:32768
+2026-10-10 15:38:22,868 | INFO    | TabPFN predict rows 32768:33792
+2026-10-10 15:38:23,449 | INFO    | TabPFN predict rows 33792:34816
+2026-10-10 15:38:24,028 | INFO    | TabPFN predict rows 34816:35840
+2026-10-10 15:38:24,612 | INFO    | TabPFN predict rows 35840:36864
+2026-10-10 15:38:25,192 | INFO    | TabPFN predict rows 36864:37888
+2026-10-10 15:38:25,772 | INFO    | TabPFN predict rows 37888:38912
+2026-10-10 15:38:26,355 | INFO    | TabPFN predict rows 38912:39936
+2026-10-10 15:38:26,935 | INFO    | TabPFN predict rows 39936:40960
+2026-10-10 15:38:27,512 | INFO    | TabPFN predict rows 40960:41984
+2026-10-10 15:38:28,097 | INFO    | TabPFN predict rows 41984:43008
+2026-10-10 15:38:28,680 | INFO    | TabPFN predict rows 43008:44032
+2026-10-10 15:38:29,259 | INFO    | TabPFN predict rows 44032:45056
+2026-10-10 15:38:29,841 | INFO    | TabPFN predict rows 45056:46080
+2026-10-10 15:38:30,421 | INFO    | TabPFN predict rows 46080:47104
+2026-10-10 15:38:31,004 | INFO    | TabPFN predict rows 47104:48128
+2026-10-10 15:38:31,585 | INFO    | TabPFN predict rows 48128:49152
+2026-10-10 15:38:32,165 | INFO    | TabPFN predict rows 49152:50176
+2026-10-10 15:38:32,751 | INFO    | TabPFN predict rows 50176:51200
+2026-10-10 15:38:33,330 | INFO    | TabPFN predict rows 51200:52224
+2026-10-10 15:38:33,910 | INFO    | TabPFN predict rows 52224:53248
+2026-10-10 15:38:34,486 | INFO    | TabPFN predict rows 53248:54272
+2026-10-10 15:38:35,066 | INFO    | TabPFN predict rows 54272:55296
+2026-10-10 15:38:35,643 | INFO    | TabPFN predict rows 55296:56320
+2026-10-10 15:38:36,224 | INFO    | TabPFN predict rows 56320:57344
+2026-10-10 15:38:36,807 | INFO    | TabPFN predict rows 57344:58368
+2026-10-10 15:38:37,391 | INFO    | TabPFN predict rows 58368:59392
+2026-10-10 15:38:37,971 | INFO    | TabPFN predict rows 59392:60416
+2026-10-10 15:38:38,551 | INFO    | TabPFN predict rows 60416:61440
+2026-10-10 15:38:39,124 | INFO    | TabPFN predict rows 61440:62464
+2026-10-10 15:38:39,702 | INFO    | TabPFN predict rows 62464:63488
+2026-10-10 15:38:40,291 | INFO    | TabPFN predict rows 63488:64512
+2026-10-10 15:38:40,874 | INFO    | TabPFN predict rows 64512:65536
+2026-10-10 15:38:41,458 | INFO    | TabPFN predict rows 65536:66560
+2026-10-10 15:38:42,041 | INFO    | TabPFN predict rows 66560:67584
+2026-10-10 15:38:42,628 | INFO    | TabPFN predict rows 67584:68608
+2026-10-10 15:38:43,215 | INFO    | TabPFN predict rows 68608:69632
+2026-10-10 15:38:43,803 | INFO    | TabPFN predict rows 69632:70656
+2026-10-10 15:38:44,389 | INFO    | TabPFN predict rows 70656:71680
+2026-10-10 15:38:44,972 | INFO    | TabPFN predict rows 71680:72704
+2026-10-10 15:38:45,548 | INFO    | TabPFN predict rows 72704:73728
+2026-10-10 15:38:46,128 | INFO    | TabPFN predict rows 73728:74752
+2026-10-10 15:38:46,715 | INFO    | TabPFN predict rows 74752:75776
+2026-10-10 15:38:47,305 | INFO    | TabPFN predict rows 75776:76800
+2026-10-10 15:38:47,897 | INFO    | TabPFN predict rows 76800:77824
+2026-10-10 15:38:48,487 | INFO    | TabPFN predict rows 77824:78848
+2026-10-10 15:38:49,076 | INFO    | TabPFN predict rows 78848:79872
+2026-10-10 15:38:49,665 | INFO    | TabPFN predict rows 79872:80896
+2026-10-10 15:38:50,253 | INFO    | TabPFN predict rows 80896:81920
+2026-10-10 15:38:50,837 | INFO    | TabPFN predict rows 81920:82944
+2026-10-10 15:38:51,423 | INFO    | TabPFN predict rows 82944:83968
+2026-10-10 15:38:52,010 | INFO    | TabPFN predict rows 83968:84992
+2026-10-10 15:38:52,602 | INFO    | TabPFN predict rows 84992:86016
+2026-10-10 15:38:53,190 | INFO    | TabPFN predict rows 86016:87040
+2026-10-10 15:38:53,777 | INFO    | TabPFN predict rows 87040:88064
+2026-10-10 15:38:54,361 | INFO    | TabPFN predict rows 88064:89088
+2026-10-10 15:38:54,945 | INFO    | TabPFN predict rows 89088:90112
+2026-10-10 15:38:55,526 | INFO    | TabPFN predict rows 90112:91136
+2026-10-10 15:38:56,108 | INFO    | TabPFN predict rows 91136:92160
+2026-10-10 15:38:56,690 | INFO    | TabPFN predict rows 92160:93184
+2026-10-10 15:38:57,279 | INFO    | TabPFN predict rows 93184:94208
+2026-10-10 15:38:57,861 | INFO    | TabPFN predict rows 94208:95232
+2026-10-10 15:38:58,445 | INFO    | TabPFN predict rows 95232:96256
+2026-10-10 15:38:59,036 | INFO    | TabPFN predict rows 96256:97280
+2026-10-10 15:38:59,626 | INFO    | TabPFN predict rows 97280:98304
+2026-10-10 15:39:00,207 | INFO    | TabPFN predict rows 98304:99328
+2026-10-10 15:39:00,787 | INFO    | TabPFN predict rows 99328:100352
+2026-10-10 15:39:01,364 | INFO    | TabPFN predict rows 100352:101376
+2026-10-10 15:39:01,948 | INFO    | TabPFN predict rows 101376:102400
+2026-10-10 15:39:02,532 | INFO    | TabPFN predict rows 102400:103424
+2026-10-10 15:39:03,107 | INFO    | TabPFN predict rows 103424:104448
+2026-10-10 15:39:03,691 | INFO    | TabPFN predict rows 104448:105472
+2026-10-10 15:39:04,275 | INFO    | TabPFN predict rows 105472:106496
+2026-10-10 15:39:04,858 | INFO    | TabPFN predict rows 106496:107520
+2026-10-10 15:39:05,438 | INFO    | TabPFN predict rows 107520:108544
+2026-10-10 15:39:06,018 | INFO    | TabPFN predict rows 108544:109568
+2026-10-10 15:39:06,595 | INFO    | TabPFN predict rows 109568:110592
+2026-10-10 15:39:07,175 | INFO    | TabPFN predict rows 110592:111616
+2026-10-10 15:39:07,752 | INFO    | TabPFN predict rows 111616:112640
+2026-10-10 15:39:08,333 | INFO    | TabPFN predict rows 112640:113664
+2026-10-10 15:39:08,917 | INFO    | TabPFN predict rows 113664:114688
+2026-10-10 15:39:09,506 | INFO    | TabPFN predict rows 114688:115712
+2026-10-10 15:39:10,097 | INFO    | TabPFN predict rows 115712:116736
+2026-10-10 15:39:10,683 | INFO    | TabPFN predict rows 116736:117760
+2026-10-10 15:39:11,267 | INFO    | TabPFN predict rows 117760:118784
+2026-10-10 15:39:11,854 | INFO    | TabPFN predict rows 118784:119808
+2026-10-10 15:39:12,440 | INFO    | TabPFN predict rows 119808:120832
+2026-10-10 15:39:13,025 | INFO    | TabPFN predict rows 120832:121856
+2026-10-10 15:39:13,615 | INFO    | TabPFN predict rows 121856:122880
+2026-10-10 15:39:14,204 | INFO    | TabPFN predict rows 122880:123904
+2026-10-10 15:39:14,791 | INFO    | TabPFN predict rows 123904:124928
+2026-10-10 15:39:15,367 | INFO    | TabPFN predict rows 124928:125952
+2026-10-10 15:39:15,941 | INFO    | TabPFN predict rows 125952:126976
+2026-10-10 15:39:16,518 | INFO    | TabPFN predict rows 126976:128000
+2026-10-10 15:39:17,101 | INFO    | TabPFN predict rows 128000:129024
+2026-10-10 15:39:17,681 | INFO    | TabPFN predict rows 129024:130048
+2026-10-10 15:39:18,265 | INFO    | TabPFN predict rows 130048:131072
+2026-10-10 15:39:18,845 | INFO    | TabPFN predict rows 131072:132096
+2026-10-10 15:39:19,425 | INFO    | TabPFN predict rows 132096:133120
+2026-10-10 15:39:20,003 | INFO    | TabPFN predict rows 133120:134144
+2026-10-10 15:39:20,580 | INFO    | TabPFN predict rows 134144:135168
+2026-10-10 15:39:21,159 | INFO    | TabPFN predict rows 135168:136192
+2026-10-10 15:39:21,740 | INFO    | TabPFN predict rows 136192:137216
+2026-10-10 15:39:22,320 | INFO    | TabPFN predict rows 137216:138240
+2026-10-10 15:39:22,896 | INFO    | TabPFN predict rows 138240:139264
+2026-10-10 15:39:23,474 | INFO    | TabPFN predict rows 139264:140288
+2026-10-10 15:39:24,053 | INFO    | TabPFN predict rows 140288:141312
+2026-10-10 15:39:24,633 | INFO    | TabPFN predict rows 141312:142336
+2026-10-10 15:39:25,208 | INFO    | TabPFN predict rows 142336:143360
+2026-10-10 15:39:25,783 | INFO    | TabPFN predict rows 143360:144384
+2026-10-10 15:39:26,361 | INFO    | TabPFN predict rows 144384:145408
+2026-10-10 15:39:26,937 | INFO    | TabPFN predict rows 145408:146432
+2026-10-10 15:39:27,517 | INFO    | TabPFN predict rows 146432:147456
+2026-10-10 15:39:28,095 | INFO    | TabPFN predict rows 147456:148480
+2026-10-10 15:39:28,676 | INFO    | TabPFN predict rows 148480:149504
+2026-10-10 15:39:29,255 | INFO    | TabPFN predict rows 149504:150528
+2026-10-10 15:39:29,832 | INFO    | TabPFN predict rows 150528:151552
+2026-10-10 15:39:30,409 | INFO    | TabPFN predict rows 151552:152576
+2026-10-10 15:39:30,989 | INFO    | TabPFN predict rows 152576:153600
+2026-10-10 15:39:31,572 | INFO    | TabPFN predict rows 153600:154624
+2026-10-10 15:39:32,152 | INFO    | TabPFN predict rows 154624:155648
+2026-10-10 15:39:32,736 | INFO    | TabPFN predict rows 155648:156672
+2026-10-10 15:39:33,317 | INFO    | TabPFN predict rows 156672:157696
+2026-10-10 15:39:33,899 | INFO    | TabPFN predict rows 157696:158720
+2026-10-10 15:39:34,477 | INFO    | TabPFN predict rows 158720:159744
+2026-10-10 15:39:35,057 | INFO    | TabPFN predict rows 159744:160768
+2026-10-10 15:39:35,636 | INFO    | TabPFN predict rows 160768:161792
+2026-10-10 15:39:36,207 | INFO    | TabPFN predict rows 161792:162816
+2026-10-10 15:39:36,785 | INFO    | TabPFN predict rows 162816:163840
+2026-10-10 15:39:37,367 | INFO    | TabPFN predict rows 163840:164864
+2026-10-10 15:39:37,940 | INFO    | TabPFN predict rows 164864:165888
+2026-10-10 15:39:38,514 | INFO    | TabPFN predict rows 165888:166912
+2026-10-10 15:39:39,087 | INFO    | TabPFN predict rows 166912:167936
+2026-10-10 15:39:39,661 | INFO    | TabPFN predict rows 167936:168960
+2026-10-10 15:39:40,241 | INFO    | TabPFN predict rows 168960:169984
+2026-10-10 15:39:40,817 | INFO    | TabPFN predict rows 169984:171008
+2026-10-10 15:39:41,393 | INFO    | TabPFN predict rows 171008:172032
+2026-10-10 15:39:41,973 | INFO    | TabPFN predict rows 172032:173056
+2026-10-10 15:39:42,558 | INFO    | TabPFN predict rows 173056:174080
+2026-10-10 15:39:43,142 | INFO    | TabPFN predict rows 174080:175104
+2026-10-10 15:39:43,718 | INFO    | TabPFN predict rows 175104:176128
+2026-10-10 15:39:44,303 | INFO    | TabPFN predict rows 176128:177152
+2026-10-10 15:39:44,887 | INFO    | TabPFN predict rows 177152:178176
+2026-10-10 15:39:45,474 | INFO    | TabPFN predict rows 178176:179200
+2026-10-10 15:39:46,053 | INFO    | TabPFN predict rows 179200:180224
+2026-10-10 15:39:46,636 | INFO    | TabPFN predict rows 180224:181248
+2026-10-10 15:39:47,222 | INFO    | TabPFN predict rows 181248:182272
+2026-10-10 15:39:47,803 | INFO    | TabPFN predict rows 182272:183296
+2026-10-10 15:39:48,388 | INFO    | TabPFN predict rows 183296:184320
+2026-10-10 15:39:48,966 | INFO    | TabPFN predict rows 184320:185344
+2026-10-10 15:39:49,551 | INFO    | TabPFN predict rows 185344:186368
+2026-10-10 15:39:50,141 | INFO    | TabPFN predict rows 186368:187392
+2026-10-10 15:39:50,730 | INFO    | TabPFN predict rows 187392:188416
+2026-10-10 15:39:51,314 | INFO    | TabPFN predict rows 188416:189440
+2026-10-10 15:39:51,902 | INFO    | TabPFN predict rows 189440:190464
+2026-10-10 15:39:52,492 | INFO    | TabPFN predict rows 190464:191488
+2026-10-10 15:39:53,075 | INFO    | TabPFN predict rows 191488:192512
+2026-10-10 15:39:53,660 | INFO    | TabPFN predict rows 192512:193536
+2026-10-10 15:39:54,248 | INFO    | TabPFN predict rows 193536:194560
+2026-10-10 15:39:54,835 | INFO    | TabPFN predict rows 194560:195584
+2026-10-10 15:39:55,419 | INFO    | TabPFN predict rows 195584:196608
+2026-10-10 15:39:56,002 | INFO    | TabPFN predict rows 196608:197632
+2026-10-10 15:39:56,586 | INFO    | TabPFN predict rows 197632:198656
+2026-10-10 15:39:57,173 | INFO    | TabPFN predict rows 198656:199680
+2026-10-10 15:39:57,758 | INFO    | TabPFN predict rows 199680:200704
+2026-10-10 15:39:58,341 | INFO    | TabPFN predict rows 200704:201728
+2026-10-10 15:39:58,923 | INFO    | TabPFN predict rows 201728:202752
+2026-10-10 15:39:59,503 | INFO    | TabPFN predict rows 202752:203776
+2026-10-10 15:40:00,084 | INFO    | TabPFN predict rows 203776:204800
+2026-10-10 15:40:00,667 | INFO    | TabPFN predict rows 204800:205824
+2026-10-10 15:40:01,252 | INFO    | TabPFN predict rows 205824:206848
+2026-10-10 15:40:01,842 | INFO    | TabPFN predict rows 206848:207872
+2026-10-10 15:40:02,435 | INFO    | TabPFN predict rows 207872:208896
+2026-10-10 15:40:03,015 | INFO    | TabPFN predict rows 208896:209920
+2026-10-10 15:40:03,597 | INFO    | TabPFN predict rows 209920:210944
+2026-10-10 15:40:04,178 | INFO    | TabPFN predict rows 210944:211968
+2026-10-10 15:40:04,761 | INFO    | TabPFN predict rows 211968:212992
+2026-10-10 15:40:05,340 | INFO    | TabPFN predict rows 212992:214016
+2026-10-10 15:40:05,919 | INFO    | TabPFN predict rows 214016:215040
+2026-10-10 15:40:06,497 | INFO    | TabPFN predict rows 215040:216064
+2026-10-10 15:40:07,079 | INFO    | TabPFN predict rows 216064:217088
+2026-10-10 15:40:07,656 | INFO    | TabPFN predict rows 217088:218112
+2026-10-10 15:40:08,238 | INFO    | TabPFN predict rows 218112:219136
+2026-10-10 15:40:08,818 | INFO    | TabPFN predict rows 219136:220160
+2026-10-10 15:40:09,400 | INFO    | TabPFN predict rows 220160:221184
+2026-10-10 15:40:09,983 | INFO    | TabPFN predict rows 221184:222208
+2026-10-10 15:40:10,561 | INFO    | TabPFN predict rows 222208:223232
+2026-10-10 15:40:11,138 | INFO    | TabPFN predict rows 223232:224256
+2026-10-10 15:40:11,720 | INFO    | TabPFN predict rows 224256:225280
+2026-10-10 15:40:12,296 | INFO    | TabPFN predict rows 225280:226304
+2026-10-10 15:40:12,880 | INFO    | TabPFN predict rows 226304:227328
+2026-10-10 15:40:13,466 | INFO    | TabPFN predict rows 227328:228352
+2026-10-10 15:40:14,051 | INFO    | TabPFN predict rows 228352:229376
+2026-10-10 15:40:14,628 | INFO    | TabPFN predict rows 229376:230400
+2026-10-10 15:40:15,208 | INFO    | TabPFN predict rows 230400:231424
+2026-10-10 15:40:15,792 | INFO    | TabPFN predict rows 231424:232448
+2026-10-10 15:40:16,376 | INFO    | TabPFN predict rows 232448:233472
+2026-10-10 15:40:16,957 | INFO    | TabPFN predict rows 233472:234496
+2026-10-10 15:40:17,542 | INFO    | TabPFN predict rows 234496:235520
+2026-10-10 15:40:18,125 | INFO    | TabPFN predict rows 235520:236544
+2026-10-10 15:40:18,711 | INFO    | TabPFN predict rows 236544:237568
+2026-10-10 15:40:19,299 | INFO    | TabPFN predict rows 237568:238592
+2026-10-10 15:40:19,880 | INFO    | TabPFN predict rows 238592:239616
+2026-10-10 15:40:20,463 | INFO    | TabPFN predict rows 239616:240640
+2026-10-10 15:40:21,042 | INFO    | TabPFN predict rows 240640:241664
+2026-10-10 15:40:21,638 | INFO    | TabPFN predict rows 241664:242688
+2026-10-10 15:40:22,227 | INFO    | TabPFN predict rows 242688:243712
+2026-10-10 15:40:22,812 | INFO    | TabPFN predict rows 243712:244736
+2026-10-10 15:40:23,394 | INFO    | TabPFN predict rows 244736:245760
+2026-10-10 15:40:23,970 | INFO    | TabPFN predict rows 245760:246784
+2026-10-10 15:40:24,549 | INFO    | TabPFN predict rows 246784:247808
+2026-10-10 15:40:25,126 | INFO    | TabPFN predict rows 247808:248832
+2026-10-10 15:40:25,705 | INFO    | TabPFN predict rows 248832:249856
+2026-10-10 15:40:26,277 | INFO    | TabPFN predict rows 249856:250880
+2026-10-10 15:40:26,855 | INFO    | TabPFN predict rows 250880:251904
+2026-10-10 15:40:27,435 | INFO    | TabPFN predict rows 251904:252928
+2026-10-10 15:40:28,019 | INFO    | TabPFN predict rows 252928:253952
+2026-10-10 15:40:28,598 | INFO    | TabPFN predict rows 253952:254976
+2026-10-10 15:40:29,179 | INFO    | TabPFN predict rows 254976:256000
+2026-10-10 15:40:29,767 | INFO    | TabPFN predict rows 256000:257024
+2026-10-10 15:40:30,352 | INFO    | TabPFN predict rows 257024:258048
+2026-10-10 15:40:30,936 | INFO    | TabPFN predict rows 258048:259072
+2026-10-10 15:40:31,522 | INFO    | TabPFN predict rows 259072:260096
+2026-10-10 15:40:32,100 | INFO    | TabPFN predict rows 260096:261120
+2026-10-10 15:40:32,682 | INFO    | TabPFN predict rows 261120:262144
+2026-10-10 15:40:33,265 | INFO    | TabPFN predict rows 262144:263168
+2026-10-10 15:40:33,841 | INFO    | TabPFN predict rows 263168:264192
+2026-10-10 15:40:34,422 | INFO    | TabPFN predict rows 264192:265216
+2026-10-10 15:40:34,998 | INFO    | TabPFN predict rows 265216:266240
+2026-10-10 15:40:35,576 | INFO    | TabPFN predict rows 266240:267264
+2026-10-10 15:40:36,157 | INFO    | TabPFN predict rows 267264:268288
+2026-10-10 15:40:36,743 | INFO    | TabPFN predict rows 268288:269312
+2026-10-10 15:40:37,330 | INFO    | TabPFN predict rows 269312:270336
+2026-10-10 15:40:37,916 | INFO    | TabPFN predict rows 270336:271360
+2026-10-10 15:40:38,501 | INFO    | TabPFN predict rows 271360:272384
+2026-10-10 15:40:39,083 | INFO    | TabPFN predict rows 272384:273408
+2026-10-10 15:40:39,667 | INFO    | TabPFN predict rows 273408:274432
+2026-10-10 15:40:40,241 | INFO    | TabPFN predict rows 274432:275456
+2026-10-10 15:40:40,823 | INFO    | TabPFN predict rows 275456:276480
+2026-10-10 15:40:41,399 | INFO    | TabPFN predict rows 276480:277504
+2026-10-10 15:40:41,978 | INFO    | TabPFN predict rows 277504:278528
+2026-10-10 15:40:42,560 | INFO    | TabPFN predict rows 278528:279552
+2026-10-10 15:40:43,142 | INFO    | TabPFN predict rows 279552:280576
+2026-10-10 15:40:43,722 | INFO    | TabPFN predict rows 280576:281600
+2026-10-10 15:40:44,296 | INFO    | TabPFN predict rows 281600:282624
+2026-10-10 15:40:44,879 | INFO    | TabPFN predict rows 282624:283648
+2026-10-10 15:40:45,458 | INFO    | TabPFN predict rows 283648:284672
+2026-10-10 15:40:46,045 | INFO    | TabPFN predict rows 284672:285696
+2026-10-10 15:40:46,629 | INFO    | TabPFN predict rows 285696:286720
+2026-10-10 15:40:47,211 | INFO    | TabPFN predict rows 286720:287744
+2026-10-10 15:40:47,794 | INFO    | TabPFN predict rows 287744:288768
+2026-10-10 15:40:48,375 | INFO    | TabPFN predict rows 288768:289792
+2026-10-10 15:40:48,958 | INFO    | TabPFN predict rows 289792:290816
+2026-10-10 15:40:49,544 | INFO    | TabPFN predict rows 290816:291840
+2026-10-10 15:40:50,134 | INFO    | TabPFN predict rows 291840:292864
+2026-10-10 15:40:50,715 | INFO    | TabPFN predict rows 292864:293888
+2026-10-10 15:40:51,295 | INFO    | TabPFN predict rows 293888:294912
+2026-10-10 15:40:51,879 | INFO    | TabPFN predict rows 294912:295936
+2026-10-10 15:40:52,464 | INFO    | TabPFN predict rows 295936:296960
+2026-10-10 15:40:53,048 | INFO    | TabPFN predict rows 296960:297984
+2026-10-10 15:40:53,626 | INFO    | TabPFN predict rows 297984:299008
+2026-10-10 15:40:54,203 | INFO    | TabPFN predict rows 299008:300032
+2026-10-10 15:40:54,785 | INFO    | TabPFN predict rows 300032:301056
+2026-10-10 15:40:55,364 | INFO    | TabPFN predict rows 301056:302080
+2026-10-10 15:40:55,941 | INFO    | TabPFN predict rows 302080:303104
+2026-10-10 15:40:56,521 | INFO    | TabPFN predict rows 303104:304128
+2026-10-10 15:40:57,099 | INFO    | TabPFN predict rows 304128:305152
+2026-10-10 15:40:57,677 | INFO    | TabPFN predict rows 305152:306176
+2026-10-10 15:40:58,261 | INFO    | TabPFN predict rows 306176:307200
+2026-10-10 15:40:58,845 | INFO    | TabPFN predict rows 307200:308224
+2026-10-10 15:40:59,427 | INFO    | TabPFN predict rows 308224:309248
+2026-10-10 15:41:00,004 | INFO    | TabPFN predict rows 309248:310272
+2026-10-10 15:41:00,584 | INFO    | TabPFN predict rows 310272:311296
+2026-10-10 15:41:01,164 | INFO    | TabPFN predict rows 311296:312320
+2026-10-10 15:41:01,747 | INFO    | TabPFN predict rows 312320:313344
+2026-10-10 15:41:02,327 | INFO    | TabPFN predict rows 313344:314368
+2026-10-10 15:41:02,906 | INFO    | TabPFN predict rows 314368:315392
+2026-10-10 15:41:03,490 | INFO    | TabPFN predict rows 315392:316416
+2026-10-10 15:41:04,064 | INFO    | TabPFN predict rows 316416:317440
+2026-10-10 15:41:04,644 | INFO    | TabPFN predict rows 317440:318464
+2026-10-10 15:41:05,229 | INFO    | TabPFN predict rows 318464:319488
+2026-10-10 15:41:05,813 | INFO    | TabPFN predict rows 319488:320512
+2026-10-10 15:41:06,396 | INFO    | TabPFN predict rows 320512:321536
+2026-10-10 15:41:06,970 | INFO    | TabPFN predict rows 321536:322560
+2026-10-10 15:41:07,547 | INFO    | TabPFN predict rows 322560:323584
+2026-10-10 15:41:08,129 | INFO    | TabPFN predict rows 323584:324608
+2026-10-10 15:41:08,713 | INFO    | TabPFN predict rows 324608:325632
+2026-10-10 15:41:09,296 | INFO    | TabPFN predict rows 325632:326656
+2026-10-10 15:41:09,874 | INFO    | TabPFN predict rows 326656:327680
+2026-10-10 15:41:10,455 | INFO    | TabPFN predict rows 327680:328704
+2026-10-10 15:41:11,023 | INFO    | TabPFN predict rows 328704:329728
+2026-10-10 15:41:11,594 | INFO    | TabPFN predict rows 329728:330752
+2026-10-10 15:41:12,165 | INFO    | TabPFN predict rows 330752:331776
+2026-10-10 15:41:12,745 | INFO    | TabPFN predict rows 331776:332800
+2026-10-10 15:41:13,322 | INFO    | TabPFN predict rows 332800:333824
+2026-10-10 15:41:13,900 | INFO    | TabPFN predict rows 333824:334848
+2026-10-10 15:41:14,480 | INFO    | TabPFN predict rows 334848:335872
+2026-10-10 15:41:15,056 | INFO    | TabPFN predict rows 335872:336896
+2026-10-10 15:41:15,636 | INFO    | TabPFN predict rows 336896:337920
+2026-10-10 15:41:16,222 | INFO    | TabPFN predict rows 337920:338944
+2026-10-10 15:41:16,804 | INFO    | TabPFN predict rows 338944:339968
+2026-10-10 15:41:17,386 | INFO    | TabPFN predict rows 339968:340992
+2026-10-10 15:41:17,966 | INFO    | TabPFN predict rows 340992:342016
+2026-10-10 15:41:18,534 | INFO    | TabPFN predict rows 342016:343040
+2026-10-10 15:41:19,114 | INFO    | TabPFN predict rows 343040:344064
+2026-10-10 15:41:19,690 | INFO    | TabPFN predict rows 344064:345088
+2026-10-10 15:41:20,267 | INFO    | TabPFN predict rows 345088:346112
+2026-10-10 15:41:20,851 | INFO    | TabPFN predict rows 346112:347136
+2026-10-10 15:41:21,428 | INFO    | TabPFN predict rows 347136:348160
+2026-10-10 15:41:22,011 | INFO    | TabPFN predict rows 348160:349184
+2026-10-10 15:41:22,589 | INFO    | TabPFN predict rows 349184:350208
+2026-10-10 15:41:23,170 | INFO    | TabPFN predict rows 350208:351232
+2026-10-10 15:41:23,740 | INFO    | TabPFN predict rows 351232:352256
+2026-10-10 15:41:24,319 | INFO    | TabPFN predict rows 352256:353280
+2026-10-10 15:41:24,894 | INFO    | TabPFN predict rows 353280:354304
+2026-10-10 15:41:25,468 | INFO    | TabPFN predict rows 354304:355328
+2026-10-10 15:41:26,045 | INFO    | TabPFN predict rows 355328:356352
+2026-10-10 15:41:26,619 | INFO    | TabPFN predict rows 356352:357376
+2026-10-10 15:41:27,196 | INFO    | TabPFN predict rows 357376:358400
+2026-10-10 15:41:27,770 | INFO    | TabPFN predict rows 358400:359424
+2026-10-10 15:41:28,345 | INFO    | TabPFN predict rows 359424:360448
+2026-10-10 15:41:28,922 | INFO    | TabPFN predict rows 360448:361472
+2026-10-10 15:41:29,494 | INFO    | TabPFN predict rows 361472:362496
+2026-10-10 15:41:30,079 | INFO    | TabPFN predict rows 362496:363520
+2026-10-10 15:41:30,659 | INFO    | TabPFN predict rows 363520:364544
+2026-10-10 15:41:31,244 | INFO    | TabPFN predict rows 364544:365568
+2026-10-10 15:41:31,833 | INFO    | TabPFN predict rows 365568:366592
+2026-10-10 15:41:32,418 | INFO    | TabPFN predict rows 366592:367616
+2026-10-10 15:41:33,001 | INFO    | TabPFN predict rows 367616:368640
+2026-10-10 15:41:33,583 | INFO    | TabPFN predict rows 368640:369664
+2026-10-10 15:41:34,162 | INFO    | TabPFN predict rows 369664:370688
+2026-10-10 15:41:34,733 | INFO    | TabPFN predict rows 370688:371712
+2026-10-10 15:41:35,309 | INFO    | TabPFN predict rows 371712:372736
+2026-10-10 15:41:35,890 | INFO    | TabPFN predict rows 372736:373760
+2026-10-10 15:41:36,457 | INFO    | TabPFN predict rows 373760:374784
+2026-10-10 15:41:37,026 | INFO    | TabPFN predict rows 374784:375808
+2026-10-10 15:41:37,594 | INFO    | TabPFN predict rows 375808:376832
+2026-10-10 15:41:38,169 | INFO    | TabPFN predict rows 376832:377856
+2026-10-10 15:41:38,743 | INFO    | TabPFN predict rows 377856:378880
+2026-10-10 15:41:39,324 | INFO    | TabPFN predict rows 378880:379904
+2026-10-10 15:41:39,908 | INFO    | TabPFN predict rows 379904:380928
+2026-10-10 15:41:40,486 | INFO    | TabPFN predict rows 380928:381952
+2026-10-10 15:41:41,062 | INFO    | TabPFN predict rows 381952:382976
+2026-10-10 15:41:41,641 | INFO    | TabPFN predict rows 382976:384000
+2026-10-10 15:41:42,221 | INFO    | TabPFN predict rows 384000:385024
+2026-10-10 15:41:42,798 | INFO    | TabPFN predict rows 385024:386048
+2026-10-10 15:41:43,378 | INFO    | TabPFN predict rows 386048:387072
+2026-10-10 15:41:43,952 | INFO    | TabPFN predict rows 387072:388096
+2026-10-10 15:41:44,532 | INFO    | TabPFN predict rows 388096:389120
+2026-10-10 15:41:45,112 | INFO    | TabPFN predict rows 389120:390144
+2026-10-10 15:41:45,687 | INFO    | TabPFN predict rows 390144:391168
+2026-10-10 15:41:46,266 | INFO    | TabPFN predict rows 391168:392192
+2026-10-10 15:41:47,088 | INFO    | TabPFN predict rows 392192:393216
+2026-10-10 15:41:47,669 | INFO    | TabPFN predict rows 393216:394240
+2026-10-10 15:41:48,248 | INFO    | TabPFN predict rows 394240:395264
+2026-10-10 15:41:48,829 | INFO    | TabPFN predict rows 395264:396288
+2026-10-10 15:41:49,405 | INFO    | TabPFN predict rows 396288:397312
+2026-10-10 15:41:49,982 | INFO    | TabPFN predict rows 397312:398336
+2026-10-10 15:41:50,562 | INFO    | TabPFN predict rows 398336:399360
+2026-10-10 15:41:51,141 | INFO    | TabPFN predict rows 399360:400384
+2026-10-10 15:41:51,721 | INFO    | TabPFN predict rows 400384:401408
+2026-10-10 15:41:52,299 | INFO    | TabPFN predict rows 401408:402432
+2026-10-10 15:41:52,924 | INFO    | TabPFN predict rows 402432:402855
+2026-10-10 15:41:53,480 | INFO    | DONE  TabPFN predict (402855 rows) (229.4s)
+2026-10-10 15:41:53,487 | INFO    | DONE  tabpfn on item-shippoint (231.3s)
+2026-10-10 15:41:53,593 | INFO    | item-shippoint accuracy=0.9702 on n=402855
+2026-10-10 15:41:54,796 | INFO    | START tabpfn on item-incoterms
+2026-10-10 15:41:55,232 | INFO    | ITEMINCOTERMSCLASSIFICATION: TabPFN context=8000 rows, test=402855 rows, 12 classes in context
+2026-10-10 15:41:55,233 | INFO    | START build features
+2026-10-10 15:41:55,588 | INFO    | DONE  build features (0.4s)
+2026-10-10 15:41:55,786 | INFO    | START TabPFN fit
+2026-10-10 15:41:56,205 | INFO    | DONE  TabPFN fit (0.4s)
+2026-10-10 15:41:56,205 | INFO    | START TabPFN predict (402855 rows)
+2026-10-10 15:41:56,205 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 15:41:56,828 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 15:41:57,405 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 15:41:57,982 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 15:41:58,559 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 15:41:59,138 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 15:41:59,720 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 15:42:00,301 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 15:42:00,885 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 15:42:01,470 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 15:42:02,050 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 15:42:02,630 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 15:42:03,214 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 15:42:03,798 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 15:42:04,381 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 15:42:04,961 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 15:42:05,542 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 15:42:06,123 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 15:42:06,705 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 15:42:07,283 | INFO    | TabPFN predict rows 19456:20480
+2026-10-10 15:42:07,863 | INFO    | TabPFN predict rows 20480:21504
+2026-10-10 15:42:08,446 | INFO    | TabPFN predict rows 21504:22528
+2026-10-10 15:42:09,031 | INFO    | TabPFN predict rows 22528:23552
+2026-10-10 15:42:09,615 | INFO    | TabPFN predict rows 23552:24576
+2026-10-10 15:42:10,197 | INFO    | TabPFN predict rows 24576:25600
+2026-10-10 15:42:10,776 | INFO    | TabPFN predict rows 25600:26624
+2026-10-10 15:42:11,349 | INFO    | TabPFN predict rows 26624:27648
+2026-10-10 15:42:11,929 | INFO    | TabPFN predict rows 27648:28672
+2026-10-10 15:42:12,509 | INFO    | TabPFN predict rows 28672:29696
+2026-10-10 15:42:13,090 | INFO    | TabPFN predict rows 29696:30720
+2026-10-10 15:42:13,669 | INFO    | TabPFN predict rows 30720:31744
+2026-10-10 15:42:14,252 | INFO    | TabPFN predict rows 31744:32768
+2026-10-10 15:42:14,838 | INFO    | TabPFN predict rows 32768:33792
+2026-10-10 15:42:15,422 | INFO    | TabPFN predict rows 33792:34816
+2026-10-10 15:42:16,007 | INFO    | TabPFN predict rows 34816:35840
+2026-10-10 15:42:16,579 | INFO    | TabPFN predict rows 35840:36864
+2026-10-10 15:42:17,149 | INFO    | TabPFN predict rows 36864:37888
+2026-10-10 15:42:17,724 | INFO    | TabPFN predict rows 37888:38912
+2026-10-10 15:42:18,300 | INFO    | TabPFN predict rows 38912:39936
+2026-10-10 15:42:18,878 | INFO    | TabPFN predict rows 39936:40960
+2026-10-10 15:42:19,456 | INFO    | TabPFN predict rows 40960:41984
+2026-10-10 15:42:20,034 | INFO    | TabPFN predict rows 41984:43008
+2026-10-10 15:42:20,614 | INFO    | TabPFN predict rows 43008:44032
+2026-10-10 15:42:21,192 | INFO    | TabPFN predict rows 44032:45056
+2026-10-10 15:42:21,767 | INFO    | TabPFN predict rows 45056:46080
+2026-10-10 15:42:22,346 | INFO    | TabPFN predict rows 46080:47104
+2026-10-10 15:42:22,928 | INFO    | TabPFN predict rows 47104:48128
+2026-10-10 15:42:23,504 | INFO    | TabPFN predict rows 48128:49152
+2026-10-10 15:42:24,080 | INFO    | TabPFN predict rows 49152:50176
+2026-10-10 15:42:24,660 | INFO    | TabPFN predict rows 50176:51200
+2026-10-10 15:42:25,234 | INFO    | TabPFN predict rows 51200:52224
+2026-10-10 15:42:25,811 | INFO    | TabPFN predict rows 52224:53248
+2026-10-10 15:42:26,389 | INFO    | TabPFN predict rows 53248:54272
+2026-10-10 15:42:26,969 | INFO    | TabPFN predict rows 54272:55296
+2026-10-10 15:42:27,585 | INFO    | TabPFN predict rows 55296:56320
+2026-10-10 15:42:28,162 | INFO    | TabPFN predict rows 56320:57344
+2026-10-10 15:42:28,744 | INFO    | TabPFN predict rows 57344:58368
+2026-10-10 15:42:29,323 | INFO    | TabPFN predict rows 58368:59392
+2026-10-10 15:42:29,903 | INFO    | TabPFN predict rows 59392:60416
+2026-10-10 15:42:30,485 | INFO    | TabPFN predict rows 60416:61440
+2026-10-10 15:42:31,063 | INFO    | TabPFN predict rows 61440:62464
+2026-10-10 15:42:31,641 | INFO    | TabPFN predict rows 62464:63488
+2026-10-10 15:42:32,219 | INFO    | TabPFN predict rows 63488:64512
+2026-10-10 15:42:32,799 | INFO    | TabPFN predict rows 64512:65536
+2026-10-10 15:42:33,377 | INFO    | TabPFN predict rows 65536:66560
+2026-10-10 15:42:33,953 | INFO    | TabPFN predict rows 66560:67584
+2026-10-10 15:42:34,531 | INFO    | TabPFN predict rows 67584:68608
+2026-10-10 15:42:35,108 | INFO    | TabPFN predict rows 68608:69632
+2026-10-10 15:42:35,688 | INFO    | TabPFN predict rows 69632:70656
+2026-10-10 15:42:36,265 | INFO    | TabPFN predict rows 70656:71680
+2026-10-10 15:42:36,844 | INFO    | TabPFN predict rows 71680:72704
+2026-10-10 15:42:37,419 | INFO    | TabPFN predict rows 72704:73728
+2026-10-10 15:42:37,994 | INFO    | TabPFN predict rows 73728:74752
+2026-10-10 15:42:38,572 | INFO    | TabPFN predict rows 74752:75776
+2026-10-10 15:42:39,150 | INFO    | TabPFN predict rows 75776:76800
+2026-10-10 15:42:39,728 | INFO    | TabPFN predict rows 76800:77824
+2026-10-10 15:42:40,306 | INFO    | TabPFN predict rows 77824:78848
+2026-10-10 15:42:40,887 | INFO    | TabPFN predict rows 78848:79872
+2026-10-10 15:42:41,464 | INFO    | TabPFN predict rows 79872:80896
+2026-10-10 15:42:42,041 | INFO    | TabPFN predict rows 80896:81920
+2026-10-10 15:42:42,616 | INFO    | TabPFN predict rows 81920:82944
+2026-10-10 15:42:43,189 | INFO    | TabPFN predict rows 82944:83968
+2026-10-10 15:42:43,763 | INFO    | TabPFN predict rows 83968:84992
+2026-10-10 15:42:44,337 | INFO    | TabPFN predict rows 84992:86016
+2026-10-10 15:42:44,912 | INFO    | TabPFN predict rows 86016:87040
+2026-10-10 15:42:45,486 | INFO    | TabPFN predict rows 87040:88064
+2026-10-10 15:42:46,060 | INFO    | TabPFN predict rows 88064:89088
+2026-10-10 15:42:46,632 | INFO    | TabPFN predict rows 89088:90112
+2026-10-10 15:42:47,209 | INFO    | TabPFN predict rows 90112:91136
+2026-10-10 15:42:47,787 | INFO    | TabPFN predict rows 91136:92160
+2026-10-10 15:42:48,366 | INFO    | TabPFN predict rows 92160:93184
+2026-10-10 15:42:49,250 | INFO    | TabPFN predict rows 93184:94208
+2026-10-10 15:42:49,823 | INFO    | TabPFN predict rows 94208:95232
+2026-10-10 15:42:50,398 | INFO    | TabPFN predict rows 95232:96256
+2026-10-10 15:42:50,974 | INFO    | TabPFN predict rows 96256:97280
+2026-10-10 15:42:52,034 | INFO    | TabPFN predict rows 97280:98304
+2026-10-10 15:42:52,668 | INFO    | TabPFN predict rows 98304:99328
+2026-10-10 15:42:53,245 | INFO    | TabPFN predict rows 99328:100352
+2026-10-10 15:42:53,823 | INFO    | TabPFN predict rows 100352:101376
+2026-10-10 15:42:54,399 | INFO    | TabPFN predict rows 101376:102400
+2026-10-10 15:42:54,976 | INFO    | TabPFN predict rows 102400:103424
+2026-10-10 15:42:55,556 | INFO    | TabPFN predict rows 103424:104448
+2026-10-10 15:42:56,144 | INFO    | TabPFN predict rows 104448:105472
+2026-10-10 15:42:56,724 | INFO    | TabPFN predict rows 105472:106496
+2026-10-10 15:42:57,384 | INFO    | TabPFN predict rows 106496:107520
+2026-10-10 15:42:57,958 | INFO    | TabPFN predict rows 107520:108544
+2026-10-10 15:42:58,532 | INFO    | TabPFN predict rows 108544:109568
+2026-10-10 15:42:59,107 | INFO    | TabPFN predict rows 109568:110592
+2026-10-10 15:42:59,684 | INFO    | TabPFN predict rows 110592:111616
+2026-10-10 15:43:00,262 | INFO    | TabPFN predict rows 111616:112640
+2026-10-10 15:43:00,842 | INFO    | TabPFN predict rows 112640:113664
+2026-10-10 15:43:01,425 | INFO    | TabPFN predict rows 113664:114688
+2026-10-10 15:43:02,002 | INFO    | TabPFN predict rows 114688:115712
+2026-10-10 15:43:02,584 | INFO    | TabPFN predict rows 115712:116736
+2026-10-10 15:43:03,166 | INFO    | TabPFN predict rows 116736:117760
+2026-10-10 15:43:03,744 | INFO    | TabPFN predict rows 117760:118784
+2026-10-10 15:43:04,328 | INFO    | TabPFN predict rows 118784:119808
+2026-10-10 15:43:04,909 | INFO    | TabPFN predict rows 119808:120832
+2026-10-10 15:43:08,691 | INFO    | TabPFN predict rows 120832:121856
+2026-10-10 15:43:13,353 | INFO    | TabPFN predict rows 121856:122880
+2026-10-10 15:43:15,034 | INFO    | TabPFN predict rows 122880:123904
+2026-10-10 15:43:15,903 | INFO    | TabPFN predict rows 123904:124928
+2026-10-10 15:43:16,618 | INFO    | TabPFN predict rows 124928:125952
+2026-10-10 15:43:17,194 | INFO    | TabPFN predict rows 125952:126976
+2026-10-10 15:43:17,768 | INFO    | TabPFN predict rows 126976:128000
+2026-10-10 15:43:18,346 | INFO    | TabPFN predict rows 128000:129024
+2026-10-10 15:43:18,926 | INFO    | TabPFN predict rows 129024:130048
+2026-10-10 15:43:19,504 | INFO    | TabPFN predict rows 130048:131072
+2026-10-10 15:43:20,085 | INFO    | TabPFN predict rows 131072:132096
+2026-10-10 15:43:20,669 | INFO    | TabPFN predict rows 132096:133120
+2026-10-10 15:43:21,252 | INFO    | TabPFN predict rows 133120:134144
+2026-10-10 15:43:21,840 | INFO    | TabPFN predict rows 134144:135168
+2026-10-10 15:43:22,427 | INFO    | TabPFN predict rows 135168:136192
+2026-10-10 15:43:23,012 | INFO    | TabPFN predict rows 136192:137216
+2026-10-10 15:43:23,592 | INFO    | TabPFN predict rows 137216:138240
+2026-10-10 15:43:24,171 | INFO    | TabPFN predict rows 138240:139264
+2026-10-10 15:43:24,756 | INFO    | TabPFN predict rows 139264:140288
+2026-10-10 15:43:25,338 | INFO    | TabPFN predict rows 140288:141312
+2026-10-10 15:43:25,922 | INFO    | TabPFN predict rows 141312:142336
+2026-10-10 15:43:26,502 | INFO    | TabPFN predict rows 142336:143360
+2026-10-10 15:43:27,088 | INFO    | TabPFN predict rows 143360:144384
+2026-10-10 15:43:27,676 | INFO    | TabPFN predict rows 144384:145408
+2026-10-10 15:43:28,261 | INFO    | TabPFN predict rows 145408:146432
+2026-10-10 15:43:28,841 | INFO    | TabPFN predict rows 146432:147456
+2026-10-10 15:43:29,420 | INFO    | TabPFN predict rows 147456:148480
+2026-10-10 15:43:30,003 | INFO    | TabPFN predict rows 148480:149504
+2026-10-10 15:43:30,578 | INFO    | TabPFN predict rows 149504:150528
+2026-10-10 15:43:31,158 | INFO    | TabPFN predict rows 150528:151552
+2026-10-10 15:43:31,750 | INFO    | TabPFN predict rows 151552:152576
+2026-10-10 15:43:32,338 | INFO    | TabPFN predict rows 152576:153600
+2026-10-10 15:43:32,924 | INFO    | TabPFN predict rows 153600:154624
+2026-10-10 15:43:33,506 | INFO    | TabPFN predict rows 154624:155648
+2026-10-10 15:43:34,096 | INFO    | TabPFN predict rows 155648:156672
+2026-10-10 15:43:34,682 | INFO    | TabPFN predict rows 156672:157696
+2026-10-10 15:43:35,268 | INFO    | TabPFN predict rows 157696:158720
+2026-10-10 15:43:35,852 | INFO    | TabPFN predict rows 158720:159744
+2026-10-10 15:43:36,434 | INFO    | TabPFN predict rows 159744:160768
+2026-10-10 15:43:37,010 | INFO    | TabPFN predict rows 160768:161792
+2026-10-10 15:43:37,592 | INFO    | TabPFN predict rows 161792:162816
+2026-10-10 15:43:38,170 | INFO    | TabPFN predict rows 162816:163840
+2026-10-10 15:43:38,746 | INFO    | TabPFN predict rows 163840:164864
+2026-10-10 15:43:39,325 | INFO    | TabPFN predict rows 164864:165888
+2026-10-10 15:43:39,912 | INFO    | TabPFN predict rows 165888:166912
+2026-10-10 15:43:40,503 | INFO    | TabPFN predict rows 166912:167936
+2026-10-10 15:43:41,090 | INFO    | TabPFN predict rows 167936:168960
+2026-10-10 15:43:41,667 | INFO    | TabPFN predict rows 168960:169984
+2026-10-10 15:43:42,247 | INFO    | TabPFN predict rows 169984:171008
+2026-10-10 15:43:42,830 | INFO    | TabPFN predict rows 171008:172032
+2026-10-10 15:43:43,411 | INFO    | TabPFN predict rows 172032:173056
+2026-10-10 15:43:43,993 | INFO    | TabPFN predict rows 173056:174080
+2026-10-10 15:43:44,576 | INFO    | TabPFN predict rows 174080:175104
+2026-10-10 15:43:45,158 | INFO    | TabPFN predict rows 175104:176128
+2026-10-10 15:43:45,739 | INFO    | TabPFN predict rows 176128:177152
+2026-10-10 15:43:46,318 | INFO    | TabPFN predict rows 177152:178176
+2026-10-10 15:43:46,896 | INFO    | TabPFN predict rows 178176:179200
+2026-10-10 15:43:47,477 | INFO    | TabPFN predict rows 179200:180224
+2026-10-10 15:43:48,062 | INFO    | TabPFN predict rows 180224:181248
+2026-10-10 15:43:48,643 | INFO    | TabPFN predict rows 181248:182272
+2026-10-10 15:43:49,217 | INFO    | TabPFN predict rows 182272:183296
+2026-10-10 15:43:49,795 | INFO    | TabPFN predict rows 183296:184320
+2026-10-10 15:43:50,373 | INFO    | TabPFN predict rows 184320:185344
+2026-10-10 15:43:50,948 | INFO    | TabPFN predict rows 185344:186368
+2026-10-10 15:43:51,528 | INFO    | TabPFN predict rows 186368:187392
+2026-10-10 15:43:52,106 | INFO    | TabPFN predict rows 187392:188416
+2026-10-10 15:43:52,687 | INFO    | TabPFN predict rows 188416:189440
+2026-10-10 15:44:10,725 | INFO    | TabPFN predict rows 189440:190464
+2026-10-10 15:44:14,450 | INFO    | TabPFN predict rows 190464:191488
+2026-10-10 15:44:15,206 | INFO    | TabPFN predict rows 191488:192512
+2026-10-10 15:44:15,961 | INFO    | TabPFN predict rows 192512:193536
+2026-10-10 15:44:16,574 | INFO    | TabPFN predict rows 193536:194560
+2026-10-10 15:44:17,156 | INFO    | TabPFN predict rows 194560:195584
+2026-10-10 15:44:17,738 | INFO    | TabPFN predict rows 195584:196608
+2026-10-10 15:44:18,317 | INFO    | TabPFN predict rows 196608:197632
+2026-10-10 15:44:18,896 | INFO    | TabPFN predict rows 197632:198656
+2026-10-10 15:44:19,473 | INFO    | TabPFN predict rows 198656:199680
+2026-10-10 15:44:20,053 | INFO    | TabPFN predict rows 199680:200704
+2026-10-10 15:44:20,633 | INFO    | TabPFN predict rows 200704:201728
+2026-10-10 15:44:21,220 | INFO    | TabPFN predict rows 201728:202752
+2026-10-10 15:44:21,798 | INFO    | TabPFN predict rows 202752:203776
+2026-10-10 15:44:22,383 | INFO    | TabPFN predict rows 203776:204800
+2026-10-10 15:44:22,965 | INFO    | TabPFN predict rows 204800:205824
+2026-10-10 15:44:23,568 | INFO    | TabPFN predict rows 205824:206848
+2026-10-10 15:44:24,148 | INFO    | TabPFN predict rows 206848:207872
+2026-10-10 15:44:24,727 | INFO    | TabPFN predict rows 207872:208896
+2026-10-10 15:44:25,306 | INFO    | TabPFN predict rows 208896:209920
+2026-10-10 15:44:25,883 | INFO    | TabPFN predict rows 209920:210944
+2026-10-10 15:44:26,460 | INFO    | TabPFN predict rows 210944:211968
+2026-10-10 15:44:27,034 | INFO    | TabPFN predict rows 211968:212992
+2026-10-10 15:44:27,612 | INFO    | TabPFN predict rows 212992:214016
+2026-10-10 15:44:28,190 | INFO    | TabPFN predict rows 214016:215040
+2026-10-10 15:44:28,767 | INFO    | TabPFN predict rows 215040:216064
+2026-10-10 15:44:29,393 | INFO    | TabPFN predict rows 216064:217088
+2026-10-10 15:44:29,970 | INFO    | TabPFN predict rows 217088:218112
+2026-10-10 15:44:30,545 | INFO    | TabPFN predict rows 218112:219136
+2026-10-10 15:44:31,119 | INFO    | TabPFN predict rows 219136:220160
+2026-10-10 15:44:31,694 | INFO    | TabPFN predict rows 220160:221184
+2026-10-10 15:44:32,271 | INFO    | TabPFN predict rows 221184:222208
+2026-10-10 15:44:32,849 | INFO    | TabPFN predict rows 222208:223232
+2026-10-10 15:44:33,425 | INFO    | TabPFN predict rows 223232:224256
+2026-10-10 15:44:34,002 | INFO    | TabPFN predict rows 224256:225280
+2026-10-10 15:44:34,580 | INFO    | TabPFN predict rows 225280:226304
+2026-10-10 15:44:35,162 | INFO    | TabPFN predict rows 226304:227328
+2026-10-10 15:44:35,736 | INFO    | TabPFN predict rows 227328:228352
+2026-10-10 15:44:36,314 | INFO    | TabPFN predict rows 228352:229376
+2026-10-10 15:44:36,890 | INFO    | TabPFN predict rows 229376:230400
+2026-10-10 15:44:37,472 | INFO    | TabPFN predict rows 230400:231424
+2026-10-10 15:44:38,049 | INFO    | TabPFN predict rows 231424:232448
+2026-10-10 15:44:38,626 | INFO    | TabPFN predict rows 232448:233472
+2026-10-10 15:44:39,206 | INFO    | TabPFN predict rows 233472:234496
+2026-10-10 15:44:39,783 | INFO    | TabPFN predict rows 234496:235520
+2026-10-10 15:44:40,361 | INFO    | TabPFN predict rows 235520:236544
+2026-10-10 15:44:40,935 | INFO    | TabPFN predict rows 236544:237568
+2026-10-10 15:44:41,515 | INFO    | TabPFN predict rows 237568:238592
+2026-10-10 15:44:42,091 | INFO    | TabPFN predict rows 238592:239616
+2026-10-10 15:44:42,669 | INFO    | TabPFN predict rows 239616:240640
+2026-10-10 15:44:43,245 | INFO    | TabPFN predict rows 240640:241664
+2026-10-10 15:44:43,830 | INFO    | TabPFN predict rows 241664:242688
+2026-10-10 15:44:44,411 | INFO    | TabPFN predict rows 242688:243712
+2026-10-10 15:44:44,993 | INFO    | TabPFN predict rows 243712:244736
+2026-10-10 15:44:45,575 | INFO    | TabPFN predict rows 244736:245760
+2026-10-10 15:44:46,153 | INFO    | TabPFN predict rows 245760:246784
+2026-10-10 15:44:46,738 | INFO    | TabPFN predict rows 246784:247808
+2026-10-10 15:44:47,317 | INFO    | TabPFN predict rows 247808:248832
+2026-10-10 15:44:47,893 | INFO    | TabPFN predict rows 248832:249856
+2026-10-10 15:44:48,473 | INFO    | TabPFN predict rows 249856:250880
+2026-10-10 15:44:49,049 | INFO    | TabPFN predict rows 250880:251904
+2026-10-10 15:44:49,629 | INFO    | TabPFN predict rows 251904:252928
+2026-10-10 15:44:50,206 | INFO    | TabPFN predict rows 252928:253952
+2026-10-10 15:44:50,790 | INFO    | TabPFN predict rows 253952:254976
+2026-10-10 15:44:51,371 | INFO    | TabPFN predict rows 254976:256000
+2026-10-10 15:44:51,952 | INFO    | TabPFN predict rows 256000:257024
+2026-10-10 15:44:52,538 | INFO    | TabPFN predict rows 257024:258048
+2026-10-10 15:44:53,119 | INFO    | TabPFN predict rows 258048:259072
+2026-10-10 15:44:53,698 | INFO    | TabPFN predict rows 259072:260096
+2026-10-10 15:44:54,277 | INFO    | TabPFN predict rows 260096:261120
+2026-10-10 15:44:54,857 | INFO    | TabPFN predict rows 261120:262144
+2026-10-10 15:44:55,433 | INFO    | TabPFN predict rows 262144:263168
+2026-10-10 15:44:56,009 | INFO    | TabPFN predict rows 263168:264192
+2026-10-10 15:44:56,587 | INFO    | TabPFN predict rows 264192:265216
+2026-10-10 15:44:57,167 | INFO    | TabPFN predict rows 265216:266240
+2026-10-10 15:44:57,749 | INFO    | TabPFN predict rows 266240:267264
+2026-10-10 15:44:58,328 | INFO    | TabPFN predict rows 267264:268288
+2026-10-10 15:44:58,906 | INFO    | TabPFN predict rows 268288:269312
+2026-10-10 15:44:59,485 | INFO    | TabPFN predict rows 269312:270336
+2026-10-10 15:45:00,072 | INFO    | TabPFN predict rows 270336:271360
+2026-10-10 15:45:00,651 | INFO    | TabPFN predict rows 271360:272384
+2026-10-10 15:45:01,231 | INFO    | TabPFN predict rows 272384:273408
+2026-10-10 15:45:01,809 | INFO    | TabPFN predict rows 273408:274432
+2026-10-10 15:45:02,388 | INFO    | TabPFN predict rows 274432:275456
+2026-10-10 15:45:02,968 | INFO    | TabPFN predict rows 275456:276480
+2026-10-10 15:45:03,544 | INFO    | TabPFN predict rows 276480:277504
+2026-10-10 15:45:04,118 | INFO    | TabPFN predict rows 277504:278528
+2026-10-10 15:45:04,692 | INFO    | TabPFN predict rows 278528:279552
+2026-10-10 15:45:05,265 | INFO    | TabPFN predict rows 279552:280576
+2026-10-10 15:45:05,847 | INFO    | TabPFN predict rows 280576:281600
+2026-10-10 15:45:06,427 | INFO    | TabPFN predict rows 281600:282624
+2026-10-10 15:45:07,013 | INFO    | TabPFN predict rows 282624:283648
+2026-10-10 15:45:07,595 | INFO    | TabPFN predict rows 283648:284672
+2026-10-10 15:45:08,176 | INFO    | TabPFN predict rows 284672:285696
+2026-10-10 15:45:08,760 | INFO    | TabPFN predict rows 285696:286720
+2026-10-10 15:45:09,340 | INFO    | TabPFN predict rows 286720:287744
+2026-10-10 15:45:09,923 | INFO    | TabPFN predict rows 287744:288768
+2026-10-10 15:45:10,501 | INFO    | TabPFN predict rows 288768:289792
+2026-10-10 15:45:11,080 | INFO    | TabPFN predict rows 289792:290816
+2026-10-10 15:45:11,662 | INFO    | TabPFN predict rows 290816:291840
+2026-10-10 15:45:12,242 | INFO    | TabPFN predict rows 291840:292864
+2026-10-10 15:45:12,825 | INFO    | TabPFN predict rows 292864:293888
+2026-10-10 15:45:13,409 | INFO    | TabPFN predict rows 293888:294912
+2026-10-10 15:45:13,991 | INFO    | TabPFN predict rows 294912:295936
+2026-10-10 15:45:14,570 | INFO    | TabPFN predict rows 295936:296960
+2026-10-10 15:45:15,150 | INFO    | TabPFN predict rows 296960:297984
+2026-10-10 15:45:15,727 | INFO    | TabPFN predict rows 297984:299008
+2026-10-10 15:45:16,303 | INFO    | TabPFN predict rows 299008:300032
+2026-10-10 15:45:16,885 | INFO    | TabPFN predict rows 300032:301056
+2026-10-10 15:45:17,476 | INFO    | TabPFN predict rows 301056:302080
+2026-10-10 15:45:18,057 | INFO    | TabPFN predict rows 302080:303104
+2026-10-10 15:45:18,642 | INFO    | TabPFN predict rows 303104:304128
+2026-10-10 15:45:19,224 | INFO    | TabPFN predict rows 304128:305152
+2026-10-10 15:45:19,804 | INFO    | TabPFN predict rows 305152:306176
+2026-10-10 15:45:20,383 | INFO    | TabPFN predict rows 306176:307200
+2026-10-10 15:45:20,960 | INFO    | TabPFN predict rows 307200:308224
+2026-10-10 15:45:21,541 | INFO    | TabPFN predict rows 308224:309248
+2026-10-10 15:45:22,120 | INFO    | TabPFN predict rows 309248:310272
+2026-10-10 15:45:22,702 | INFO    | TabPFN predict rows 310272:311296
+2026-10-10 15:45:23,281 | INFO    | TabPFN predict rows 311296:312320
+2026-10-10 15:45:23,864 | INFO    | TabPFN predict rows 312320:313344
+2026-10-10 15:45:24,447 | INFO    | TabPFN predict rows 313344:314368
+2026-10-10 15:45:25,029 | INFO    | TabPFN predict rows 314368:315392
+2026-10-10 15:45:25,611 | INFO    | TabPFN predict rows 315392:316416
+2026-10-10 15:45:26,192 | INFO    | TabPFN predict rows 316416:317440
+2026-10-10 15:45:26,774 | INFO    | TabPFN predict rows 317440:318464
+2026-10-10 15:45:27,358 | INFO    | TabPFN predict rows 318464:319488
+2026-10-10 15:45:27,937 | INFO    | TabPFN predict rows 319488:320512
+2026-10-10 15:45:28,522 | INFO    | TabPFN predict rows 320512:321536
+2026-10-10 15:45:29,100 | INFO    | TabPFN predict rows 321536:322560
+2026-10-10 15:45:29,680 | INFO    | TabPFN predict rows 322560:323584
+2026-10-10 15:45:30,259 | INFO    | TabPFN predict rows 323584:324608
+2026-10-10 15:45:30,843 | INFO    | TabPFN predict rows 324608:325632
+2026-10-10 15:45:31,423 | INFO    | TabPFN predict rows 325632:326656
+2026-10-10 15:45:32,004 | INFO    | TabPFN predict rows 326656:327680
+2026-10-10 15:45:32,586 | INFO    | TabPFN predict rows 327680:328704
+2026-10-10 15:45:33,165 | INFO    | TabPFN predict rows 328704:329728
+2026-10-10 15:45:33,749 | INFO    | TabPFN predict rows 329728:330752
+2026-10-10 15:45:34,327 | INFO    | TabPFN predict rows 330752:331776
+2026-10-10 15:45:34,908 | INFO    | TabPFN predict rows 331776:332800
+2026-10-10 15:45:35,484 | INFO    | TabPFN predict rows 332800:333824
+2026-10-10 15:45:36,066 | INFO    | TabPFN predict rows 333824:334848
+2026-10-10 15:45:36,651 | INFO    | TabPFN predict rows 334848:335872
+2026-10-10 15:45:37,233 | INFO    | TabPFN predict rows 335872:336896
+2026-10-10 15:45:37,816 | INFO    | TabPFN predict rows 336896:337920
+2026-10-10 15:45:38,401 | INFO    | TabPFN predict rows 337920:338944
+2026-10-10 15:45:38,983 | INFO    | TabPFN predict rows 338944:339968
+2026-10-10 15:45:39,569 | INFO    | TabPFN predict rows 339968:340992
+2026-10-10 15:45:40,156 | INFO    | TabPFN predict rows 340992:342016
+2026-10-10 15:45:40,735 | INFO    | TabPFN predict rows 342016:343040
+2026-10-10 15:45:41,316 | INFO    | TabPFN predict rows 343040:344064
+2026-10-10 15:45:41,892 | INFO    | TabPFN predict rows 344064:345088
+2026-10-10 15:45:42,469 | INFO    | TabPFN predict rows 345088:346112
+2026-10-10 15:45:43,053 | INFO    | TabPFN predict rows 346112:347136
+2026-10-10 15:45:43,641 | INFO    | TabPFN predict rows 347136:348160
+2026-10-10 15:45:44,227 | INFO    | TabPFN predict rows 348160:349184
+2026-10-10 15:45:44,813 | INFO    | TabPFN predict rows 349184:350208
+2026-10-10 15:45:45,398 | INFO    | TabPFN predict rows 350208:351232
+2026-10-10 15:45:45,977 | INFO    | TabPFN predict rows 351232:352256
+2026-10-10 15:45:46,560 | INFO    | TabPFN predict rows 352256:353280
+2026-10-10 15:45:47,146 | INFO    | TabPFN predict rows 353280:354304
+2026-10-10 15:45:47,722 | INFO    | TabPFN predict rows 354304:355328
+2026-10-10 15:45:48,300 | INFO    | TabPFN predict rows 355328:356352
+2026-10-10 15:45:48,877 | INFO    | TabPFN predict rows 356352:357376
+2026-10-10 15:45:49,458 | INFO    | TabPFN predict rows 357376:358400
+2026-10-10 15:45:50,035 | INFO    | TabPFN predict rows 358400:359424
+2026-10-10 15:45:50,613 | INFO    | TabPFN predict rows 359424:360448
+2026-10-10 15:45:51,196 | INFO    | TabPFN predict rows 360448:361472
+2026-10-10 15:45:51,781 | INFO    | TabPFN predict rows 361472:362496
+2026-10-10 15:45:52,368 | INFO    | TabPFN predict rows 362496:363520
+2026-10-10 15:45:52,951 | INFO    | TabPFN predict rows 363520:364544
+2026-10-10 15:45:53,533 | INFO    | TabPFN predict rows 364544:365568
+2026-10-10 15:45:54,120 | INFO    | TabPFN predict rows 365568:366592
+2026-10-10 15:45:54,707 | INFO    | TabPFN predict rows 366592:367616
+2026-10-10 15:45:55,286 | INFO    | TabPFN predict rows 367616:368640
+2026-10-10 15:45:55,870 | INFO    | TabPFN predict rows 368640:369664
+2026-10-10 15:45:56,458 | INFO    | TabPFN predict rows 369664:370688
+2026-10-10 15:45:57,042 | INFO    | TabPFN predict rows 370688:371712
+2026-10-10 15:45:57,626 | INFO    | TabPFN predict rows 371712:372736
+2026-10-10 15:45:58,211 | INFO    | TabPFN predict rows 372736:373760
+2026-10-10 15:45:58,795 | INFO    | TabPFN predict rows 373760:374784
+2026-10-10 15:45:59,376 | INFO    | TabPFN predict rows 374784:375808
+2026-10-10 15:45:59,958 | INFO    | TabPFN predict rows 375808:376832
+2026-10-10 15:46:00,543 | INFO    | TabPFN predict rows 376832:377856
+2026-10-10 15:46:01,129 | INFO    | TabPFN predict rows 377856:378880
+2026-10-10 15:46:01,713 | INFO    | TabPFN predict rows 378880:379904
+2026-10-10 15:46:02,294 | INFO    | TabPFN predict rows 379904:380928
+2026-10-10 15:46:02,876 | INFO    | TabPFN predict rows 380928:381952
+2026-10-10 15:46:03,465 | INFO    | TabPFN predict rows 381952:382976
+2026-10-10 15:46:04,041 | INFO    | TabPFN predict rows 382976:384000
+2026-10-10 15:46:04,631 | INFO    | TabPFN predict rows 384000:385024
+2026-10-10 15:46:05,214 | INFO    | TabPFN predict rows 385024:386048
+2026-10-10 15:46:05,792 | INFO    | TabPFN predict rows 386048:387072
+2026-10-10 15:46:06,372 | INFO    | TabPFN predict rows 387072:388096
+2026-10-10 15:46:06,952 | INFO    | TabPFN predict rows 388096:389120
+2026-10-10 15:46:07,535 | INFO    | TabPFN predict rows 389120:390144
+2026-10-10 15:46:08,116 | INFO    | TabPFN predict rows 390144:391168
+2026-10-10 15:46:08,699 | INFO    | TabPFN predict rows 391168:392192
+2026-10-10 15:46:09,278 | INFO    | TabPFN predict rows 392192:393216
+2026-10-10 15:46:09,861 | INFO    | TabPFN predict rows 393216:394240
+2026-10-10 15:46:10,447 | INFO    | TabPFN predict rows 394240:395264
+2026-10-10 15:46:11,025 | INFO    | TabPFN predict rows 395264:396288
+2026-10-10 15:46:11,603 | INFO    | TabPFN predict rows 396288:397312
+2026-10-10 15:46:12,183 | INFO    | TabPFN predict rows 397312:398336
+2026-10-10 15:46:12,769 | INFO    | TabPFN predict rows 398336:399360
+2026-10-10 15:46:13,352 | INFO    | TabPFN predict rows 399360:400384
+2026-10-10 15:46:13,933 | INFO    | TabPFN predict rows 400384:401408
+2026-10-10 15:46:14,517 | INFO    | TabPFN predict rows 401408:402432
+2026-10-10 15:46:15,098 | INFO    | TabPFN predict rows 402432:402855
+2026-10-10 15:46:16,532 | INFO    | DONE  TabPFN predict (402855 rows) (260.3s)
+2026-10-10 15:46:16,789 | INFO    | DONE  tabpfn on item-incoterms (262.0s)
+2026-10-10 15:46:21,197 | INFO    | item-incoterms accuracy=1.0000 on n=402855
+2026-10-10 15:46:29,377 | INFO    | START tabpfn on sales-office
+2026-10-10 15:46:30,100 | INFO    | SALESOFFICE: TabPFN context=8000 rows, test=88942 rows, 11 classes in context
+2026-10-10 15:46:30,100 | INFO    | START build features
+2026-10-10 15:46:30,594 | INFO    | DONE  build features (0.5s)
+2026-10-10 15:46:30,845 | INFO    | START TabPFN fit
+2026-10-10 15:46:34,857 | INFO    | DONE  TabPFN fit (4.0s)
+2026-10-10 15:46:34,858 | INFO    | START TabPFN predict (88942 rows)
+2026-10-10 15:46:34,858 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 15:46:35,871 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 15:46:36,611 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 15:46:37,244 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 15:46:37,834 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 15:46:38,405 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 15:46:38,975 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 15:46:39,548 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 15:46:40,122 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 15:46:40,691 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 15:46:41,265 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 15:46:41,838 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 15:46:42,411 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 15:46:42,987 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 15:46:43,557 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 15:46:44,127 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 15:46:44,697 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 15:46:45,257 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 15:46:45,825 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 15:46:46,391 | INFO    | TabPFN predict rows 19456:20480
+2026-10-10 15:46:46,963 | INFO    | TabPFN predict rows 20480:21504
+2026-10-10 15:46:47,541 | INFO    | TabPFN predict rows 21504:22528
+2026-10-10 15:46:48,109 | INFO    | TabPFN predict rows 22528:23552
+2026-10-10 15:46:48,681 | INFO    | TabPFN predict rows 23552:24576
+2026-10-10 15:46:49,248 | INFO    | TabPFN predict rows 24576:25600
+2026-10-10 15:46:49,815 | INFO    | TabPFN predict rows 25600:26624
+2026-10-10 15:46:50,386 | INFO    | TabPFN predict rows 26624:27648
+2026-10-10 15:46:50,956 | INFO    | TabPFN predict rows 27648:28672
+2026-10-10 15:46:51,525 | INFO    | TabPFN predict rows 28672:29696
+2026-10-10 15:46:52,093 | INFO    | TabPFN predict rows 29696:30720
+2026-10-10 15:46:52,663 | INFO    | TabPFN predict rows 30720:31744
+2026-10-10 15:46:53,235 | INFO    | TabPFN predict rows 31744:32768
+2026-10-10 15:46:53,805 | INFO    | TabPFN predict rows 32768:33792
+2026-10-10 15:46:54,374 | INFO    | TabPFN predict rows 33792:34816
+2026-10-10 15:46:54,940 | INFO    | TabPFN predict rows 34816:35840
+2026-10-10 15:46:55,510 | INFO    | TabPFN predict rows 35840:36864
+2026-10-10 15:46:56,081 | INFO    | TabPFN predict rows 36864:37888
+2026-10-10 15:46:56,653 | INFO    | TabPFN predict rows 37888:38912
+2026-10-10 15:46:57,222 | INFO    | TabPFN predict rows 38912:39936
+2026-10-10 15:46:57,796 | INFO    | TabPFN predict rows 39936:40960
+2026-10-10 15:46:58,364 | INFO    | TabPFN predict rows 40960:41984
+2026-10-10 15:46:58,939 | INFO    | TabPFN predict rows 41984:43008
+2026-10-10 15:46:59,510 | INFO    | TabPFN predict rows 43008:44032
+2026-10-10 15:47:00,081 | INFO    | TabPFN predict rows 44032:45056
+2026-10-10 15:47:00,646 | INFO    | TabPFN predict rows 45056:46080
+2026-10-10 15:47:01,215 | INFO    | TabPFN predict rows 46080:47104
+2026-10-10 15:47:01,782 | INFO    | TabPFN predict rows 47104:48128
+2026-10-10 15:47:02,345 | INFO    | TabPFN predict rows 48128:49152
+2026-10-10 15:47:02,911 | INFO    | TabPFN predict rows 49152:50176
+2026-10-10 15:47:03,473 | INFO    | TabPFN predict rows 50176:51200
+2026-10-10 15:47:04,038 | INFO    | TabPFN predict rows 51200:52224
+2026-10-10 15:47:04,605 | INFO    | TabPFN predict rows 52224:53248
+2026-10-10 15:47:05,173 | INFO    | TabPFN predict rows 53248:54272
+2026-10-10 15:47:05,747 | INFO    | TabPFN predict rows 54272:55296
+2026-10-10 15:47:06,319 | INFO    | TabPFN predict rows 55296:56320
+2026-10-10 15:47:06,888 | INFO    | TabPFN predict rows 56320:57344
+2026-10-10 15:47:07,460 | INFO    | TabPFN predict rows 57344:58368
+2026-10-10 15:47:08,027 | INFO    | TabPFN predict rows 58368:59392
+2026-10-10 15:47:08,591 | INFO    | TabPFN predict rows 59392:60416
+2026-10-10 15:47:09,157 | INFO    | TabPFN predict rows 60416:61440
+2026-10-10 15:47:09,722 | INFO    | TabPFN predict rows 61440:62464
+2026-10-10 15:47:10,288 | INFO    | TabPFN predict rows 62464:63488
+2026-10-10 15:47:10,852 | INFO    | TabPFN predict rows 63488:64512
+2026-10-10 15:47:11,415 | INFO    | TabPFN predict rows 64512:65536
+2026-10-10 15:47:11,988 | INFO    | TabPFN predict rows 65536:66560
+2026-10-10 15:47:12,559 | INFO    | TabPFN predict rows 66560:67584
+2026-10-10 15:47:13,128 | INFO    | TabPFN predict rows 67584:68608
+2026-10-10 15:47:13,692 | INFO    | TabPFN predict rows 68608:69632
+2026-10-10 15:47:14,262 | INFO    | TabPFN predict rows 69632:70656
+2026-10-10 15:47:14,833 | INFO    | TabPFN predict rows 70656:71680
+2026-10-10 15:47:15,400 | INFO    | TabPFN predict rows 71680:72704
+2026-10-10 15:47:15,971 | INFO    | TabPFN predict rows 72704:73728
+2026-10-10 15:47:16,539 | INFO    | TabPFN predict rows 73728:74752
+2026-10-10 15:47:17,102 | INFO    | TabPFN predict rows 74752:75776
+2026-10-10 15:47:17,675 | INFO    | TabPFN predict rows 75776:76800
+2026-10-10 15:47:18,247 | INFO    | TabPFN predict rows 76800:77824
+2026-10-10 15:47:18,823 | INFO    | TabPFN predict rows 77824:78848
+2026-10-10 15:47:19,387 | INFO    | TabPFN predict rows 78848:79872
+2026-10-10 15:47:19,952 | INFO    | TabPFN predict rows 79872:80896
+2026-10-10 15:47:20,522 | INFO    | TabPFN predict rows 80896:81920
+2026-10-10 15:47:21,087 | INFO    | TabPFN predict rows 81920:82944
+2026-10-10 15:47:21,663 | INFO    | TabPFN predict rows 82944:83968
+2026-10-10 15:47:22,232 | INFO    | TabPFN predict rows 83968:84992
+2026-10-10 15:47:22,805 | INFO    | TabPFN predict rows 84992:86016
+2026-10-10 15:47:23,383 | INFO    | TabPFN predict rows 86016:87040
+2026-10-10 15:47:23,955 | INFO    | TabPFN predict rows 87040:88064
+2026-10-10 15:47:24,530 | INFO    | TabPFN predict rows 88064:88942
+2026-10-10 15:47:25,123 | INFO    | DONE  TabPFN predict (88942 rows) (50.3s)
+2026-10-10 15:47:25,125 | INFO    | DONE  tabpfn on sales-office (55.7s)
+2026-10-10 15:47:25,197 | INFO    | sales-office accuracy=1.0000 on n=88942
+2026-10-10 15:47:26,544 | INFO    | START tabpfn on sales-group
+2026-10-10 15:47:26,927 | INFO    | SALESGROUP: TabPFN context=8000 rows, test=88942 rows, 378 classes in context
+2026-10-10 15:47:26,928 | INFO    | START build features
+2026-10-10 15:47:26,971 | INFO    | DONE  build features (0.0s)
+2026-10-10 15:47:27,029 | INFO    | START TabPFN fit
+2026-10-10 15:47:27,418 | ERROR   | FAILED TabPFN fit after 0.4s
+Traceback (most recent call last):
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/progress.py", line 64, in timed
+    yield
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/models/salt_tabpfn.py", line 96, in fit_predict
+    model.fit(x_train, y_train)
+  File "/home/pminervi/.local/share/uv/python/cpython-3.11.17-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 843, in fit
+    ensemble_configs, X, y = self._initialize_dataset_preprocessing(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 753, in _initialize_dataset_preprocessing
+    y, label_metadata = self.label_encoder_.fit_transform(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/preprocessing/label_encoder.py", line 57, in fit_transform
+    validate_num_classes(
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/validation.py", line 242, in validate_num_classes
+    raise TabPFNValidationError(
+tabpfn.errors.TabPFNValidationError: Number of classes `378` exceeds the maximum number of classes `160` officially supported by TabPFN.
+2026-10-10 15:47:27,826 | ERROR   | FAILED tabpfn on sales-group after 1.3s
+Traceback (most recent call last):
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/progress.py", line 64, in timed
+    yield
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/audit/salt_runner.py", line 86, in run_audit
+    preds = model_adapter.fit_predict(task, db_full)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/src/nesy_tabfm/models/salt_tabpfn.py", line 96, in fit_predict
+    model.fit(x_train, y_train)
+  File "/home/pminervi/.local/share/uv/python/cpython-3.11.17-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 843, in fit
+    ensemble_configs, X, y = self._initialize_dataset_preprocessing(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/classifier.py", line 753, in _initialize_dataset_preprocessing
+    y, label_metadata = self.label_encoder_.fit_transform(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/preprocessing/label_encoder.py", line 57, in fit_transform
+    validate_num_classes(
+  File "/home/pminervi/workspace/nesy_tabfm/.venv/lib/python3.11/site-packages/tabpfn/validation.py", line 242, in validate_num_classes
+    raise TabPFNValidationError(
+tabpfn.errors.TabPFNValidationError: Number of classes `378` exceeds the maximum number of classes `160` officially supported by TabPFN.
+2026-10-10 15:47:27,835 | ERROR   | sales-group FAILED: Number of classes `378` exceeds the maximum number of classes `160` officially supported by TabPFN.
+2026-10-10 15:47:29,005 | INFO    | START tabpfn on sales-payterms
+2026-10-10 15:47:29,402 | INFO    | CUSTOMERPAYMENTTERMS: TabPFN context=8000 rows, test=88942 rows, 102 classes in context
+2026-10-10 15:47:29,403 | INFO    | START build features
+2026-10-10 15:47:29,436 | INFO    | DONE  build features (0.0s)
+2026-10-10 15:47:29,473 | INFO    | START TabPFN fit
+2026-10-10 15:47:30,742 | INFO    | DONE  TabPFN fit (1.3s)
+2026-10-10 15:47:30,743 | INFO    | START TabPFN predict (88942 rows)
+2026-10-10 15:47:30,743 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 15:47:31,333 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 15:47:31,903 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 15:47:32,473 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 15:47:33,043 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 15:47:33,617 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 15:47:34,190 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 15:47:34,762 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 15:47:35,340 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 15:47:35,915 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 15:47:36,488 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 15:47:37,063 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 15:47:37,635 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 15:47:38,203 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 15:47:38,771 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 15:47:39,350 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 15:47:39,927 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 15:47:40,503 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 15:47:41,086 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 15:47:41,661 | INFO    | TabPFN predict rows 19456:20480
+2026-10-10 15:47:42,230 | INFO    | TabPFN predict rows 20480:21504
+2026-10-10 15:47:42,803 | INFO    | TabPFN predict rows 21504:22528
+2026-10-10 15:47:43,378 | INFO    | TabPFN predict rows 22528:23552
+2026-10-10 15:47:43,950 | INFO    | TabPFN predict rows 23552:24576
+2026-10-10 15:47:44,516 | INFO    | TabPFN predict rows 24576:25600
+2026-10-10 15:47:45,089 | INFO    | TabPFN predict rows 25600:26624
+2026-10-10 15:47:45,664 | INFO    | TabPFN predict rows 26624:27648
+2026-10-10 15:47:46,245 | INFO    | TabPFN predict rows 27648:28672
+2026-10-10 15:47:46,819 | INFO    | TabPFN predict rows 28672:29696
+2026-10-10 15:47:47,391 | INFO    | TabPFN predict rows 29696:30720
+2026-10-10 15:47:47,969 | INFO    | TabPFN predict rows 30720:31744
+2026-10-10 15:47:48,542 | INFO    | TabPFN predict rows 31744:32768
+2026-10-10 15:47:49,115 | INFO    | TabPFN predict rows 32768:33792
+2026-10-10 15:47:49,680 | INFO    | TabPFN predict rows 33792:34816
+2026-10-10 15:47:50,248 | INFO    | TabPFN predict rows 34816:35840
+2026-10-10 15:47:50,820 | INFO    | TabPFN predict rows 35840:36864
+2026-10-10 15:47:51,395 | INFO    | TabPFN predict rows 36864:37888
+2026-10-10 15:47:51,972 | INFO    | TabPFN predict rows 37888:38912
+2026-10-10 15:47:52,546 | INFO    | TabPFN predict rows 38912:39936
+2026-10-10 15:47:53,122 | INFO    | TabPFN predict rows 39936:40960
+2026-10-10 15:47:53,695 | INFO    | TabPFN predict rows 40960:41984
+2026-10-10 15:47:54,264 | INFO    | TabPFN predict rows 41984:43008
+2026-10-10 15:47:54,836 | INFO    | TabPFN predict rows 43008:44032
+2026-10-10 15:47:55,408 | INFO    | TabPFN predict rows 44032:45056
+2026-10-10 15:47:55,978 | INFO    | TabPFN predict rows 45056:46080
+2026-10-10 15:47:56,543 | INFO    | TabPFN predict rows 46080:47104
+2026-10-10 15:47:57,111 | INFO    | TabPFN predict rows 47104:48128
+2026-10-10 15:47:57,675 | INFO    | TabPFN predict rows 48128:49152
+2026-10-10 15:47:58,243 | INFO    | TabPFN predict rows 49152:50176
+2026-10-10 15:47:58,816 | INFO    | TabPFN predict rows 50176:51200
+2026-10-10 15:47:59,388 | INFO    | TabPFN predict rows 51200:52224
+2026-10-10 15:47:59,957 | INFO    | TabPFN predict rows 52224:53248
+2026-10-10 15:48:00,532 | INFO    | TabPFN predict rows 53248:54272
+2026-10-10 15:48:01,110 | INFO    | TabPFN predict rows 54272:55296
+2026-10-10 15:48:01,691 | INFO    | TabPFN predict rows 55296:56320
+2026-10-10 15:48:02,263 | INFO    | TabPFN predict rows 56320:57344
+2026-10-10 15:48:02,840 | INFO    | TabPFN predict rows 57344:58368
+2026-10-10 15:48:03,412 | INFO    | TabPFN predict rows 58368:59392
+2026-10-10 15:48:03,982 | INFO    | TabPFN predict rows 59392:60416
+2026-10-10 15:48:04,560 | INFO    | TabPFN predict rows 60416:61440
+2026-10-10 15:48:05,131 | INFO    | TabPFN predict rows 61440:62464
+2026-10-10 15:48:05,706 | INFO    | TabPFN predict rows 62464:63488
+2026-10-10 15:48:06,281 | INFO    | TabPFN predict rows 63488:64512
+2026-10-10 15:48:06,853 | INFO    | TabPFN predict rows 64512:65536
+2026-10-10 15:48:07,425 | INFO    | TabPFN predict rows 65536:66560
+2026-10-10 15:48:07,996 | INFO    | TabPFN predict rows 66560:67584
+2026-10-10 15:48:08,571 | INFO    | TabPFN predict rows 67584:68608
+2026-10-10 15:48:09,146 | INFO    | TabPFN predict rows 68608:69632
+2026-10-10 15:48:09,721 | INFO    | TabPFN predict rows 69632:70656
+2026-10-10 15:48:10,296 | INFO    | TabPFN predict rows 70656:71680
+2026-10-10 15:48:10,864 | INFO    | TabPFN predict rows 71680:72704
+2026-10-10 15:48:11,439 | INFO    | TabPFN predict rows 72704:73728
+2026-10-10 15:48:12,018 | INFO    | TabPFN predict rows 73728:74752
+2026-10-10 15:48:12,590 | INFO    | TabPFN predict rows 74752:75776
+2026-10-10 15:48:13,169 | INFO    | TabPFN predict rows 75776:76800
+2026-10-10 15:48:13,749 | INFO    | TabPFN predict rows 76800:77824
+2026-10-10 15:48:14,323 | INFO    | TabPFN predict rows 77824:78848
+2026-10-10 15:48:14,898 | INFO    | TabPFN predict rows 78848:79872
+2026-10-10 15:48:15,472 | INFO    | TabPFN predict rows 79872:80896
+2026-10-10 15:48:16,048 | INFO    | TabPFN predict rows 80896:81920
+2026-10-10 15:48:16,620 | INFO    | TabPFN predict rows 81920:82944
+2026-10-10 15:48:17,189 | INFO    | TabPFN predict rows 82944:83968
+2026-10-10 15:48:17,755 | INFO    | TabPFN predict rows 83968:84992
+2026-10-10 15:48:18,327 | INFO    | TabPFN predict rows 84992:86016
+2026-10-10 15:48:18,893 | INFO    | TabPFN predict rows 86016:87040
+2026-10-10 15:48:19,462 | INFO    | TabPFN predict rows 87040:88064
+2026-10-10 15:48:20,035 | INFO    | TabPFN predict rows 88064:88942
+2026-10-10 15:48:20,604 | INFO    | DONE  TabPFN predict (88942 rows) (49.9s)
+2026-10-10 15:48:20,606 | INFO    | DONE  tabpfn on sales-payterms (51.6s)
+2026-10-10 15:48:20,673 | INFO    | sales-payterms accuracy=0.9910 on n=88942
+2026-10-10 15:48:22,047 | INFO    | START tabpfn on sales-shipcond
+2026-10-10 15:48:22,364 | INFO    | SHIPPINGCONDITION: TabPFN context=8000 rows, test=88942 rows, 31 classes in context
+2026-10-10 15:48:22,364 | INFO    | START build features
+2026-10-10 15:48:22,398 | INFO    | DONE  build features (0.0s)
+2026-10-10 15:48:22,435 | INFO    | START TabPFN fit
+2026-10-10 15:48:22,853 | INFO    | DONE  TabPFN fit (0.4s)
+2026-10-10 15:48:22,853 | INFO    | START TabPFN predict (88942 rows)
+2026-10-10 15:48:22,854 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 15:48:23,430 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 15:48:24,007 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 15:48:24,585 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 15:48:25,160 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 15:48:25,736 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 15:48:26,309 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 15:48:26,886 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 15:48:27,456 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 15:48:28,031 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 15:48:28,609 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 15:48:29,188 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 15:48:29,764 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 15:48:30,336 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 15:48:30,912 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 15:48:31,485 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 15:48:32,065 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 15:48:32,642 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 15:48:33,216 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 15:48:33,795 | INFO    | TabPFN predict rows 19456:20480
+2026-10-10 15:48:34,375 | INFO    | TabPFN predict rows 20480:21504
+2026-10-10 15:48:34,950 | INFO    | TabPFN predict rows 21504:22528
+2026-10-10 15:48:35,539 | INFO    | TabPFN predict rows 22528:23552
+2026-10-10 15:48:36,129 | INFO    | TabPFN predict rows 23552:24576
+2026-10-10 15:48:36,722 | INFO    | TabPFN predict rows 24576:25600
+2026-10-10 15:48:37,313 | INFO    | TabPFN predict rows 25600:26624
+2026-10-10 15:48:37,904 | INFO    | TabPFN predict rows 26624:27648
+2026-10-10 15:48:38,493 | INFO    | TabPFN predict rows 27648:28672
+2026-10-10 15:48:39,069 | INFO    | TabPFN predict rows 28672:29696
+2026-10-10 15:48:39,643 | INFO    | TabPFN predict rows 29696:30720
+2026-10-10 15:48:40,223 | INFO    | TabPFN predict rows 30720:31744
+2026-10-10 15:48:40,806 | INFO    | TabPFN predict rows 31744:32768
+2026-10-10 15:48:41,385 | INFO    | TabPFN predict rows 32768:33792
+2026-10-10 15:48:41,962 | INFO    | TabPFN predict rows 33792:34816
+2026-10-10 15:48:42,527 | INFO    | TabPFN predict rows 34816:35840
+2026-10-10 15:48:43,107 | INFO    | TabPFN predict rows 35840:36864
+2026-10-10 15:48:43,669 | INFO    | TabPFN predict rows 36864:37888
+2026-10-10 15:48:44,244 | INFO    | TabPFN predict rows 37888:38912
+2026-10-10 15:48:44,826 | INFO    | TabPFN predict rows 38912:39936
+2026-10-10 15:48:45,399 | INFO    | TabPFN predict rows 39936:40960
+2026-10-10 15:48:45,968 | INFO    | TabPFN predict rows 40960:41984
+2026-10-10 15:48:46,538 | INFO    | TabPFN predict rows 41984:43008
+2026-10-10 15:48:47,105 | INFO    | TabPFN predict rows 43008:44032
+2026-10-10 15:48:47,670 | INFO    | TabPFN predict rows 44032:45056
+2026-10-10 15:48:48,247 | INFO    | TabPFN predict rows 45056:46080
+2026-10-10 15:48:48,823 | INFO    | TabPFN predict rows 46080:47104
+2026-10-10 15:48:49,394 | INFO    | TabPFN predict rows 47104:48128
+2026-10-10 15:48:49,969 | INFO    | TabPFN predict rows 48128:49152
+2026-10-10 15:48:50,534 | INFO    | TabPFN predict rows 49152:50176
+2026-10-10 15:48:51,109 | INFO    | TabPFN predict rows 50176:51200
+2026-10-10 15:48:51,677 | INFO    | TabPFN predict rows 51200:52224
+2026-10-10 15:48:52,242 | INFO    | TabPFN predict rows 52224:53248
+2026-10-10 15:48:52,815 | INFO    | TabPFN predict rows 53248:54272
+2026-10-10 15:48:53,389 | INFO    | TabPFN predict rows 54272:55296
+2026-10-10 15:48:53,958 | INFO    | TabPFN predict rows 55296:56320
+2026-10-10 15:48:54,518 | INFO    | TabPFN predict rows 56320:57344
+2026-10-10 15:48:55,086 | INFO    | TabPFN predict rows 57344:58368
+2026-10-10 15:48:55,657 | INFO    | TabPFN predict rows 58368:59392
+2026-10-10 15:48:56,228 | INFO    | TabPFN predict rows 59392:60416
+2026-10-10 15:48:56,798 | INFO    | TabPFN predict rows 60416:61440
+2026-10-10 15:48:57,356 | INFO    | TabPFN predict rows 61440:62464
+2026-10-10 15:48:57,919 | INFO    | TabPFN predict rows 62464:63488
+2026-10-10 15:48:58,486 | INFO    | TabPFN predict rows 63488:64512
+2026-10-10 15:48:59,046 | INFO    | TabPFN predict rows 64512:65536
+2026-10-10 15:48:59,618 | INFO    | TabPFN predict rows 65536:66560
+2026-10-10 15:49:00,186 | INFO    | TabPFN predict rows 66560:67584
+2026-10-10 15:49:00,755 | INFO    | TabPFN predict rows 67584:68608
+2026-10-10 15:49:01,324 | INFO    | TabPFN predict rows 68608:69632
+2026-10-10 15:49:01,896 | INFO    | TabPFN predict rows 69632:70656
+2026-10-10 15:49:02,464 | INFO    | TabPFN predict rows 70656:71680
+2026-10-10 15:49:03,041 | INFO    | TabPFN predict rows 71680:72704
+2026-10-10 15:49:03,623 | INFO    | TabPFN predict rows 72704:73728
+2026-10-10 15:49:04,192 | INFO    | TabPFN predict rows 73728:74752
+2026-10-10 15:49:04,765 | INFO    | TabPFN predict rows 74752:75776
+2026-10-10 15:49:05,366 | INFO    | TabPFN predict rows 75776:76800
+2026-10-10 15:49:05,951 | INFO    | TabPFN predict rows 76800:77824
+2026-10-10 15:49:06,531 | INFO    | TabPFN predict rows 77824:78848
+2026-10-10 15:49:07,109 | INFO    | TabPFN predict rows 78848:79872
+2026-10-10 15:49:07,684 | INFO    | TabPFN predict rows 79872:80896
+2026-10-10 15:49:08,263 | INFO    | TabPFN predict rows 80896:81920
+2026-10-10 15:49:08,834 | INFO    | TabPFN predict rows 81920:82944
+2026-10-10 15:49:09,404 | INFO    | TabPFN predict rows 82944:83968
+2026-10-10 15:49:09,987 | INFO    | TabPFN predict rows 83968:84992
+2026-10-10 15:49:10,567 | INFO    | TabPFN predict rows 84992:86016
+2026-10-10 15:49:11,137 | INFO    | TabPFN predict rows 86016:87040
+2026-10-10 15:49:11,715 | INFO    | TabPFN predict rows 87040:88064
+2026-10-10 15:49:12,288 | INFO    | TabPFN predict rows 88064:88942
+2026-10-10 15:49:12,854 | INFO    | DONE  TabPFN predict (88942 rows) (50.0s)
+2026-10-10 15:49:12,857 | INFO    | DONE  tabpfn on sales-shipcond (50.8s)
+2026-10-10 15:49:12,945 | INFO    | sales-shipcond accuracy=0.9890 on n=88942
+2026-10-10 15:49:14,407 | INFO    | START tabpfn on sales-incoterms
+2026-10-10 15:49:14,670 | INFO    | HEADERINCOTERMSCLASSIFICATION: TabPFN context=8000 rows, test=88942 rows, 12 classes in context
+2026-10-10 15:49:14,670 | INFO    | START build features
+2026-10-10 15:49:14,747 | INFO    | DONE  build features (0.1s)
+2026-10-10 15:49:14,805 | INFO    | START TabPFN fit
+2026-10-10 15:49:15,392 | INFO    | DONE  TabPFN fit (0.6s)
+2026-10-10 15:49:15,392 | INFO    | START TabPFN predict (88942 rows)
+2026-10-10 15:49:15,392 | INFO    | TabPFN predict rows 0:1024
+2026-10-10 15:49:16,135 | INFO    | TabPFN predict rows 1024:2048
+2026-10-10 15:49:16,875 | INFO    | TabPFN predict rows 2048:3072
+2026-10-10 15:49:17,551 | INFO    | TabPFN predict rows 3072:4096
+2026-10-10 15:49:18,130 | INFO    | TabPFN predict rows 4096:5120
+2026-10-10 15:49:18,708 | INFO    | TabPFN predict rows 5120:6144
+2026-10-10 15:49:19,279 | INFO    | TabPFN predict rows 6144:7168
+2026-10-10 15:49:19,855 | INFO    | TabPFN predict rows 7168:8192
+2026-10-10 15:49:20,438 | INFO    | TabPFN predict rows 8192:9216
+2026-10-10 15:49:21,014 | INFO    | TabPFN predict rows 9216:10240
+2026-10-10 15:49:21,589 | INFO    | TabPFN predict rows 10240:11264
+2026-10-10 15:49:22,171 | INFO    | TabPFN predict rows 11264:12288
+2026-10-10 15:49:22,757 | INFO    | TabPFN predict rows 12288:13312
+2026-10-10 15:49:23,341 | INFO    | TabPFN predict rows 13312:14336
+2026-10-10 15:49:23,923 | INFO    | TabPFN predict rows 14336:15360
+2026-10-10 15:49:24,504 | INFO    | TabPFN predict rows 15360:16384
+2026-10-10 15:49:25,091 | INFO    | TabPFN predict rows 16384:17408
+2026-10-10 15:49:25,677 | INFO    | TabPFN predict rows 17408:18432
+2026-10-10 15:49:26,257 | INFO    | TabPFN predict rows 18432:19456
+2026-10-10 15:49:26,839 | INFO    | TabPFN predict rows 19456:20480
+2026-10-10 15:49:27,412 | INFO    | TabPFN predict rows 20480:21504
+2026-10-10 15:49:27,986 | INFO    | TabPFN predict rows 21504:22528
+2026-10-10 15:49:28,568 | INFO    | TabPFN predict rows 22528:23552
+2026-10-10 15:49:29,156 | INFO    | TabPFN predict rows 23552:24576
+2026-10-10 15:49:29,738 | INFO    | TabPFN predict rows 24576:25600
+2026-10-10 15:49:30,317 | INFO    | TabPFN predict rows 25600:26624
+2026-10-10 15:49:30,892 | INFO    | TabPFN predict rows 26624:27648
+2026-10-10 15:49:31,470 | INFO    | TabPFN predict rows 27648:28672
+2026-10-10 15:49:32,049 | INFO    | TabPFN predict rows 28672:29696
+2026-10-10 15:49:32,628 | INFO    | TabPFN predict rows 29696:30720
+2026-10-10 15:49:33,202 | INFO    | TabPFN predict rows 30720:31744
+2026-10-10 15:49:33,775 | INFO    | TabPFN predict rows 31744:32768
+2026-10-10 15:49:34,344 | INFO    | TabPFN predict rows 32768:33792
+2026-10-10 15:49:34,919 | INFO    | TabPFN predict rows 33792:34816
+2026-10-10 15:49:35,498 | INFO    | TabPFN predict rows 34816:35840
+2026-10-10 15:49:36,086 | INFO    | TabPFN predict rows 35840:36864
+2026-10-10 15:49:36,657 | INFO    | TabPFN predict rows 36864:37888
+2026-10-10 15:49:37,227 | INFO    | TabPFN predict rows 37888:38912
+2026-10-10 15:49:37,789 | INFO    | TabPFN predict rows 38912:39936
+2026-10-10 15:49:38,362 | INFO    | TabPFN predict rows 39936:40960
+2026-10-10 15:49:38,936 | INFO    | TabPFN predict rows 40960:41984
+2026-10-10 15:49:39,514 | INFO    | TabPFN predict rows 41984:43008
+2026-10-10 15:49:40,103 | INFO    | TabPFN predict rows 43008:44032
+2026-10-10 15:49:40,689 | INFO    | TabPFN predict rows 44032:45056
+2026-10-10 15:49:41,285 | INFO    | TabPFN predict rows 45056:46080
+2026-10-10 15:49:41,873 | INFO    | TabPFN predict rows 46080:47104
+2026-10-10 15:49:42,462 | INFO    | TabPFN predict rows 47104:48128
+2026-10-10 15:49:43,051 | INFO    | TabPFN predict rows 48128:49152
+2026-10-10 15:49:43,643 | INFO    | TabPFN predict rows 49152:50176
+2026-10-10 15:49:44,243 | INFO    | TabPFN predict rows 50176:51200
+2026-10-10 15:49:44,830 | INFO    | TabPFN predict rows 51200:52224
+2026-10-10 15:49:45,422 | INFO    | TabPFN predict rows 52224:53248
+2026-10-10 15:49:46,016 | INFO    | TabPFN predict rows 53248:54272
+2026-10-10 15:49:46,603 | INFO    | TabPFN predict rows 54272:55296
+2026-10-10 15:49:47,193 | INFO    | TabPFN predict rows 55296:56320
+2026-10-10 15:49:47,788 | INFO    | TabPFN predict rows 56320:57344
+2026-10-10 15:49:48,382 | INFO    | TabPFN predict rows 57344:58368
+2026-10-10 15:49:48,973 | INFO    | TabPFN predict rows 58368:59392
+2026-10-10 15:49:49,570 | INFO    | TabPFN predict rows 59392:60416
+2026-10-10 15:49:50,165 | INFO    | TabPFN predict rows 60416:61440
+2026-10-10 15:49:50,753 | INFO    | TabPFN predict rows 61440:62464
+2026-10-10 15:49:51,345 | INFO    | TabPFN predict rows 62464:63488
+2026-10-10 15:49:51,945 | INFO    | TabPFN predict rows 63488:64512
+2026-10-10 15:49:52,545 | INFO    | TabPFN predict rows 64512:65536
+2026-10-10 15:49:53,135 | INFO    | TabPFN predict rows 65536:66560
+2026-10-10 15:49:53,726 | INFO    | TabPFN predict rows 66560:67584
+2026-10-10 15:49:54,325 | INFO    | TabPFN predict rows 67584:68608
+2026-10-10 15:49:54,918 | INFO    | TabPFN predict rows 68608:69632
+2026-10-10 15:49:55,509 | INFO    | TabPFN predict rows 69632:70656
+2026-10-10 15:49:56,104 | INFO    | TabPFN predict rows 70656:71680
+2026-10-10 15:49:56,703 | INFO    | TabPFN predict rows 71680:72704
+2026-10-10 15:49:57,307 | INFO    | TabPFN predict rows 72704:73728
+2026-10-10 15:49:57,894 | INFO    | TabPFN predict rows 73728:74752
+2026-10-10 15:49:58,491 | INFO    | TabPFN predict rows 74752:75776
+2026-10-10 15:49:59,086 | INFO    | TabPFN predict rows 75776:76800
+2026-10-10 15:49:59,685 | INFO    | TabPFN predict rows 76800:77824
+2026-10-10 15:50:00,274 | INFO    | TabPFN predict rows 77824:78848
+2026-10-10 15:50:00,865 | INFO    | TabPFN predict rows 78848:79872
+2026-10-10 15:50:01,456 | INFO    | TabPFN predict rows 79872:80896
+2026-10-10 15:50:02,054 | INFO    | TabPFN predict rows 80896:81920
+2026-10-10 15:50:02,649 | INFO    | TabPFN predict rows 81920:82944
+2026-10-10 15:50:03,253 | INFO    | TabPFN predict rows 82944:83968
+2026-10-10 15:50:03,851 | INFO    | TabPFN predict rows 83968:84992
+2026-10-10 15:50:04,444 | INFO    | TabPFN predict rows 84992:86016
+2026-10-10 15:50:05,052 | INFO    | TabPFN predict rows 86016:87040
+2026-10-10 15:50:05,656 | INFO    | TabPFN predict rows 87040:88064
+2026-10-10 15:50:06,247 | INFO    | TabPFN predict rows 88064:88942
+2026-10-10 15:50:06,836 | INFO    | DONE  TabPFN predict (88942 rows) (51.4s)
+2026-10-10 15:50:06,839 | INFO    | DONE  tabpfn on sales-incoterms (52.4s)
+2026-10-10 15:50:06,912 | INFO    | sales-incoterms accuracy=0.9998 on n=88942
+2026-10-10 15:50:14,640 | INFO    | prediction-level results:
+                                               name                  kind  n_checked  n_violations  violation_rate
+                      plant_consistent_within_order                denial    6184238             0        0.000000
+              shippingpoint_consistent_within_order                denial    6184238           891        0.000144
+itemincotermsclassification_consistent_within_order                denial    6184238           303        0.000049
+           shippingpoint_pred_determines_plant_pred functional_dependency     402855          2493        0.006188
+  item_incoterms_pred_matches_header_incoterms_pred                denial     402855           279        0.000693
+2026-10-10 15:50:14,656 | INFO    | wrote /home/pminervi/workspace/nesy_tabfm/results_cluster_fulltest/salt/tabpfn/findings.md
