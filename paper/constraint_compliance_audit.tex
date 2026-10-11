@@ -26,7 +26,8 @@ monotonicity) plus domain-sourced rules requiring external knowledge. Every cons
 verified against ground truth before being used to audit predictions, across three benchmarks:
 rel-f1 (Formula 1 results), rel-salt (SAP enterprise sales data, 8 tasks), and HELOC (consumer
 credit risk). TabPFN was run as a single, untuned configuration -- on rel-salt with a
-necessarily small subsample (its CPU inference limits preclude full-scale training) and on
+necessarily small training subsample (its CPU inference limits preclude full-scale training),
+evaluated on each task's full test split, and on
 rel-f1 via RelArena's TabPFN-Rel relational pipeline -- so the TabPFN results reported here are
 preliminary and should be read as a first pass, not a final characterization. LightGBM, a
 conventional (non-foundation-model) gradient-boosted-tree baseline trained on the full
@@ -56,7 +57,7 @@ LightGBM, a conventional gradient-boosted-tree model trained from scratch on eac
 full training data, is included as a familiar reference point for calibrating what a CVR
 number means in absolute terms -- not because the paper is about comparing the two models, and
 not on equal footing: LightGBM was trained on full datasets, while TabPFN's CPU inference
-limits confined it to small subsamples on the largest benchmark. Results for the two models
+limits confined its training to a small subsample on the largest benchmark. Results for the two models
 are reported separately throughout, not merged into head-to-head tables, because they are not
 run under comparable conditions.
 
@@ -136,14 +137,16 @@ integration paths depending on benchmark, both preliminary:
 \item On \textbf{rel-salt}, we used the plain \texttt{tabpfn} client package (v3 backend)
   directly on hand-built flat features, in-process. TabPFN's CPU inference has a documented
   10-class / $\sim$10{,}000-row soft advisory limit and a hard, unbypassable 160-class ceiling
-  (confirmed empirically: sales-group's 502 classes triggered a \texttt{TabPFNValidationError}
-  even with \texttt{ignore\_pretraining\_limits=True}, which we set to run past the soft
-  10-class limit). Because rel-salt's full training tables run to 1.6M rows, we trained on an
-  8{,}000-row random subsample and evaluated on a 1{,}000-row random subsample per task --
-  small enough to fit TabPFN's practical CPU limits, but far smaller than what a from-scratch
-  model like LightGBM can use, and not stratified by class (infeasible across up to 502
-  classes in an 8{,}000-row budget). This is a feasibility trial, not a fully-powered
-  evaluation.
+  (confirmed empirically: sales-group's full 502-class vocabulary -- of which a random
+  8{,}000-row training draw still contains 378 distinct values -- triggered a
+  \texttt{TabPFNValidationError} even with \texttt{ignore\_pretraining\_limits=True}, which we
+  set to run past the soft 10-class limit). Because rel-salt's full training tables run to
+  1.6M rows, we trained on an 8{,}000-row random subsample per task -- small enough to fit
+  TabPFN's practical CPU limits, but far smaller than what a from-scratch model like LightGBM
+  can use, and not stratified by class (infeasible across up to 502 classes in an
+  8{,}000-row budget). Predictions were then evaluated on each task's full test split (up to
+  402{,}855 rows for item-level tasks), batched in groups of 1{,}024 rows to bound memory, so
+  only the training side remains a feasibility trial -- the evaluation side is fully powered.
 \item On \textbf{rel-f1}, we used RelArena's \texttt{tabpfn-rel-local} pipeline (TabPFN-Rel),
   which automatically synthesizes relational features via multi-hop deep feature synthesis
   (DFS) across the database's foreign-key graph, rather than the hand-built flat features used
@@ -171,16 +174,19 @@ any result reported here was computed.
 
 All decision-level violation rates reported in Section 3 are accompanied by a Wilson 95\%
 confidence interval rather than a bare point estimate, since several checks -- most visibly
-rel-salt's within-order consistency checks at $n=46$ item pairs -- rest on samples small
-enough that a point estimate alone would overstate precision.
+rel-f1's 30-window cardinality check and HELOC's $\sim$2{,}000-row monotonicity checks -- rest
+on samples small enough that a point estimate alone would overstate precision. rel-salt's
+prediction-level checks run on the full test split (Section 2.3) and carry correspondingly
+tight intervals, though its training sample remains small (below).
 
 \paragraph{Scope of this initial pass.} This is a first, preliminary audit, not a finished
 benchmark. Concretely: (1) TabPFN was run once per task, with no hyperparameter tuning on
 rel-salt and RelArena's own fixed 10-trial tuning on rel-f1 -- neither is a tuning sweep
-matched between the two models; (2) rel-salt's TabPFN subsample sizes (8{,}000 train /
-1{,}000 test) were chosen for CPU feasibility, not statistical power -- the Wilson intervals
-reported alongside each decision-level rate reflect that small sample, they do not remove its
-effect; (3) each configuration was run once, not repeated across random seeds,
+matched between the two models; (2) rel-salt's TabPFN training subsample (8{,}000 rows per
+task) was chosen for CPU feasibility, not statistical power, even though prediction is now
+evaluated on each task's full test split -- the Wilson intervals reported alongside each
+decision-level rate reflect whatever sample actually underlies that check, not a uniformly
+small one; (3) each configuration was run once, not repeated across random seeds,
 so we cannot yet distinguish a stable pattern from sampling noise; (4) LightGBM's numbers are
 reported as a reference point throughout, never merged into a single head-to-head statistic
 with TabPFN's, because the two were not run under comparable data-scale conditions. We draw
@@ -252,7 +258,7 @@ real enterprise master-data governance rather than a schema-declared key.
 TabPFN's numbers below come from the single-configuration, small-sample runs described in
 Sections 2.3--2.4; read them as an initial picture, not a final characterization.
 
-\subsubsection{rel-salt: accuracy by task (1{,}000-row test sample)}
+\subsubsection{rel-salt: accuracy by task (full test split)}
 
 \begin{table}[h]
 \centering
@@ -261,14 +267,14 @@ Sections 2.3--2.4; read them as an initial picture, not a final characterization
 \toprule
 \textbf{Task} & \textbf{Target} & \textbf{$n$} & \textbf{Accuracy} \\
 \midrule
-item-plant & PLANT & 1{,}000 & 98.90\% \\
-item-shippoint & SHIPPINGPOINT & 1{,}000 & 96.90\% \\
-item-incoterms & ITEMINCOTERMSCLASSIFICATION & 1{,}000 & 100.00\% \\
-sales-office & SALESOFFICE & 1{,}000 & 100.00\% \\
-sales-group & SALESGROUP & -- & excluded (502 classes $>$ 160-class ceiling) \\
-sales-payterms & CUSTOMERPAYMENTTERMS & 1{,}000 & 98.90\% \\
-sales-shipcond & SHIPPINGCONDITION & 1{,}000 & 98.80\% \\
-sales-incoterms & HEADERINCOTERMSCLASSIFICATION & 1{,}000 & 100.00\% \\
+item-plant & PLANT & 402{,}855 & 98.90\% \\
+item-shippoint & SHIPPINGPOINT & 402{,}855 & 97.02\% \\
+item-incoterms & ITEMINCOTERMSCLASSIFICATION & 402{,}855 & 99.995\% \\
+sales-office & SALESOFFICE & 88{,}942 & 99.999\% \\
+sales-group & SALESGROUP & -- & excluded (378 of 502 classes already $>$ 160-class ceiling) \\
+sales-payterms & CUSTOMERPAYMENTTERMS & 88{,}942 & 99.10\% \\
+sales-shipcond & SHIPPINGCONDITION & 88{,}942 & 98.90\% \\
+sales-incoterms & HEADERINCOTERMSCLASSIFICATION & 88{,}942 & 99.98\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -278,14 +284,15 @@ sales-incoterms & HEADERINCOTERMSCLASSIFICATION & 1{,}000 & 100.00\% \\
 \begin{table}[h]
 \centering
 \small
-\begin{tabularx}{\linewidth}{@{} L{5.7cm} l r l @{}}
+\begin{tabularx}{\linewidth}{@{} L{5.9cm} l r l @{}}
 \toprule
 \textbf{Constraint} & \textbf{$n$} & \textbf{TabPFN CVR} & \textbf{95\% CI (Wilson)} \\
 \midrule
-plant\_consistent\_within\_order & 46 item pairs & 0.00\% (0) & [0.00, 7.71] \\
-shippingpoint\_consistent\_within\_order & 46 item pairs & 0.00\% (0) & [0.00, 7.71] \\
-itemincotermsclassification\_consistent\_within\_order & 46 item pairs & 0.00\% (0) & [0.00, 7.71] \\
-shippingpoint\_pred\_determines\_plant\_pred & 1{,}000 & 0.50\% (5) & [0.21, 1.17] \\
+plant\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.00\% (0) & [0.00, 0.0001] \\
+shippingpoint\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0144\% (891) & [0.0135, 0.0154] \\
+itemincotermsclassification\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0049\% (303) & [0.0044, 0.0055] \\
+shippingpoint\_pred\_determines\_plant\_pred & 402{,}855 & 0.6188\% (2{,}493) & [0.5951, 0.6435] \\
+item\_incoterms\_pred\_matches\_header\_incoterms\_pred & 402{,}855 & 0.0693\% (279) & [0.0616, 0.0779] \\
 salesgroup\_pred\_determines\_salesoffice\_pred & -- & excluded (sales-group not runnable) & -- \\
 \bottomrule
 \end{tabularx}
@@ -322,9 +329,11 @@ NetFractionRevolvingBurden & 1{,}945 & 19.69\% (383) & [17.98, 21.52] \\
 \end{tabular}
 \end{table}
 
-In this initial pass, TabPFN's rel-salt accuracy was high ($\geq$96.9\%) on every task it
-could run, its prediction-level constraint violations were at or below 0.5\% everywhere
-measured, and its rel-f1 top3\_predictions\_per\_window rate (36.67\%, 11 of 30 windows) is
+In this initial pass, TabPFN's rel-salt accuracy was high ($\geq$97.0\%) on every task it
+could run, and on the full test split its prediction-level constraint violations stayed below
+0.62\% everywhere measured -- low, but no longer exactly zero on two within-order checks
+(0.0144\% and 0.0049\%) where the original 1{,}000-row pilot's small sample could only ever
+report 0.00\%. Its rel-f1 top3\_predictions\_per\_window rate (36.67\%, 11 of 30 windows) is
 the one figure worth flagging for a closer look given how few test windows back it.
 
 \subsection{LightGBM reference results}
@@ -365,7 +374,7 @@ explanation (Section \ref{sec:limitations}).
 \begin{table}[h]
 \centering
 \small
-\begin{tabularx}{\linewidth}{@{} L{5.7cm} l r l @{}}
+\begin{tabularx}{\linewidth}{@{} L{5.9cm} l r l @{}}
 \toprule
 \textbf{Constraint} & \textbf{$n$} & \textbf{LightGBM CVR} & \textbf{95\% CI (Wilson)} \\
 \midrule
@@ -373,6 +382,7 @@ plant\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0078\% (483) & [
 shippingpoint\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.00\% (0) & [0.00, 0.0001] \\
 itemincotermsclassification\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0049\% (303) & [0.0044, 0.0055] \\
 shippingpoint\_pred\_determines\_plant\_pred & 402{,}855 & 27.29\% (109{,}941) & [27.15, 27.43] \\
+item\_incoterms\_pred\_matches\_header\_incoterms\_pred & 402{,}855 & 0.0760\% (306) & [0.0679, 0.0850] \\
 salesgroup\_pred\_determines\_salesoffice\_pred & 88{,}942 & 0.11\% (102) & [0.09, 0.14] \\
 \bottomrule
 \end{tabularx}
@@ -418,13 +428,15 @@ NetFractionRevolvingBurden & 1{,}945 & 32.19\% (626) & [30.15, 34.29] \\
 \subsection{TabPFN's preliminary CVR pattern}
 
 In this initial, single-configuration pass, TabPFN's rel-salt predictions showed low
-constraint-violation rates everywhere we could measure them (at or below 0.5\%) alongside
-high accuracy ($\geq$96.9\% on every runnable task), and it did not reproduce the LightGBM
+constraint-violation rates on the full test split (at or below 0.62\%) alongside
+high accuracy ($\geq$97.0\% on every runnable task), and it did not reproduce the LightGBM
 reference's item-shippoint collapse (Section \ref{sec:masking}). TabPFN was also more
 monotonic than the LightGBM reference on both HELOC features (10.53\%/19.69\% vs.\
 17.84\%/32.19\%). We read these as encouraging preliminary signals, not a settled finding: the
-rel-salt sample is small (1{,}000 test rows per task), untuned, and run once, so we cannot yet
-separate a real property of TabPFN's predictions from sampling variation. The one number that
+rel-salt training sample is small (8{,}000 rows per task), untuned, and run once, so we cannot
+yet separate a real property of TabPFN's predictions from sampling noise in which 8{,}000
+rows it happened to see -- though the evaluation side is no longer a small-sample concern,
+now that it runs on the full test split. The one number that
 stands out enough to flag for follow-up is rel-f1's top3\_predictions\_per\_window via
 TabPFN-Rel (36.67\%, 11 of 30 windows) -- notably higher than the LightGBM reference's figure
 on the same check (13.33\%, 4 of 30), though with only 30 test windows a handful of counts
@@ -454,9 +466,11 @@ cannot also produce a plant prediction consistent with them.
 We take two things from this. First, methodologically: a single same-relation consistency
 check is not sufficient evidence of model competence, for either model audited here -- it is
 why TabPFN's results above are reported across several independent constraint types rather
-than one. Second, and more tentatively: TabPFN did not show this failure mode on the same task
-(96.90\% accuracy, Section \ref{sec:tabpfn-results}), which is worth a matched-scale follow-up
-rather than a conclusion, since the two models were not run on equal-sized samples.
+than one. Second: TabPFN did not show this failure mode on the same task (97.02\% accuracy,
+Section \ref{sec:tabpfn-results}), now measured on the same full test split LightGBM uses, so
+this particular comparison is no longer a small-sample artifact -- though the two models still
+trained on very differently sized data (8{,}000 rows vs.\ the full $\sim$1.6M, Section 2.3),
+so a matched-training-scale follow-up remains the natural next step.
 
 \subsection{Constraint engineering at real scale}
 
@@ -472,17 +486,20 @@ involve.
 \label{sec:limitations}
 
 \begin{itemize}
-\item \textbf{Unequal statistical power.} TabPFN's rel-salt results use an 8{,}000-row
-  training subsample and a 1{,}000-row test subsample against LightGBM's full $\sim$1.6M
-  training / $\sim$400K test rows, so the two models' violation rates are not equal-power
-  comparisons. On item-level tasks, TabPFN's feature set also drops five near-unique
-  identifier columns that LightGBM retains (Section 2.3).
+\item \textbf{Unequal training scale (evaluation scale is now matched).} TabPFN's rel-salt
+  results use an 8{,}000-row training subsample against LightGBM's full $\sim$1.6M training
+  rows, so the two models' predictions are not fit under comparable conditions. Both are now
+  evaluated on the same full test split (up to 402{,}855 rows per task), which removes the
+  evaluation-side power gap the original 1{,}000-row pilot had, but the training-side gap
+  remains and a model trained on 8{,}000 rows is not a matched comparison to one trained on
+  1.6M regardless of how large the test set is. On item-level tasks, TabPFN's feature set also
+  drops five near-unique identifier columns that LightGBM retains (Section 2.3).
 \item \textbf{Single run, no matched tuning.} TabPFN was run once per task, untuned on
   rel-salt, and under RelArena's own fixed 10-trial tuning on rel-f1 -- a different,
   non-matched regime. We cannot yet distinguish a stable pattern from a lucky or unlucky draw.
 \item \textbf{A hard architectural ceiling.} TabPFN has an unbypassable 160-class limit that
-  excludes it entirely from sales-group (502 classes); every comparison involving that task is
-  one-sided.
+  excludes it entirely from sales-group (502 classes in the full vocabulary, still 378 within
+  just its 8{,}000-row training draw); every comparison involving that task is one-sided.
 \item \textbf{An unexplained weak point in the LightGBM reference.} LightGBM's item-shippoint
   and sales-shipcond weakness (Section \ref{sec:lgbm-accuracy}) has a plausible explanation --
   distribution shift toward customer identities unseen at training time -- that we did not
@@ -504,7 +521,8 @@ TabPFN showed low constraint-violation rates and high accuracy across most of re
 tasks, and did not reproduce the one collapsed-prediction failure mode seen in the LightGBM
 reference baseline; it was also more monotonic than that reference on HELOC. We hold all of
 these as preliminary observations: TabPFN's rel-salt runs used a small, untuned, single-seed
-sample, and its rel-f1 numbers come from a different pipeline (TabPFN-Rel) than its rel-salt
+training sample (evaluation now runs on the full test split), and its rel-f1 numbers come
+from a different pipeline (TabPFN-Rel) than its rel-salt
 numbers, so the two should not be pooled into one claim about ``TabPFN.'' The audit's more
 durable finding is methodological: a same-relation consistency check gave a misleadingly
 perfect result for the LightGBM reference's one collapsed-prediction task, and only an
