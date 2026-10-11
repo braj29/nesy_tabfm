@@ -15,7 +15,15 @@ from nesy_tabfm.data.qualifying_features import build_features
 
 class QualifyingLGBMAdapter:
     def __init__(self, **lgbm_kwargs: Any):
-        self.lgbm_kwargs = {"n_estimators": 200, "num_leaves": 31, "verbose": -1, **lgbm_kwargs}
+        self.lgbm_kwargs = {
+            "n_estimators": 200,
+            "num_leaves": 31,
+            "verbose": -1,
+            "random_state": 0,
+            "deterministic": True,
+            "force_row_wise": True,
+            **lgbm_kwargs,
+        }
 
     def fit_predict(self, task: Any, db: Any, db_full: Any) -> pd.DataFrame:
         """``db`` (model-visible, truncated at test_timestamp) supplies the lag-feature

@@ -33,7 +33,15 @@ def _cast_categorical(x_train: pd.DataFrame, x_test: pd.DataFrame) -> None:
 
 class SaltLGBMAdapter:
     def __init__(self, **lgbm_kwargs: Any):
-        self.lgbm_kwargs = {"n_estimators": 200, "num_leaves": 63, "verbose": -1, **lgbm_kwargs}
+        self.lgbm_kwargs = {
+            "n_estimators": 200,
+            "num_leaves": 63,
+            "verbose": -1,
+            "random_state": 0,
+            "deterministic": True,
+            "force_row_wise": True,
+            **lgbm_kwargs,
+        }
 
     def fit_predict(self, task: Any, db: Any) -> pd.DataFrame:
         tables = {name: t.df for name, t in db.table_dict.items()}

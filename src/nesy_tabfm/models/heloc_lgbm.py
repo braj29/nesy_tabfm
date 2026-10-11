@@ -15,7 +15,15 @@ import pandas as pd
 
 class HelocLGBMAdapter:
     def __init__(self, **lgbm_kwargs: Any):
-        self.lgbm_kwargs = {"n_estimators": 200, "num_leaves": 31, "verbose": -1, **lgbm_kwargs}
+        self.lgbm_kwargs = {
+            "n_estimators": 200,
+            "num_leaves": 31,
+            "verbose": -1,
+            "random_state": 0,
+            "deterministic": True,
+            "force_row_wise": True,
+            **lgbm_kwargs,
+        }
         self.model: lgb.LGBMClassifier | None = None
 
     def fit(self, x_train: pd.DataFrame, y_train: pd.Series) -> "HelocLGBMAdapter":
