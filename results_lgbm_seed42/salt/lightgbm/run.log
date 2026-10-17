@@ -1,0 +1,36 @@
+2026-10-17 16:28:50,165 | INFO    | rel-salt audit, model=lightgbm, output=results_lgbm_seed42/salt/lightgbm
+2026-10-17 16:28:50,165 | INFO    | START load rel-salt
+2026-10-17 16:28:50,620 | INFO    | DONE  load rel-salt (0.5s)
+2026-10-17 16:28:50,620 | INFO    | START build full db
+2026-10-17 16:28:51,202 | INFO    | DONE  build full db (0.6s)
+2026-10-17 16:28:51,363 | INFO    | item_fk_salesdocument                                   referential_integrity  checked=2319540    violations=0        rate=0.000000 (0.1s)
+2026-10-17 16:28:51,463 | INFO    | item_fk_soldtoparty                                     referential_integrity  checked=2319540    violations=0        rate=0.000000 (0.1s)
+2026-10-17 16:28:51,587 | INFO    | customer_fk_address                                     referential_integrity  checked=139607     violations=0        rate=0.000000 (0.1s)
+2026-10-17 16:28:51,652 | INFO    | order_has_at_least_one_item                             cardinality            checked=500908     violations=0        rate=0.000000 (0.1s)
+2026-10-17 16:28:56,849 | INFO    | items_share_plant_within_order                          denial                 checked=32417261   violations=7134     rate=0.000220 (5.2s)
+2026-10-17 16:29:00,921 | INFO    | items_share_shippingpoint_within_order                  denial                 checked=32417261   violations=7155     rate=0.000221 (4.1s)
+2026-10-17 16:29:04,760 | INFO    | items_share_itemincotermsclassification_within_order    denial                 checked=32417261   violations=2582     rate=0.000080 (3.8s)
+2026-10-17 16:29:04,997 | INFO    | salesorg_determines_division                            functional_dependency  checked=500908     violations=0        rate=0.000000 (0.2s)
+2026-10-17 16:29:05,174 | INFO    | salesorg_determines_billing_company_code                functional_dependency  checked=500908     violations=3        rate=0.000006 (0.2s)
+2026-10-17 16:29:05,348 | INFO    | shippingpoint_determines_plant                          functional_dependency  checked=2319540    violations=1356     rate=0.000585 (0.2s)
+2026-10-17 16:29:05,414 | INFO    | salesgroup_determines_salesoffice                       functional_dependency  checked=500908     violations=1399     rate=0.002793 (0.1s)
+2026-10-17 16:29:05,695 | INFO    | item_incoterms_matches_header_incoterms                 denial                 checked=2319540    violations=1701     rate=0.000733 (0.3s)
+2026-10-17 16:29:05,708 | INFO    | item_incoterms_in_fixed_vocabulary                      denial                 checked=2319540    violations=0        rate=0.000000 (0.0s)
+2026-10-17 16:29:05,710 | INFO    | header_incoterms_in_fixed_vocabulary                    denial                 checked=500908     violations=0        rate=0.000000 (0.0s)
+2026-10-17 16:29:06,664 | INFO    | START lightgbm on item-plant
+2026-10-17 16:29:06,692 | INFO    | PLANT: train=1622789 test=402855 rows, 34 classes
+2026-10-17 16:29:06,693 | INFO    | START build features
+2026-10-17 16:29:07,252 | INFO    | DONE  build features (0.6s)
+2026-10-17 16:29:08,417 | INFO    | START LightGBM fit (1622789 rows, 14 features)
+2026-10-17 16:30:49,406 | INFO    | DONE  LightGBM fit (1622789 rows, 14 features) (101.0s)
+2026-10-17 16:30:49,407 | INFO    | START LightGBM predict (402855 rows)
+2026-10-17 16:31:10,015 | INFO    | DONE  LightGBM predict (402855 rows) (20.6s)
+2026-10-17 16:31:10,022 | INFO    | DONE  lightgbm on item-plant (123.4s)
+2026-10-17 16:31:10,074 | INFO    | item-plant accuracy=0.9909 on n=402855
+2026-10-17 16:31:11,510 | INFO    | START lightgbm on item-shippoint
+2026-10-17 16:31:11,546 | INFO    | SHIPPINGPOINT: train=1622789 test=402855 rows, 81 classes
+2026-10-17 16:31:11,546 | INFO    | START build features
+2026-10-17 16:31:11,956 | INFO    | DONE  build features (0.4s)
+2026-10-17 16:31:13,056 | INFO    | START LightGBM fit (1622789 rows, 14 features)
+2026-10-17 16:34:55,273 | INFO    | DONE  LightGBM fit (1622789 rows, 14 features) (222.2s)
+2026-10-17 16:34:55,275 | INFO    | START LightGBM predict (402855 rows)
