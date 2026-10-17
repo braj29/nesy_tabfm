@@ -37,7 +37,7 @@ class SaltLGBMAdapter:
             "n_estimators": 200,
             "num_leaves": 63,
             "verbose": -1,
-            "random_state": 0,
+            "random_state": 42,
             "deterministic": True,
             "force_row_wise": True,
             **lgbm_kwargs,

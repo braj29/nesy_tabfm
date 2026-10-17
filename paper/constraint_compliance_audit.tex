@@ -154,6 +154,14 @@ integration paths depending on benchmark, both preliminary:
   grid. This is a materially different pipeline from the rel-salt integration, included
   because it is RelArena's standard way of running TabPFN on a relational benchmark; the two
   should not be read as the same experimental protocol.
+\item On \textbf{HELOC}, we used the same plain \texttt{tabpfn} client package directly on
+  HELOC's own tabular features, also on CPU for consistency with rel-salt's device choice
+  above. HELOC's single table and $\sim$2{,}000-row monotonicity test set are far below
+  TabPFN's practical limits, so CPU is not itself a feasibility constraint here the way it is
+  for rel-salt; a GPU rerun gives closely similar but not bit-identical violation rates
+  (floating-point operations are not guaranteed identical across CPU and GPU backends even at
+  a fixed random seed), which is why we report one device consistently rather than treating
+  the two as interchangeable.
 \end{itemize}
 
 \textbf{LightGBM (reference baseline)}, trained on the full available training data for every
