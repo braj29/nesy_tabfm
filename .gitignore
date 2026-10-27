@@ -10,3 +10,6 @@ relarena_predict/.env
 .claude/settings.local.json
 slogs/
 results_smoke/
+
+# CCD per-class probabilities (large; regenerate with scripts/run_ccd_salt.py predict)
+results_ccd/**/*.npz

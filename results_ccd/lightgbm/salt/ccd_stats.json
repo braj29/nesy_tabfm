@@ -1,0 +1,68 @@
+{
+  "data": {
+    "model": "lightgbm",
+    "n_items": 402855,
+    "n_orders": 88942,
+    "n_shippoint_classes": 81,
+    "n_plant_classes": 34,
+    "ground_truth_item_violation_rate": 0.011559990567325713,
+    "ground_truth_order_violation_rate": 0.034202064266600704,
+    "items_true_shippoint_outside_model_classes": 4319,
+    "items_true_plant_outside_model_classes": 0,
+    "items_genuine_exception_both_labels_known": 338
+  },
+  "variants": [
+    {
+      "probabilities": "model probabilities",
+      "folds": [
+        {
+          "fold": 0,
+          "t_shippoint": 1.0,
+          "t_plant": 1.0,
+          "log_delta_item": -129.23729194253184,
+          "log_delta_order": -438.844609922376
+        },
+        {
+          "fold": 1,
+          "t_shippoint": 1.0,
+          "t_plant": 1.0,
+          "log_delta_item": -128.29117963195273,
+          "log_delta_order": -382.68573114303763
+        }
+      ],
+      "n_scored_items": 398536,
+      "n_scored_items_coherent_truth": 398198,
+      "n_scored_orders": 86116,
+      "n_scored_orders_coherent_truth": 85900,
+      "mean_item_coherence_deficit_nats": 1.397491586611148,
+      "mean_order_coherence_deficit_nats": 7.816702368933812,
+      "mean_item_model_violation_prob": 0.07711500391224745
+    },
+    {
+      "probabilities": "calibrated",
+      "folds": [
+        {
+          "fold": 0,
+          "t_shippoint": 9999991.37100282,
+          "t_plant": 1.4915910142191773,
+          "log_delta_item": -10.665863027756966,
+          "log_delta_order": -286.39516828033607
+        },
+        {
+          "fold": 1,
+          "t_shippoint": 9999991.310277048,
+          "t_plant": 1.5784429562072058,
+          "log_delta_item": -9.873215471952324,
+          "log_delta_order": -285.3319022476445
+        }
+      ],
+      "n_scored_items": 398536,
+      "n_scored_items_coherent_truth": 398198,
+      "n_scored_orders": 86116,
+      "n_scored_orders_coherent_truth": 85900,
+      "mean_item_coherence_deficit_nats": 2.7113785921562643,
+      "mean_order_coherence_deficit_nats": 12.565290435094349,
+      "mean_item_model_violation_prob": 0.913703646789706
+    }
+  ]
+}

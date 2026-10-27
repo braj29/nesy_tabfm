@@ -1,0 +1,319 @@
+2026-10-27 15:24:25,459 | INFO    | START load rel-salt
+2026-10-27 15:24:26,605 | INFO    | DONE  load rel-salt (1.1s)
+2026-10-27 15:24:27,837 | INFO    | START lightgbm on item-shippoint
+2026-10-27 15:24:27,867 | INFO    | SHIPPINGPOINT: train=1622789 test=402855 rows, 81 classes
+2026-10-27 15:24:27,867 | INFO    | START build features
+2026-10-27 15:24:28,467 | INFO    | DONE  build features (0.6s)
+2026-10-27 15:24:29,752 | INFO    | START LightGBM fit (1622789 rows, 14 features)
+2026-10-27 15:28:30,989 | INFO    | DONE  LightGBM fit (1622789 rows, 14 features) (241.2s)
+2026-10-27 15:28:30,991 | INFO    | START LightGBM predict_proba (402855 rows)
+2026-10-27 15:29:41,896 | INFO    | DONE  LightGBM predict_proba (402855 rows) (70.9s)
+2026-10-27 15:29:41,943 | INFO    | DONE  lightgbm on item-shippoint (314.1s)
+2026-10-27 15:29:42,900 | INFO    | item-shippoint: accuracy=0.9002 on n=402855, 81 classes
+2026-10-27 15:29:44,083 | INFO    | START lightgbm on item-plant
+2026-10-27 15:29:44,118 | INFO    | PLANT: train=1622789 test=402855 rows, 34 classes
+2026-10-27 15:29:44,118 | INFO    | START build features
+2026-10-27 15:29:44,683 | INFO    | DONE  build features (0.6s)
+2026-10-27 15:29:45,898 | INFO    | START LightGBM fit (1622789 rows, 14 features)
+2026-10-27 15:31:30,395 | INFO    | DONE  LightGBM fit (1622789 rows, 14 features) (104.5s)
+2026-10-27 15:31:30,397 | INFO    | START LightGBM predict_proba (402855 rows)
+2026-10-27 15:31:53,348 | INFO    | DONE  LightGBM predict_proba (402855 rows) (23.0s)
+2026-10-27 15:31:53,384 | INFO    | DONE  lightgbm on item-plant (129.3s)
+2026-10-27 15:31:54,296 | INFO    | item-plant: accuracy=0.9909 on n=402855, 34 classes
+2026-10-27 15:31:56,731 | INFO    | wrote predictions, probabilities and the 81-shipping-point map to /Users/rayb/phd/nesy_tabfm/results_ccd/lightgbm/salt
+2026-10-27 15:32:05,327 | INFO    | 402855 test items in 88942 orders; 81 shipping points, 34 plants; g covers 81/81 shipping-point classes
+2026-10-27 15:32:05,327 | INFO    | START CCD, item scope
+2026-10-27 15:32:05,884 | INFO    | DONE  CCD, item scope (0.6s)
+2026-10-27 15:32:06,452 | INFO    | START CCD, order scope
+2026-10-27 15:32:07,416 | INFO    | DONE  CCD, order scope (1.0s)
+2026-10-27 15:32:07,532 | INFO    | 
+# CCD on rel-salt (lightgbm): SHIPPINGPOINT -> PLANT
+
+402,855 test items in 88,942 orders. Ground truth breaks the item-level dependency for 1.1560% of items and the order-level constraint for 3.4202% of orders.
+Fitted soft strength (cross-fitted, per fold): item 3.23e-08, 3.09e-08; order 8.76e-27, 8.76e-27.
+
+## Item scope (cross-task FD)
+
+| method | acc_shippoint | acc_plant | exact_match | cvr | n_violations | joint_nll | joint_nll_n_inf |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.89956 | 0.08525 | 34344 | 2.81073 | 0 |
+| B1 greedy repair | 0.90885 | 0.93611 | 0.90822 | 0.00000 | 0 | 2.81073 | 0 |
+| B2 Hamming repair | 0.90022 | 0.91308 | 0.89960 | 0.00000 | 0 | 2.81073 | 0 |
+| CCD hard (MAP) | 0.90371 | 0.91703 | 0.90309 | 0.00000 | 0 | 1.27102 | 5892 |
+| CCD soft (fitted delta) | 0.90338 | 0.92538 | 0.90275 | 0.00868 | 3496 | 1.92443 | 0 |
+
+## Order scope (plant agreement + FD)
+
+| method | acc_shippoint | acc_plant | order_exact_match | order_cvr | n_violating_orders | joint_nll_per_order | joint_nll_n_inf |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.79281 | 0.17452 | 15522 | 12.73093 | 0 |
+| CCD item scope only (hard) | 0.90371 | 0.91703 | 0.79902 | 0.01089 | 969 | 12.73093 | 0 |
+| CCD hard (MAP) | 0.90444 | 0.91776 | 0.80205 | 0.00000 | 0 | 5.28091 | 3867 |
+| CCD soft (fitted delta) | 0.90221 | 0.95442 | 0.79937 | 0.02659 | 2365 | 10.65877 | 0 |
+
+Joint NLL is in nats per scope, with probabilities floored at 1e-12; repairs change decisions, not probabilities, so their NLL equals the raw one. `n_inf`: scopes where hard conditioning assigns zero probability to the realized outcome (genuine exceptions).
+2026-10-27 15:38:38,751 | INFO    | START load rel-salt
+2026-10-27 15:38:39,965 | INFO    | DONE  load rel-salt (1.2s)
+2026-10-27 15:38:41,149 | INFO    | START lightgbm on item-shippoint
+2026-10-27 15:38:41,182 | INFO    | SHIPPINGPOINT: train=1622789 test=402855 rows, 81 classes
+2026-10-27 15:38:41,182 | INFO    | START build features
+2026-10-27 15:38:41,801 | INFO    | DONE  build features (0.6s)
+2026-10-27 15:38:43,172 | INFO    | START LightGBM fit (1622789 rows, 14 features)
+2026-10-27 15:42:51,174 | INFO    | DONE  LightGBM fit (1622789 rows, 14 features) (248.0s)
+2026-10-27 15:42:51,175 | INFO    | START LightGBM raw scores (402855 rows)
+2026-10-27 15:44:06,528 | INFO    | DONE  LightGBM raw scores (402855 rows) (75.4s)
+2026-10-27 15:44:06,607 | INFO    | DONE  lightgbm on item-shippoint (325.5s)
+2026-10-27 15:44:09,081 | INFO    | item-shippoint: accuracy=0.9002 on n=402855, 81 classes
+2026-10-27 15:44:10,512 | INFO    | START lightgbm on item-plant
+2026-10-27 15:44:10,561 | INFO    | PLANT: train=1622789 test=402855 rows, 34 classes
+2026-10-27 15:44:10,561 | INFO    | START build features
+2026-10-27 15:44:11,154 | INFO    | DONE  build features (0.6s)
+2026-10-27 15:44:12,392 | INFO    | START LightGBM fit (1622789 rows, 14 features)
+2026-10-27 15:45:48,643 | INFO    | DONE  LightGBM fit (1622789 rows, 14 features) (96.3s)
+2026-10-27 15:45:48,645 | INFO    | START LightGBM raw scores (402855 rows)
+2026-10-27 15:46:13,541 | INFO    | DONE  LightGBM raw scores (402855 rows) (24.9s)
+2026-10-27 15:46:13,565 | INFO    | DONE  lightgbm on item-plant (123.1s)
+2026-10-27 15:46:14,494 | INFO    | item-plant: accuracy=0.9909 on n=402855, 34 classes
+2026-10-27 15:46:16,195 | INFO    | wrote predictions, probabilities and the 81-shipping-point map to /Users/rayb/phd/nesy_tabfm/results_ccd/lightgbm/salt
+2026-10-27 15:46:47,324 | INFO    | {"model": "lightgbm", "n_items": 402855, "n_orders": 88942, "n_shippoint_classes": 81, "n_plant_classes": 34, "ground_truth_item_violation_rate": 0.011559990567325713, "ground_truth_order_violation_rate": 0.034202064266600704, "items_true_shippoint_outside_model_classes": 4319, "items_true_plant_outside_model_classes": 0, "items_genuine_exception_both_labels_known": 338}
+2026-10-27 15:46:47,324 | INFO    | START decode, model probabilities
+2026-10-27 15:46:53,592 | INFO    | DONE  decode, model probabilities (6.3s)
+2026-10-27 15:46:53,592 | INFO    | START decode, calibrated probabilities
+2026-10-27 15:47:13,951 | WARNING | fold 0: shipping point temperature 1e+07 is at the search bound (0.001, 10000000.0)
+2026-10-27 15:49:35,335 | WARNING | fold 1: shipping point temperature 1e+07 is at the search bound (0.001, 10000000.0)
+2026-10-27 15:49:35,603 | INFO    | DONE  decode, calibrated probabilities (162.0s)
+2026-10-27 15:49:35,699 | INFO    | 
+# CCD on rel-salt (lightgbm): SHIPPINGPOINT -> PLANT
+
+402,855 test items in 88,942 orders. The ground truth breaks the item-level dependency (as learned from training items) for 1.1560% of items: 4,319 items have a shipping point the model has never seen, 0 a plant it has never seen, and 338 are genuine exceptions. It breaks the order-level constraint for 3.4202% of orders.
+
+Log-losses are exact, in nats per scope, averaged over scopes whose true labels are all among the model's classes; `n_inf` counts those where a method gives the true outcome zero probability (hard conditioning on genuine exceptions). Repairs change decisions, not probabilities, so their log-loss equals the raw one.
+
+## Model probabilities
+
+Fitted on the other half of the orders: fold 0: T_ship=1, T_plant=1, delta_item=8.76e-27, delta_order=8.76e-27; fold 1: T_ship=1, T_plant=1, delta_item=8.76e-27, delta_order=8.76e-27. Mean coherence deficit 1.3975 nats per item, 7.8167 per order; scored 398,536 items and 86,116 orders.
+
+### Item scope (cross-task FD)
+
+| method | acc_shippoint | acc_plant | exact_match | cvr | n_violations | joint_nll | joint_nll_n_inf |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.89956 | 0.08525 | 34344 | 8888.32113 | 0 |
+| B1 greedy repair | 0.90821 | 0.93634 | 0.90758 | 0.00000 | 0 | 8888.32113 | 0 |
+| B2 Hamming repair | 0.90022 | 0.91308 | 0.89960 | 0.00000 | 0 | 8888.32113 | 0 |
+| CCD hard (MAP) | 0.90377 | 0.91709 | 0.90314 | 0.00000 | 0 | 8894.12188 | 338 |
+| CCD soft (fitted delta) | 0.90350 | 0.92013 | 0.90287 | 0.00331 | 1334 | 8887.18892 | 0 |
+
+### Order scope (plant agreement + FD)
+
+| method | acc_shippoint | acc_plant | order_exact_match | order_cvr | n_violating_orders | joint_nll_per_order | joint_nll_n_inf |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.79281 | 0.17452 | 15522 | 41134.23696 | 0 |
+| CCD item scope only (hard) | 0.90377 | 0.91709 | 0.79917 | 0.01089 | 969 | 41206.94200 | 191 |
+| CCD hard (MAP) | 0.90533 | 0.91904 | 0.80185 | 0.00000 | 0 | 41216.96963 | 216 |
+| CCD soft (fitted delta) | 0.90221 | 0.95442 | 0.79937 | 0.02659 | 2365 | 41130.44342 | 0 |
+
+## Calibrated
+
+Fitted on the other half of the orders: fold 0: T_ship=1e+07, T_plant=1.49, delta_item=2.33e-05, delta_order=8.76e-27; fold 1: T_ship=1e+07, T_plant=1.58, delta_item=5.15e-05, delta_order=8.76e-27. Mean coherence deficit 2.7114 nats per item, 12.5653 per order; scored 398,536 items and 86,116 orders.
+
+### Item scope (cross-task FD)
+
+| method | acc_shippoint | acc_plant | exact_match | cvr | n_violations | joint_nll | joint_nll_n_inf |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.89956 | 0.08525 | 34344 | 4.41717 | 0 |
+| B1 greedy repair | 0.94662 | 0.99072 | 0.94600 | 0.00000 | 0 | 4.41717 | 0 |
+| B2 Hamming repair | 0.90022 | 0.91308 | 0.89960 | 0.00000 | 0 | 4.41717 | 0 |
+| CCD hard (MAP) | 0.94670 | 0.99080 | 0.94608 | 0.00000 | 0 | 1.70352 | 338 |
+| CCD soft (fitted delta) | 0.94670 | 0.99080 | 0.94608 | 0.00000 | 0 | 1.71547 | 0 |
+
+### Order scope (plant agreement + FD)
+
+| method | acc_shippoint | acc_plant | order_exact_match | order_cvr | n_violating_orders | joint_nll_per_order | joint_nll_n_inf |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.79281 | 0.17452 | 15522 | 20.44222 | 0 |
+| CCD item scope only (hard) | 0.94670 | 0.99080 | 0.86216 | 0.00013 | 12 | 7.89206 | 191 |
+| CCD hard (MAP) | 0.94670 | 0.99080 | 0.86224 | 0.00000 | 0 | 7.87370 | 216 |
+| CCD soft (fitted delta) | 0.94670 | 0.99080 | 0.86224 | 0.00000 | 0 | 10.95392 | 0 |
+2026-10-27 15:51:13,647 | INFO    | {"model": "lightgbm", "n_items": 402855, "n_orders": 88942, "n_shippoint_classes": 81, "n_plant_classes": 34, "ground_truth_item_violation_rate": 0.011559990567325713, "ground_truth_order_violation_rate": 0.034202064266600704, "items_true_shippoint_outside_model_classes": 4319, "items_true_plant_outside_model_classes": 0, "items_genuine_exception_both_labels_known": 338}
+2026-10-27 15:51:13,648 | INFO    | START decode, model probabilities
+2026-10-27 15:51:19,951 | INFO    | DONE  decode, model probabilities (6.3s)
+2026-10-27 15:51:19,952 | INFO    | START decode, calibrated probabilities
+2026-10-27 15:51:34,909 | WARNING | fold 0: shipping point temperature 1e+07 is at the search bound (0.001, 10000000.0)
+2026-10-27 15:51:50,065 | WARNING | fold 1: shipping point temperature 1e+07 is at the search bound (0.001, 10000000.0)
+2026-10-27 15:51:50,358 | INFO    | DONE  decode, calibrated probabilities (30.4s)
+2026-10-27 15:51:50,377 | INFO    | 
+# CCD on rel-salt (lightgbm): SHIPPINGPOINT -> PLANT
+
+402,855 test items in 88,942 orders. The ground truth breaks the item-level dependency (as learned from training items) for 1.1560% of items: 4,319 items have a shipping point the model has never seen, 0 a plant it has never seen, and 338 are genuine exceptions. It breaks the order-level constraint for 3.4202% of orders.
+
+Joint log-losses are exact, in nats per scope, over scopes whose true labels are all among the model's classes, and on the same scopes for every method: `nll_coherent_truth` over those whose true outcome obeys the constraint (where hard conditioning lowers the loss by exactly the coherence deficit), `nll_all` over all of them (hard conditioning is infinite on the genuine exceptions). Repairs change decisions, not probabilities, so their log-loss equals the raw one.
+
+## Model probabilities
+
+Fitted on the other half of the orders: fold 0: T_ship=1, T_plant=1, delta_item=8.76e-27, delta_order=8.76e-27; fold 1: T_ship=1, T_plant=1, delta_item=8.76e-27, delta_order=8.76e-27. Mean coherence deficit 1.3975 nats per item, 7.8167 per order; scored 398,536 items and 86,116 orders.
+
+### Item scope (cross-task FD)
+
+| method | acc_shippoint | acc_plant | exact_match | cvr | n_violations | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.89956 | 0.08525 | 34344 | 8895.51258 | 8888.32113 |
+| B1 greedy repair | 0.90821 | 0.93634 | 0.90758 | 0.00000 | 0 | 8895.51258 | 8888.32113 |
+| B2 Hamming repair | 0.90022 | 0.91308 | 0.89960 | 0.00000 | 0 | 8895.51258 | 8888.32113 |
+| CCD hard (MAP) | 0.90377 | 0.91709 | 0.90314 | 0.00000 | 0 | 8894.12188 | inf |
+| CCD soft (fitted delta) | 0.90350 | 0.92013 | 0.90287 | 0.00331 | 1334 | 8894.33442 | 8887.18892 |
+
+### Order scope (plant agreement + FD)
+
+| method | acc_shippoint | acc_plant | order_exact_match | order_cvr | n_violating_orders | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.79281 | 0.17452 | 15522 | 41224.76397 | 41134.23696 |
+| CCD item scope only (hard) | 0.90377 | 0.91709 | 0.79917 | 0.01089 | 969 | 41218.32214 | inf |
+| CCD hard (MAP) | 0.90533 | 0.91904 | 0.80185 | 0.00000 | 0 | 41216.96963 | inf |
+| CCD soft (fitted delta) | 0.90221 | 0.95442 | 0.79937 | 0.02659 | 2365 | 41220.83830 | 41130.44342 |
+
+## Calibrated
+
+Fitted on the other half of the orders: fold 0: T_ship=1e+07, T_plant=1.49, delta_item=2.33e-05, delta_order=8.76e-27; fold 1: T_ship=1e+07, T_plant=1.58, delta_item=5.15e-05, delta_order=8.76e-27. Mean coherence deficit 2.7114 nats per item, 12.5653 per order; scored 398,536 items and 86,116 orders.
+
+### Item scope (cross-task FD)
+
+| method | acc_shippoint | acc_plant | exact_match | cvr | n_violations | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.89956 | 0.08525 | 34344 | 4.41324 | 4.41717 |
+| B1 greedy repair | 0.94662 | 0.99072 | 0.94600 | 0.00000 | 0 | 4.41324 | 4.41717 |
+| B2 Hamming repair | 0.90022 | 0.91308 | 0.89960 | 0.00000 | 0 | 4.41324 | 4.41717 |
+| CCD hard (MAP) | 0.94670 | 0.99080 | 0.94608 | 0.00000 | 0 | 1.70352 | inf |
+| CCD soft (fitted delta) | 0.94670 | 0.99080 | 0.94608 | 0.00000 | 0 | 1.70432 | 1.71547 |
+
+### Order scope (plant agreement + FD)
+
+| method | acc_shippoint | acc_plant | order_exact_match | order_cvr | n_violating_orders | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.79281 | 0.17452 | 15522 | 20.44189 | 20.44222 |
+| CCD item scope only (hard) | 0.94670 | 0.99080 | 0.86216 | 0.00013 | 12 | 7.89053 | inf |
+| CCD hard (MAP) | 0.94670 | 0.99080 | 0.86224 | 0.00000 | 0 | 7.87370 | inf |
+| CCD soft (fitted delta) | 0.94670 | 0.99080 | 0.86224 | 0.00000 | 0 | 10.80473 | 10.95392 |
+
+The shipping point temperature is at the search bound 1e+07: the best single temperature flattens those probabilities to almost uniform, keeping only their ranking.
+2026-10-27 15:53:43,784 | INFO    | {"model": "lightgbm", "n_items": 402855, "n_orders": 88942, "n_shippoint_classes": 81, "n_plant_classes": 34, "ground_truth_item_violation_rate": 0.011559990567325713, "ground_truth_order_violation_rate": 0.034202064266600704, "items_true_shippoint_outside_model_classes": 4319, "items_true_plant_outside_model_classes": 0, "items_genuine_exception_both_labels_known": 338}
+2026-10-27 15:53:43,784 | INFO    | START decode, model probabilities
+2026-10-27 15:53:50,387 | INFO    | DONE  decode, model probabilities (6.6s)
+2026-10-27 15:53:50,387 | INFO    | START decode, calibrated probabilities
+2026-10-27 15:54:05,853 | WARNING | fold 0: shipping point temperature 1e+07 is at the search bound (0.001, 10000000.0)
+2026-10-27 15:54:21,427 | WARNING | fold 1: shipping point temperature 1e+07 is at the search bound (0.001, 10000000.0)
+2026-10-27 15:54:21,714 | INFO    | DONE  decode, calibrated probabilities (31.3s)
+2026-10-27 15:54:21,730 | INFO    | 
+# CCD on rel-salt (lightgbm): SHIPPINGPOINT -> PLANT
+
+402,855 test items in 88,942 orders. The ground truth breaks the item-level dependency (as learned from training items) for 1.1560% of items: 4,319 items have a shipping point the model has never seen, 0 a plant it has never seen, and 338 are genuine exceptions. It breaks the order-level constraint for 3.4202% of orders.
+
+Joint log-losses are exact, in nats per scope, over scopes whose true labels are all among the model's classes, and on the same scopes for every method: `nll_coherent_truth` over those whose true outcome obeys the constraint (where hard conditioning lowers the loss by exactly the coherence deficit), `nll_all` over all of them (hard conditioning is infinite on the genuine exceptions). Repairs change decisions, not probabilities, so their log-loss equals the raw one.
+
+## Model probabilities
+
+Fitted on the other half of the orders: fold 0: T_ship=1, T_plant=1, log_delta_item=-1e+04, log_delta_order=-1e+04; fold 1: T_ship=1, T_plant=1, log_delta_item=-128.3, log_delta_order=-382.7. Mean coherence deficit 1.3975 nats per item, 7.8167 per order; scored 398,536 items and 86,116 orders.
+
+### Item scope (cross-task FD)
+
+| method | acc_shippoint | acc_plant | exact_match | cvr | n_violations | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.89956 | 0.08525 | 34344 | 8895.51258 | 8888.32113 |
+| B1 greedy repair | 0.90821 | 0.93634 | 0.90758 | 0.00000 | 0 | 8895.51258 | 8888.32113 |
+| B2 Hamming repair | 0.90022 | 0.91308 | 0.89960 | 0.00000 | 0 | 8895.51258 | 8888.32113 |
+| CCD hard (MAP) | 0.90377 | 0.91709 | 0.90314 | 0.00000 | 0 | 8894.12188 | inf |
+| CCD soft (fitted delta) | 0.90377 | 0.91741 | 0.90314 | 0.00033 | 132 | nan | nan |
+
+### Order scope (plant agreement + FD)
+
+| method | acc_shippoint | acc_plant | order_exact_match | order_cvr | n_violating_orders | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.79281 | 0.17452 | 15522 | 41224.76397 | 41134.23696 |
+| CCD item scope only (hard) | 0.90377 | 0.91709 | 0.79917 | 0.01089 | 969 | 41218.32214 | inf |
+| CCD hard (MAP) | 0.90533 | 0.91904 | 0.80185 | 0.00000 | 0 | 41216.96963 | inf |
+| CCD soft (fitted delta) | 0.90422 | 0.92547 | 0.80168 | 0.00143 | 127 | nan | nan |
+
+## Calibrated
+
+Fitted on the other half of the orders: fold 0: T_ship=1e+07, T_plant=1.49, log_delta_item=-10.67, log_delta_order=-286.4; fold 1: T_ship=1e+07, T_plant=1.58, log_delta_item=-9.873, log_delta_order=-285.3. Mean coherence deficit 2.7114 nats per item, 12.5653 per order; scored 398,536 items and 86,116 orders.
+
+### Item scope (cross-task FD)
+
+| method | acc_shippoint | acc_plant | exact_match | cvr | n_violations | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.89956 | 0.08525 | 34344 | 4.41324 | 4.41717 |
+| B1 greedy repair | 0.94662 | 0.99072 | 0.94600 | 0.00000 | 0 | 4.41324 | 4.41717 |
+| B2 Hamming repair | 0.90022 | 0.91308 | 0.89960 | 0.00000 | 0 | 4.41324 | 4.41717 |
+| CCD hard (MAP) | 0.94670 | 0.99080 | 0.94608 | 0.00000 | 0 | 1.70352 | inf |
+| CCD soft (fitted delta) | 0.94670 | 0.99080 | 0.94608 | 0.00000 | 0 | 1.70432 | 1.71547 |
+
+### Order scope (plant agreement + FD)
+
+| method | acc_shippoint | acc_plant | order_exact_match | order_cvr | n_violating_orders | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.79281 | 0.17452 | 15522 | 20.44189 | 20.44222 |
+| CCD item scope only (hard) | 0.94670 | 0.99080 | 0.86216 | 0.00013 | 12 | 7.89053 | inf |
+| CCD hard (MAP) | 0.94670 | 0.99080 | 0.86224 | 0.00000 | 0 | 7.87370 | inf |
+| CCD soft (fitted delta) | 0.94670 | 0.99080 | 0.86224 | 0.00000 | 0 | 8.17504 | 8.89462 |
+
+The shipping point temperature is at the search bound 1e+07: the best single temperature flattens those probabilities to almost uniform, keeping only their ranking.
+2026-10-27 15:55:03,414 | INFO    | {"model": "lightgbm", "n_items": 402855, "n_orders": 88942, "n_shippoint_classes": 81, "n_plant_classes": 34, "ground_truth_item_violation_rate": 0.011559990567325713, "ground_truth_order_violation_rate": 0.034202064266600704, "items_true_shippoint_outside_model_classes": 4319, "items_true_plant_outside_model_classes": 0, "items_genuine_exception_both_labels_known": 338}
+2026-10-27 15:55:03,415 | INFO    | START decode, model probabilities
+2026-10-27 15:55:09,812 | INFO    | DONE  decode, model probabilities (6.4s)
+2026-10-27 15:55:09,812 | INFO    | START decode, calibrated probabilities
+2026-10-27 15:55:25,073 | WARNING | fold 0: shipping point temperature 1e+07 is at the search bound (0.001, 10000000.0)
+2026-10-27 15:55:40,425 | WARNING | fold 1: shipping point temperature 1e+07 is at the search bound (0.001, 10000000.0)
+2026-10-27 15:55:40,706 | INFO    | DONE  decode, calibrated probabilities (30.9s)
+2026-10-27 15:55:40,720 | INFO    | 
+# CCD on rel-salt (lightgbm): SHIPPINGPOINT -> PLANT
+
+402,855 test items in 88,942 orders. The ground truth breaks the item-level dependency (as learned from training items) for 1.1560% of items: 4,319 items have a shipping point the model has never seen, 0 a plant it has never seen, and 338 are genuine exceptions. It breaks the order-level constraint for 3.4202% of orders.
+
+Joint log-losses are exact, in nats per scope, over scopes whose true labels are all among the model's classes, and on the same scopes for every method: `nll_coherent_truth` over those whose true outcome obeys the constraint (where hard conditioning lowers the loss by exactly the coherence deficit), `nll_all` over all of them (hard conditioning is infinite on the genuine exceptions). Repairs change decisions, not probabilities, so their log-loss equals the raw one.
+
+## Model probabilities
+
+Fitted on the other half of the orders: fold 0: T_ship=1, T_plant=1, log_delta_item=-129.2, log_delta_order=-438.8; fold 1: T_ship=1, T_plant=1, log_delta_item=-128.3, log_delta_order=-382.7. Mean coherence deficit 1.3975 nats per item, 7.8167 per order; scored 398,536 items and 86,116 orders.
+
+### Item scope (cross-task FD)
+
+| method | acc_shippoint | acc_plant | exact_match | cvr | n_violations | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.89956 | 0.08525 | 34344 | 8895.51258 | 8888.32113 |
+| B1 greedy repair | 0.90821 | 0.93634 | 0.90758 | 0.00000 | 0 | 8895.51258 | 8888.32113 |
+| B2 Hamming repair | 0.90022 | 0.91308 | 0.89960 | 0.00000 | 0 | 8895.51258 | 8888.32113 |
+| CCD hard (MAP) | 0.90377 | 0.91709 | 0.90314 | 0.00000 | 0 | 8894.12188 | inf |
+| CCD soft (fitted delta) | 0.90377 | 0.91741 | 0.90314 | 0.00033 | 132 | 8894.12286 | 8887.03398 |
+
+### Order scope (plant agreement + FD)
+
+| method | acc_shippoint | acc_plant | order_exact_match | order_cvr | n_violating_orders | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.79281 | 0.17452 | 15522 | 41224.76397 | 41134.23696 |
+| CCD item scope only (hard) | 0.90377 | 0.91709 | 0.79917 | 0.01089 | 969 | 41218.32214 | inf |
+| CCD hard (MAP) | 0.90533 | 0.91904 | 0.80185 | 0.00000 | 0 | 41216.96963 | inf |
+| CCD soft (fitted delta) | 0.90380 | 0.92958 | 0.80159 | 0.00257 | 229 | 41218.16494 | 41128.64743 |
+
+## Calibrated
+
+Fitted on the other half of the orders: fold 0: T_ship=1e+07, T_plant=1.49, log_delta_item=-10.67, log_delta_order=-286.4; fold 1: T_ship=1e+07, T_plant=1.58, log_delta_item=-9.873, log_delta_order=-285.3. Mean coherence deficit 2.7114 nats per item, 12.5653 per order; scored 398,536 items and 86,116 orders.
+
+### Item scope (cross-task FD)
+
+| method | acc_shippoint | acc_plant | exact_match | cvr | n_violations | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.89956 | 0.08525 | 34344 | 4.41324 | 4.41717 |
+| B1 greedy repair | 0.94662 | 0.99072 | 0.94600 | 0.00000 | 0 | 4.41324 | 4.41717 |
+| B2 Hamming repair | 0.90022 | 0.91308 | 0.89960 | 0.00000 | 0 | 4.41324 | 4.41717 |
+| CCD hard (MAP) | 0.94670 | 0.99080 | 0.94608 | 0.00000 | 0 | 1.70352 | inf |
+| CCD soft (fitted delta) | 0.94670 | 0.99080 | 0.94608 | 0.00000 | 0 | 1.70432 | 1.71547 |
+
+### Order scope (plant agreement + FD)
+
+| method | acc_shippoint | acc_plant | order_exact_match | order_cvr | n_violating_orders | nll_coherent_truth | nll_all |
+|---|---|---|---|---|---|---|---|
+| B0 raw argmax | 0.90022 | 0.99092 | 0.79281 | 0.17452 | 15522 | 20.44189 | 20.44222 |
+| CCD item scope only (hard) | 0.94670 | 0.99080 | 0.86216 | 0.00013 | 12 | 7.89053 | inf |
+| CCD hard (MAP) | 0.94670 | 0.99080 | 0.86224 | 0.00000 | 0 | 7.87370 | inf |
+| CCD soft (fitted delta) | 0.94670 | 0.99080 | 0.86224 | 0.00000 | 0 | 8.17504 | 8.89462 |
+
+The shipping point temperature is at the search bound 1e+07: the best single temperature flattens those probabilities to almost uniform, keeping only their ranking.

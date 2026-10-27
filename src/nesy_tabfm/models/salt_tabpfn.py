@@ -29,6 +29,7 @@ from __future__ import annotations
 
 from typing import Any
 
+import numpy as np
 import pandas as pd
 from tabpfn import TabPFNClassifier
 
@@ -57,8 +58,48 @@ class SaltTabPFNAdapter:
         self.tabpfn_kwargs = {"ignore_pretraining_limits": True, "device": "cpu", **tabpfn_kwargs}
 
     def fit_predict(self, task: Any, db: Any) -> pd.DataFrame:
+        model, x_test, test_df = self._fit(task, db)
+        with timed(f"TabPFN predict ({len(x_test)} rows)"):
+            y_pred = self._batched(model.predict, x_test)
+        return self._predictions_frame(task, test_df, y_pred)
+
+    def fit_predict_log_proba(self, task: Any, db: Any) -> tuple[pd.DataFrame, np.ndarray, np.ndarray]:
+        """Like ``fit_predict``, but also returns the class labels and the per-class predicted
+        log-probabilities (``(n_test, n_classes)``), which CCD conditions on. ``y_pred`` is the
+        per-row argmax. TabPFN only exposes probabilities, so a probability that is exactly 0
+        becomes ``-inf``."""
+        model, x_test, test_df = self._fit(task, db)
+        with timed(f"TabPFN predict_proba ({len(x_test)} rows)"):
+            proba = self._batched(model.predict_proba, x_test)
+        with np.errstate(divide="ignore"):
+            log_proba = np.log(np.asarray(proba, dtype=float))
+        classes = np.asarray(model.classes_)
+        return self._predictions_frame(task, test_df, classes[np.argmax(log_proba, axis=1)]), classes, log_proba
+
+    def _batched(self, fn: Any, x: pd.DataFrame) -> np.ndarray:
+        if self.predict_batch_size is None or self.predict_batch_size <= 0:
+            return fn(x)
+        chunks = []
+        for start in range(0, len(x), self.predict_batch_size):
+            stop = min(start + self.predict_batch_size, len(x))
+            get_logger().info("TabPFN predict rows %d:%d", start, stop)
+            chunks.append(fn(x.iloc[start:stop]))
+        return np.concatenate(chunks)
+
+    @staticmethod
+    def _predictions_frame(task: Any, test_df: pd.DataFrame, y_pred: np.ndarray) -> pd.DataFrame:
+        return pd.DataFrame(
+            {
+                task.entity_col: test_df[task.entity_col].to_numpy(),
+                task.time_col: test_df[task.time_col].to_numpy(),
+                "y_true": test_df[task.target_col].to_numpy(),
+                "y_pred": y_pred,
+            }
+        )
+
+    def _fit(self, task: Any, db: Any) -> tuple[TabPFNClassifier, pd.DataFrame, pd.DataFrame]:
         tables = {name: t.df for name, t in db.table_dict.items()}
-        entity_col, time_col, target_col = task.entity_col, task.time_col, task.target_col
+        entity_col, target_col = task.entity_col, task.target_col
 
         train_df = task.get_table("train").df
         test_df = task.get_table("test", mask_input_cols=False).df
@@ -94,24 +135,4 @@ class SaltTabPFNAdapter:
         model = TabPFNClassifier(**self.tabpfn_kwargs)
         with timed("TabPFN fit"):
             model.fit(x_train, y_train)
-        with timed(f"TabPFN predict ({len(x_test)} rows)"):
-            if self.predict_batch_size is None or self.predict_batch_size <= 0:
-                y_pred = model.predict(x_test)
-            else:
-                chunks = []
-                for start in range(0, len(x_test), self.predict_batch_size):
-                    stop = min(start + self.predict_batch_size, len(x_test))
-                    get_logger().info("TabPFN predict rows %d:%d", start, stop)
-                    chunks.append(model.predict(x_test.iloc[start:stop]))
-                import numpy as np
-
-                y_pred = np.concatenate(chunks)
-
-        return pd.DataFrame(
-            {
-                entity_col: test_df[entity_col].to_numpy(),
-                time_col: test_df[time_col].to_numpy(),
-                "y_true": test_df[target_col].to_numpy(),
-                "y_pred": y_pred,
-            }
-        )
+        return model, x_test, test_df
