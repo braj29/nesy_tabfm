@@ -334,3 +334,33 @@ def test_strength_and_loss_tolerate_rounding_above_zero():
     assert np.isfinite(t)
     assert np.isfinite(joint_nll(np.ones(5), v, log_qC, t)).all()
     assert np.isfinite(strength_objective(t, v, log_qC))
+
+
+def test_cluster_bootstrap_covers_truth_and_widens_with_clustering():
+    from nesy_tabfm.ccd.stats import cluster_bootstrap_ci
+
+    rng = np.random.default_rng(0)
+    n_clusters = 2000
+    sizes = rng.integers(1, 8, size=n_clusters)
+    cluster = np.repeat(np.arange(n_clusters), sizes)
+    # a true mean difference of 0.05, plus a shared per-cluster effect that makes items dependent
+    cluster_effect = rng.normal(scale=0.3, size=n_clusters)[cluster]
+    diff = 0.05 + cluster_effect + rng.normal(scale=0.1, size=len(cluster))
+    est, lo, hi = cluster_bootstrap_ci(diff, cluster, n_clusters, n_boot=1000)
+    assert lo < 0.05 < hi and lo < est < hi
+    # treating items as independent clusters gives a narrower (overconfident) interval
+    _, lo_iid, hi_iid = cluster_bootstrap_ci(diff, np.arange(len(diff)), len(diff), n_boot=1000)
+    assert (hi - lo) > 1.5 * (hi_iid - lo_iid)
+
+
+def test_mcnemar_counts_and_p_value():
+    from scipy.stats import binomtest
+
+    from nesy_tabfm.ccd.stats import mcnemar
+
+    a = np.array([1, 1, 1, 0, 0, 1, 0, 1], dtype=bool)
+    b = np.array([1, 0, 0, 0, 1, 1, 0, 0], dtype=bool)
+    out = mcnemar(a, b)
+    assert (out["a_only"], out["b_only"]) == (3, 1)
+    assert out["p_value"] == pytest.approx(binomtest(3, 4, 0.5).pvalue)
+    assert mcnemar(a, a)["p_value"] == 1.0

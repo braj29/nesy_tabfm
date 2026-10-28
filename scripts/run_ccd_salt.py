@@ -37,6 +37,7 @@ import pandas as pd
 from nesy_tabfm.ccd.calibration import T_BOUNDS, fit_temperature, temper
 from nesy_tabfm.ccd.core import fit_log_strength, joint_nll, soft_map_prefers_incoherent
 from nesy_tabfm.ccd.salt import child_to_parent_index, group_sum, item_fd, order_agreement_fd, ship_to_plant
+from nesy_tabfm.ccd.stats import cluster_bootstrap_ci, mcnemar
 from nesy_tabfm.progress import get_logger, setup_run_logging, timed
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -296,7 +297,54 @@ def evaluate(su: Setup, log_ship: np.ndarray, log_plant: np.ndarray, calibrate: 
         "mean_order_coherence_deficit_nats": float(order_deficit[scored_o].mean()),
         "mean_item_model_violation_prob": float(-np.expm1(-item_deficit[scored_i]).mean()),
     }
-    return {"item": item_rows, "order": order_rows, "stats": stats}
+    per_scope = {
+        "item_dec": item_dec, "order_dec": order_dec, "item_nll": item_nll, "order_nll": order_nll,
+        "scored_i": scored_i, "coherent_i": coherent_i, "scored_o": scored_o, "coherent_o": coherent_o,
+    }
+    return {"item": item_rows, "order": order_rows, "stats": stats, "per_scope": per_scope}
+
+
+def significance(su: Setup, res: dict, n_boot: int, seed: int) -> list[dict]:
+    """Paired comparisons between decoders on the same scopes: the difference A - B with a
+    95% interval from a bootstrap over orders, and McNemar's test for accuracy."""
+    ps = res["per_scope"]
+    label = res["stats"]["probabilities"]
+    item_cluster, order_cluster = su.order_index, np.arange(su.n_orders)
+    rows = []
+
+    def add(scope, metric, a_name, b_name, a_vals, b_vals, cluster, n_clusters, mask=None, correct=False):
+        est, lo, hi = cluster_bootstrap_ci(
+            a_vals.astype(float) - b_vals.astype(float), cluster, n_clusters, mask, n_boot, seed
+        )
+        row = {"probabilities": label, "scope": scope, "metric": metric, "comparison": f"{a_name} vs {b_name}",
+               "difference": est, "ci_low": lo, "ci_high": hi,
+               "n_scopes": int(len(a_vals) if mask is None else np.sum(mask))}
+        if correct:
+            row.update({f"mcnemar_{k}": v for k, v in mcnemar(a_vals, b_vals, mask).items()})
+        rows.append(row)
+
+    def both(m):
+        s, p = ps["item_dec"][m]
+        return (s == su.true_ship) & (p == su.true_plant)
+
+    def plant(m):
+        return ps["item_dec"][m][1] == su.true_plant
+
+    def order_exact(m):
+        return su.order_all_correct(*ps["order_dec"][m])
+
+    hard, soft = "CCD hard (MAP)", "CCD soft (fitted delta)"
+    for b_name in ("B0 raw argmax", "B1 greedy repair", "B2 Hamming repair"):
+        add("item", "both correct", hard, b_name, both(hard), both(b_name), item_cluster, su.n_orders, correct=True)
+    add("item", "plant correct", hard, "B0 raw argmax", plant(hard), plant("B0 raw argmax"), item_cluster, su.n_orders, correct=True)
+    for b_name in ("B0 raw argmax", "CCD item scope only (hard)"):
+        add("order", "all items correct", hard, b_name, order_exact(hard), order_exact(b_name), order_cluster, su.n_orders, correct=True)
+    nll_i, nll_o = ps["item_nll"], ps["order_nll"]
+    add("item", "joint log-loss, truth obeys rule", hard, "B0 raw argmax", nll_i["hard"], nll_i["raw"], item_cluster, su.n_orders, ps["coherent_i"])
+    add("item", "joint log-loss, all scored", soft, "B0 raw argmax", nll_i["soft"], nll_i["raw"], item_cluster, su.n_orders, ps["scored_i"])
+    add("order", "joint log-loss, truth obeys rule", hard, "B0 raw argmax", nll_o["hard"], nll_o["raw"], order_cluster, su.n_orders, ps["coherent_o"])
+    add("order", "joint log-loss, all scored", soft, "B0 raw argmax", nll_o["soft"], nll_o["raw"], order_cluster, su.n_orders, ps["scored_o"])
+    return rows
 
 
 def md_table(df: pd.DataFrame) -> str:
@@ -351,6 +399,9 @@ def decode(args: argparse.Namespace) -> None:
     for calibrate in (False, True):
         with timed(f"decode, {'calibrated' if calibrate else 'model'} probabilities"):
             results.append(evaluate(su, log_ship, log_plant, calibrate))
+    with timed(f"significance ({args.n_boot} bootstrap replicates over orders)"):
+        sig_table = pd.DataFrame([r for res in results for r in significance(su, res, args.n_boot, args.seed)])
+    sig_table.to_csv(out / "ccd_significance.csv", index=False)
     item_table = pd.DataFrame([r for res in results for r in res["item"]])
     order_table = pd.DataFrame([r for res in results for r in res["order"]])
     item_table.to_csv(out / "ccd_item_scope.csv", index=False)
@@ -405,6 +456,25 @@ def decode(args: argparse.Namespace) -> None:
         if at_bound and st["probabilities"] == "calibrated":
             lines += ["", f"The {' and '.join(at_bound)} temperature is at the search bound {T_BOUNDS[1]:g}: the best "
                       "single temperature flattens those probabilities to almost uniform, keeping only their ranking."]
+    shown = sig_table.copy()
+    for col in ("difference", "ci_low", "ci_high"):
+        acc = ~shown["metric"].str.startswith("joint")
+        shown.loc[acc, col] = shown.loc[acc, col] * 100  # percentage points
+    for col in ("mcnemar_a_only", "mcnemar_b_only"):
+        shown[col] = shown[col].map(lambda v: "" if pd.isna(v) else f"{int(v):,}")
+    shown["mcnemar_p_value"] = shown["mcnemar_p_value"].map(lambda v: "" if pd.isna(v) else f"{v:.2g}")
+    lines += [
+        "",
+        "## Significance",
+        "",
+        f"Paired differences A - B on the same scopes, with 95% intervals from {args.n_boot} bootstrap "
+        "replicates that resample whole orders (items of one order are not independent). Accuracy "
+        "differences are in percentage points, log-loss differences in nats per scope. McNemar's exact "
+        "test counts scopes only A or only B gets right; it assumes independent scopes, so for "
+        "item-level rows the bootstrap interval is the one to trust.",
+        "",
+        md_table(shown),
+    ]
     (out / "ccd_summary.md").write_text("\n".join(lines) + "\n")
     logger.info("\n%s", "\n".join(lines))
 
@@ -418,6 +488,7 @@ def main() -> None:
     parser.add_argument("--train-sample-size", type=int, default=8000)
     parser.add_argument("--predict-batch-size", type=int, default=1024)
     parser.add_argument("--seed", type=int, default=0, help="TabPFN sampling seed and cross-fitting fold seed.")
+    parser.add_argument("--n-boot", type=int, default=2000, help="Bootstrap replicates for significance.")
     args = parser.parse_args()
     predict(args) if args.stage == "predict" else decode(args)
 

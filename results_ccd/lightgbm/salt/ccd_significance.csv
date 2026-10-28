@@ -1,0 +1,21 @@
+probabilities,scope,metric,comparison,difference,ci_low,ci_high,n_scopes,mcnemar_a_only,mcnemar_b_only,mcnemar_p_value
+model probabilities,item,both correct,CCD hard (MAP) vs B0 raw argmax,0.0035794516637499846,0.002899845130912278,0.004306135720135373,402855,1551.0,109.0,0.0
+model probabilities,item,both correct,CCD hard (MAP) vs B1 greedy repair,-0.004438321480433407,-0.00521026662708796,-0.0036495118843174303,402855,370.0,2158.0,6.802086239661523e-306
+model probabilities,item,both correct,CCD hard (MAP) vs B2 Hamming repair,0.003544699705849499,0.0028781448031579104,0.004253532396935407,402855,1428.0,0.0,0.0
+model probabilities,item,plant correct,CCD hard (MAP) vs B0 raw argmax,-0.07383798140770252,-0.07665353470355844,-0.07103393844072343,402855,124.0,29870.0,0.0
+model probabilities,order,all items correct,CCD hard (MAP) vs B0 raw argmax,0.009039598839693283,0.00835375862921904,0.009703233567943153,88942,879.0,75.0,8.532052845410443e-175
+model probabilities,order,all items correct,CCD hard (MAP) vs CCD item scope only (hard),0.0026759011490634344,0.0023386026848957746,0.0030356861775089382,88942,238.0,0.0,4.527839539413356e-72
+model probabilities,item,"joint log-loss, truth obeys rule",CCD hard (MAP) vs B0 raw argmax,-1.3907069814339654,-1.454406007023245,-1.3266931761734981,398198,,,
+model probabilities,item,"joint log-loss, all scored",CCD soft (fitted delta) vs B0 raw argmax,-1.287145508528015,-1.3737581039971603,-1.1852969064227656,398536,,,
+model probabilities,order,"joint log-loss, truth obeys rule",CCD hard (MAP) vs B0 raw argmax,-7.794338710761806,-8.192018758142186,-7.420373503296899,85900,,,
+model probabilities,order,"joint log-loss, all scored",CCD soft (fitted delta) vs B0 raw argmax,-5.589531070324681,-5.842447907812701,-5.337935935581567,86116,,,
+calibrated,item,both correct,CCD hard (MAP) vs B0 raw argmax,0.04651549564979956,0.04383558572765941,0.049217763105907364,402855,18848.0,109.0,0.0
+calibrated,item,both correct,CCD hard (MAP) vs B1 greedy repair,7.943304662968065e-05,3.9459567338994275e-05,0.00012662455959464302,402855,32.0,0.0,4.656612873077393e-10
+calibrated,item,both correct,CCD hard (MAP) vs B2 Hamming repair,0.04648074369189907,0.043808638594908224,0.049214294478230926,402855,18821.0,96.0,0.0
+calibrated,item,plant correct,CCD hard (MAP) vs B0 raw argmax,-0.00012411413535887603,-0.00021500494283525134,-3.256800296356657e-05,402855,60.0,110.0,0.00015491191771918036
+calibrated,order,all items correct,CCD hard (MAP) vs B0 raw argmax,0.06942726720784331,0.06776326145128286,0.07110279732859616,88942,6250.0,75.0,0.0
+calibrated,order,all items correct,CCD hard (MAP) vs CCD item scope only (hard),7.870297497245396e-05,2.248656427784399e-05,0.00013520046772053546,88942,7.0,0.0,0.015625
+calibrated,item,"joint log-loss, truth obeys rule",CCD hard (MAP) vs B0 raw argmax,-2.70972211881935,-2.726322566722328,-2.6938267933982813,398198,,,
+calibrated,item,"joint log-loss, all scored",CCD soft (fitted delta) vs B0 raw argmax,-2.701699539672054,-2.718157090792431,-2.6845549302061618,398536,,,
+calibrated,order,"joint log-loss, truth obeys rule",CCD hard (MAP) vs B0 raw argmax,-12.568188284812933,-12.781361724622498,-12.35839977180989,85900,,,
+calibrated,order,"joint log-loss, all scored",CCD soft (fitted delta) vs B0 raw argmax,-11.547604969655472,-11.748970160674931,-11.33339727628212,86116,,,

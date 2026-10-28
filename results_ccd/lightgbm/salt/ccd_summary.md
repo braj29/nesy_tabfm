@@ -51,3 +51,30 @@ Fitted on the other half of the orders: fold 0: T_ship=1e+07, T_plant=1.49, log_
 | CCD soft (fitted delta) | 0.94670 | 0.99080 | 0.86224 | 0.00000 | 0 | 8.17504 | 8.89462 |
 
 The shipping point temperature is at the search bound 1e+07: the best single temperature flattens those probabilities to almost uniform, keeping only their ranking.
+
+## Significance
+
+Paired differences A - B on the same scopes, with 95% intervals from 2000 bootstrap replicates that resample whole orders (items of one order are not independent). Accuracy differences are in percentage points, log-loss differences in nats per scope. McNemar's exact test counts scopes only A or only B gets right; it assumes independent scopes, so for item-level rows the bootstrap interval is the one to trust.
+
+| probabilities | scope | metric | comparison | difference | ci_low | ci_high | n_scopes | mcnemar_a_only | mcnemar_b_only | mcnemar_p_value |
+|---|---|---|---|---|---|---|---|---|---|---|
+| model probabilities | item | both correct | CCD hard (MAP) vs B0 raw argmax | 0.35795 | 0.28998 | 0.43061 | 402855 | 1,551 | 109 | 0 |
+| model probabilities | item | both correct | CCD hard (MAP) vs B1 greedy repair | -0.44383 | -0.52103 | -0.36495 | 402855 | 370 | 2,158 | 6.8e-306 |
+| model probabilities | item | both correct | CCD hard (MAP) vs B2 Hamming repair | 0.35447 | 0.28781 | 0.42535 | 402855 | 1,428 | 0 | 0 |
+| model probabilities | item | plant correct | CCD hard (MAP) vs B0 raw argmax | -7.38380 | -7.66535 | -7.10339 | 402855 | 124 | 29,870 | 0 |
+| model probabilities | order | all items correct | CCD hard (MAP) vs B0 raw argmax | 0.90396 | 0.83538 | 0.97032 | 88942 | 879 | 75 | 8.5e-175 |
+| model probabilities | order | all items correct | CCD hard (MAP) vs CCD item scope only (hard) | 0.26759 | 0.23386 | 0.30357 | 88942 | 238 | 0 | 4.5e-72 |
+| model probabilities | item | joint log-loss, truth obeys rule | CCD hard (MAP) vs B0 raw argmax | -1.39071 | -1.45441 | -1.32669 | 398198 |  |  |  |
+| model probabilities | item | joint log-loss, all scored | CCD soft (fitted delta) vs B0 raw argmax | -1.28715 | -1.37376 | -1.18530 | 398536 |  |  |  |
+| model probabilities | order | joint log-loss, truth obeys rule | CCD hard (MAP) vs B0 raw argmax | -7.79434 | -8.19202 | -7.42037 | 85900 |  |  |  |
+| model probabilities | order | joint log-loss, all scored | CCD soft (fitted delta) vs B0 raw argmax | -5.58953 | -5.84245 | -5.33794 | 86116 |  |  |  |
+| calibrated | item | both correct | CCD hard (MAP) vs B0 raw argmax | 4.65155 | 4.38356 | 4.92178 | 402855 | 18,848 | 109 | 0 |
+| calibrated | item | both correct | CCD hard (MAP) vs B1 greedy repair | 0.00794 | 0.00395 | 0.01266 | 402855 | 32 | 0 | 4.7e-10 |
+| calibrated | item | both correct | CCD hard (MAP) vs B2 Hamming repair | 4.64807 | 4.38086 | 4.92143 | 402855 | 18,821 | 96 | 0 |
+| calibrated | item | plant correct | CCD hard (MAP) vs B0 raw argmax | -0.01241 | -0.02150 | -0.00326 | 402855 | 60 | 110 | 0.00015 |
+| calibrated | order | all items correct | CCD hard (MAP) vs B0 raw argmax | 6.94273 | 6.77633 | 7.11028 | 88942 | 6,250 | 75 | 0 |
+| calibrated | order | all items correct | CCD hard (MAP) vs CCD item scope only (hard) | 0.00787 | 0.00225 | 0.01352 | 88942 | 7 | 0 | 0.016 |
+| calibrated | item | joint log-loss, truth obeys rule | CCD hard (MAP) vs B0 raw argmax | -2.70972 | -2.72632 | -2.69383 | 398198 |  |  |  |
+| calibrated | item | joint log-loss, all scored | CCD soft (fitted delta) vs B0 raw argmax | -2.70170 | -2.71816 | -2.68455 | 398536 |  |  |  |
+| calibrated | order | joint log-loss, truth obeys rule | CCD hard (MAP) vs B0 raw argmax | -12.56819 | -12.78136 | -12.35840 | 85900 |  |  |  |
+| calibrated | order | joint log-loss, all scored | CCD soft (fitted delta) vs B0 raw argmax | -11.54760 | -11.74897 | -11.33340 | 86116 |  |  |  |
