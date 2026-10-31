@@ -25,19 +25,26 @@ consistency, temporal order, functional dependency, denial constraint, range/dom
 monotonicity) plus domain-sourced rules requiring external knowledge. Every constraint is
 verified against ground truth before being used to audit predictions, across three benchmarks:
 rel-f1 (Formula 1 results), rel-salt (SAP enterprise sales data, 8 tasks), and HELOC (consumer
-credit risk). TabPFN was run as a single, untuned configuration -- on rel-salt with a
-necessarily small training subsample (its CPU inference limits preclude full-scale training),
-evaluated on each task's full test split, and on
-rel-f1 via RelArena's TabPFN-Rel relational pipeline -- so the TabPFN results reported here are
-preliminary and should be read as a first pass, not a final characterization. LightGBM, a
-conventional (non-foundation-model) gradient-boosted-tree baseline trained on the full
-available data, is included throughout as a reference point, not as the paper's primary
-subject, and its results are reported separately rather than merged into head-to-head
-comparisons. In this initial pass, TabPFN's constraint-violation rates on rel-salt were low
-across most tasks and it did not exhibit the LightGBM reference's one collapsed-prediction
-failure mode; TabPFN was also more monotonic than the LightGBM reference on HELOC's
-credit-risk features. We hold these as preliminary observations pending replication at matched
-sample size and with a tuning sweep.
+credit risk), and every prediction-level rate is compared with the rate at which the data itself
+breaks the same constraint on the same test items. TabPFN was run as a single, untuned
+configuration -- on rel-salt with a necessarily small training subsample, evaluated on each
+task's full test split, and on rel-f1 via RelArena's TabPFN-Rel relational pipeline -- so the
+TabPFN results reported here are preliminary. LightGBM, trained on the full available data with
+a fixed seed, is included throughout as a reference point, not as the paper's primary subject.
+In this initial pass, TabPFN's predicted shipping points and plants contradicted the
+enterprise's dependency 7.5 times as often as the data does on the same items (0.62\% vs.\
+0.083\%), and its top-three predictions broke a per-window cardinality bound in 11 of 30
+Formula 1 windows where the data breaks it in none; on within-order agreement it was at least as
+coherent as the data, reproducing exactly the data's own genuine exceptions, and it was more
+monotonic than the LightGBM reference on HELOC. We also find that the LightGBM reference is not
+reproducible without a fixed seed: across five runs of identical code and data, its
+shipping-point accuracy ranged from 0.28\% to 97.98\%. Finally, a first test of
+constraint-conditioned decoding -- conditioning a frozen model's per-cell predictive
+distributions on the constraint -- on the LightGBM reference removed every violation, lowered the
+joint log-loss by 2.71 nats per item, and, once the probabilities were calibrated, raised the
+share of items with both shipping point and plant correct from 89.96\% to 94.61\%, matching but
+not beating a simple confidence-based repair. We hold all of these as preliminary observations
+pending replication with several seeds and with TabPFN as the conditioned model.
 \end{abstract}
 
 \section{Introduction}
@@ -66,10 +73,13 @@ repeated seeds, and (on rel-salt) a training sample far smaller than what LightG
 contributions are: (1) a constraint taxonomy spanning generic database-integrity properties and
 domain-sourced rules, each with at least one real, empirically-verified instance; (2)
 functional-dependency constraints derived from an enterprise database's own Operational
-Business Knowledge Graph (OBKG) rather than hand-invented; and (3) an initial, preliminary
-picture of TabPFN's constraint-violation behavior on real relational data, with LightGBM's
-behavior reported alongside as reference context, including one case where a same-relation
-consistency check alone would have understated a real failure in the reference baseline.
+Business Knowledge Graph (OBKG) rather than hand-invented; (3) an initial, preliminary picture
+of TabPFN's constraint-violation behavior on real relational data, with every rate set against
+the data's own rate on the same test items and LightGBM's behavior reported alongside as
+reference context, including one case where a same-relation consistency check alone would have
+understated a real failure in an unseeded run of the reference baseline; and (4) a first test of
+constraint-conditioned decoding, a training-free way to make a frozen model's predictions
+satisfy a constraint by construction.
 
 \section{Method}
 
@@ -165,9 +175,15 @@ integration paths depending on benchmark, both preliminary:
 \end{itemize}
 
 \textbf{LightGBM (reference baseline)}, trained on the full available training data for every
-task with a fixed, untuned configuration (200 estimators, 63 leaves) -- a conventional,
-non-foundation-model baseline included so CVR numbers have a familiar point of reference, not
-as the object of this study.
+rel-salt and HELOC task with a fixed, untuned configuration (200 estimators; 63 leaves on
+rel-salt, 31 on HELOC), a fixed seed and LightGBM's deterministic mode
+(\texttt{random\_state=42}, \texttt{deterministic=True}, \texttt{force\_row\_wise=True}) -- a
+conventional, non-foundation-model baseline included so CVR numbers have a familiar point of
+reference, not as the object of this study. On rel-f1, LightGBM's predictions come from
+RelArena's own LightGBM baseline (its features and its 10-trial tuning), like TabPFN-Rel's.
+Earlier unseeded runs of the same configuration were not reproducible (Section
+\ref{sec:masking}); every LightGBM number reported here comes from the seeded run, which
+reproduces bit for bit on the same machine.
 
 \subsection{Procedure}
 
@@ -178,7 +194,10 @@ either find and fix a real bug or document the non-zero rate as a genuine data p
 discipline caught two implementation bugs during the audit (a temporal-censoring bug that made
 both models degenerate into constant-class predictors, and a $\sim$1000x constraint-engine
 performance bug from unprojected self-joins on rel-salt's 2.3M-row table), both fixed before
-any result reported here was computed.
+any result reported here was computed. For every prediction-level check we also report the rate
+at which the data itself breaks it on exactly the audited test items, by running the same check
+on the true labels (Section \ref{sec:gt-test}): that rate, not zero, is the floor a perfectly
+accurate model would reach.
 
 All decision-level violation rates reported in Section 3 are accompanied by a Wilson 95\%
 confidence interval rather than a bare point estimate, since several checks -- most visibly
@@ -260,6 +279,39 @@ The four functional dependencies were derived from SAP SALT-KG's own Operational
 Knowledge Graph, not hand-invented, and all four hold at or above 99.7\% -- consistent with
 real enterprise master-data governance rather than a schema-declared key.
 
+\subsection{Ground truth on the audited test items}
+\label{sec:gt-test}
+
+The rates above are over whole databases. A prediction-level rate should instead be read against
+the rate at which the data itself breaks the same check on exactly the test items being
+predicted, so we also ran every prediction-level check on the true labels of the audited test
+items (Table \ref{tab:gt-test}). On rel-f1 the data respects both checks in every test window; on
+rel-salt it breaks each check at a small but non-zero rate, and those exceptions are the floor a
+perfectly accurate model would reach. The shipping point $\to$ plant rate on the test items
+(0.0827\%) is higher than over the whole database (0.0585\%), so it, not the database-wide rate,
+is the right comparison for the models' cross-task rates below.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Prediction-level checks run on the true labels of the audited test items.}
+\label{tab:gt-test}
+\begin{tabularx}{\linewidth}{@{} l L{5.6cm} l r r @{}}
+\toprule
+\textbf{Data} & \textbf{Constraint} & \textbf{$n$} & \textbf{Violations} & \textbf{Rate} \\
+\midrule
+rel-salt & plant\_consistent\_within\_order & 6{,}184{,}238 item pairs & 346 & 0.0056\% \\
+rel-salt & shippingpoint\_consistent\_within\_order & 6{,}184{,}238 item pairs & 321 & 0.0052\% \\
+rel-salt & itemincotermsclassification\_consistent\_within\_order & 6{,}184{,}238 item pairs & 303 & 0.0049\% \\
+rel-salt & shippingpoint $\to$ plant & 402{,}855 & 333 & 0.0827\% \\
+rel-salt & item incoterms = header incoterms & 402{,}855 & 267 & 0.0663\% \\
+rel-salt & salesgroup $\to$ salesoffice & 88{,}942 & 103 & 0.1158\% \\
+rel-f1 & top3\_predictions\_per\_window & 30 windows & 0 & 0.00\% \\
+rel-f1 & position\_pred\_in\_domain & 760 & 0 & 0.00\% \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \subsection{TabPFN results (preliminary)}
 \label{sec:tabpfn-results}
 
@@ -338,11 +390,18 @@ NetFractionRevolvingBurden & 1{,}945 & 19.69\% (383) & [17.98, 21.52] \\
 \end{table}
 
 In this initial pass, TabPFN's rel-salt accuracy was high ($\geq$97.0\%) on every task it
-could run, and on the full test split its prediction-level constraint violations stayed below
-0.62\% everywhere measured -- low, but no longer exactly zero on two within-order checks
-(0.0144\% and 0.0049\%) where the original 1{,}000-row pilot's small sample could only ever
-report 0.00\%. Its rel-f1 top3\_predictions\_per\_window rate (36.67\%, 11 of 30 windows) is
-the one figure worth flagging for a closer look given how few test windows back it.
+could run, and on the full test split its prediction-level constraint violations stayed at or
+below 0.62\% everywhere measured. Set against the data's own rates on the same test items
+(Table \ref{tab:gt-test}), they split three ways. TabPFN is \emph{less} coherent than the data on
+the cross-task dependency (0.62\% vs.\ 0.083\%, 7.5 times as often) and on shipping-point
+agreement within orders (891 vs.\ 321 disagreeing pairs). It is \emph{as} coherent as the data
+on the two incoterms checks: its 303 within-order incoterms disagreements are exactly the data's
+own 303 disagreeing pairs, pair for pair, so they are genuine exceptions rather than errors, and
+its 279 item/header incoterms disagreements sit close to the data's 267. And it is \emph{more}
+coherent than the data on plant agreement within orders: it predicts no disagreement where the
+data has 346 disagreeing pairs, i.e.\ it never predicts the genuine split-plant exceptions. On
+rel-f1, the data respects the per-window top-three bound in all 30 test windows, so TabPFN-Rel's
+11 violating windows are all genuine errors.
 
 \subsection{LightGBM reference results}
 \label{sec:lgbm-results}
@@ -361,21 +420,22 @@ fully-trained baseline -- not as a comparison target for TabPFN.
 \toprule
 \textbf{Task} & \textbf{Target} & \textbf{$n$} & \textbf{Accuracy} \\
 \midrule
-item-plant & PLANT & 402{,}855 & 99.08\% \\
-item-shippoint & SHIPPINGPOINT & 402{,}855 & 2.97\% \\
+item-plant & PLANT & 402{,}855 & 99.09\% \\
+item-shippoint & SHIPPINGPOINT & 402{,}855 & 90.02\% \\
 item-incoterms & ITEMINCOTERMSCLASSIFICATION & 402{,}855 & 99.99\% \\
-sales-office & SALESOFFICE & 88{,}942 & 100.00\% \\
-sales-group & SALESGROUP & 88{,}942 & 86.04\% \\
-sales-payterms & CUSTOMERPAYMENTTERMS & 88{,}942 & 99.85\% \\
-sales-shipcond & SHIPPINGCONDITION & 88{,}942 & 18.12\% \\
+sales-office & SALESOFFICE & 88{,}942 & 99.999\% \\
+sales-group & SALESGROUP & 88{,}942 & 86.67\% \\
+sales-payterms & CUSTOMERPAYMENTTERMS & 88{,}942 & 99.87\% \\
+sales-shipcond & SHIPPINGCONDITION & 88{,}942 & 82.94\% \\
 sales-incoterms & HEADERINCOTERMSCLASSIFICATION & 88{,}942 & 99.98\% \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-LightGBM's item-shippoint accuracy (2.97\%) falls below the 48.2\% majority-class baseline
-for that task; sales-shipcond shows the same pattern (18.12\%). We do not have a confirmed
-explanation (Section \ref{sec:limitations}).
+With a fixed seed, LightGBM's two weakest tasks are item-shippoint (90.02\%) and sales-shipcond
+(82.94\%). Earlier unseeded runs of the same code on the same data gave very different
+accuracies on exactly these tasks, from 2.97\% to 59.67\% on item-shippoint
+(Section \ref{sec:masking}).
 
 \subsubsection{rel-salt: prediction-level constraint violations}
 
@@ -386,19 +446,22 @@ explanation (Section \ref{sec:limitations}).
 \toprule
 \textbf{Constraint} & \textbf{$n$} & \textbf{LightGBM CVR} & \textbf{95\% CI (Wilson)} \\
 \midrule
-plant\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0078\% (483) & [0.0071, 0.0085] \\
-shippingpoint\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.00\% (0) & [0.00, 0.0001] \\
+plant\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0069\% (426) & [0.0063, 0.0076] \\
+shippingpoint\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.5955\% (36{,}830) & [0.5895, 0.6016] \\
 itemincotermsclassification\_consistent\_within\_order & 6{,}184{,}238 item pairs & 0.0049\% (303) & [0.0044, 0.0055] \\
-shippingpoint\_pred\_determines\_plant\_pred & 402{,}855 & 27.29\% (109{,}941) & [27.15, 27.43] \\
+shippingpoint\_pred\_determines\_plant\_pred & 402{,}855 & 6.70\% (27{,}005) & [6.63, 6.78] \\
 item\_incoterms\_pred\_matches\_header\_incoterms\_pred & 402{,}855 & 0.0760\% (306) & [0.0679, 0.0850] \\
 salesgroup\_pred\_determines\_salesoffice\_pred & 88{,}942 & 0.11\% (102) & [0.09, 0.14] \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-The shippingpoint\_consistent\_within\_order row (0.00\%) and the
-shippingpoint\_pred\_determines\_plant\_pred row (27.29\%) both concern the same
-item-shippoint predictions; Section \ref{sec:masking} discusses why they disagree so sharply.
+Like TabPFN, LightGBM reproduces the data's 303 within-order incoterms disagreements pair for
+pair, and its sales group $\to$ sales office rate (102) matches the data's (103). Its
+cross-task shipping point $\to$ plant rate (6.70\%) is 81 times the data's (0.083\%), and its
+shipping points disagree within orders far more often than the data's do (36{,}830 vs.\ 321
+pairs). Section \ref{sec:masking} discusses an earlier, unseeded run in which these two checks
+disagreed sharply.
 
 \subsubsection{rel-f1 (LightGBM): prediction-level constraint violations}
 
@@ -430,6 +493,9 @@ NetFractionRevolvingBurden & 1{,}945 & 32.19\% (626) & [30.15, 34.29] \\
 \end{tabular}
 \end{table}
 
+These HELOC numbers are identical in the seeded run and in both earlier unseeded runs: HELOC,
+unlike rel-salt, was not sensitive to LightGBM's seed.
+
 \section{Discussion}
 \label{sec:discussion}
 
@@ -437,10 +503,15 @@ NetFractionRevolvingBurden & 1{,}945 & 32.19\% (626) & [30.15, 34.29] \\
 
 In this initial, single-configuration pass, TabPFN's rel-salt predictions showed low
 constraint-violation rates on the full test split (at or below 0.62\%) alongside
-high accuracy ($\geq$97.0\% on every runnable task), and it did not reproduce the LightGBM
-reference's item-shippoint collapse (Section \ref{sec:masking}). TabPFN was also more
-monotonic than the LightGBM reference on both HELOC features (10.53\%/19.69\% vs.\
-17.84\%/32.19\%). We read these as encouraging preliminary signals, not a settled finding: the
+high accuracy ($\geq$97.0\% on every runnable task); on item-shippoint it was more accurate
+than the seeded LightGBM reference (97.02\% vs.\ 90.02\%) despite training on 8{,}000 rows
+against 1.6 million. Low is not the same as coherent, however. Against the data on the same
+items (Table \ref{tab:gt-test}), TabPFN breaks the cross-task shipping point $\to$ plant
+dependency 7.5 times as often as the data does, while on within-order plant agreement it is
+more coherent than the data and never predicts its genuine exceptions. The right target for a
+constraint-violation rate is the data's own rate, not zero: a model can err in both directions.
+TabPFN was also more monotonic than the LightGBM reference on both HELOC features (10.53\%/19.69\%
+vs.\ 17.84\%/32.19\%). We read these as encouraging preliminary signals, not a settled finding: the
 rel-salt training sample is small (8{,}000 rows per task), untuned, and run once, so we cannot
 yet separate a real property of TabPFN's predictions from sampling noise in which 8{,}000
 rows it happened to see -- though the evaluation side is no longer a small-sample concern,
@@ -449,36 +520,50 @@ stands out enough to flag for follow-up is rel-f1's top3\_predictions\_per\_wind
 TabPFN-Rel (36.67\%, 11 of 30 windows) -- notably higher than the LightGBM reference's figure
 on the same check (13.33\%, 4 of 30), though with only 30 test windows a handful of counts
 move the percentage a great deal: a two-sided Fisher exact test on the 11-vs-4-of-30 counts
-gives $p=0.07$, so at this sample size the gap does not reach significance. TabPFN-Rel's
-RelArena pipeline is also a different feature-engineering path from anything used on rel-salt
-(Section 2.3). We therefore read this result as evidence that per-cell predictors generally
-lack a mechanism for enforcing this kind of cross-row cardinality constraint, not as a ranking
-between the two models audited here, and not as evidence about TabPFN specifically.
+gives $p=0.07$, so at this sample size the gap does not reach significance. The data itself
+respects the bound in all 30 windows (Table \ref{tab:gt-test}), so every violating window is a
+genuine error. TabPFN-Rel's RelArena pipeline is also a different feature-engineering path from
+anything used on rel-salt (Section 2.3). We therefore read this result as evidence that per-cell
+predictors generally lack a mechanism for enforcing this kind of cross-row cardinality
+constraint, not as a ranking between the two models audited here, and not as evidence about
+TabPFN specifically.
 
-\subsection{Why the LightGBM reference needed more than one constraint}
+\subsection{An unseeded reference run, and why one constraint is not enough}
 \label{sec:masking}
 
-One result from the LightGBM reference baseline illustrates why this audit uses more than one
-constraint type per relation, and we include it because it shapes how the TabPFN numbers above
-should be read too. LightGBM's within-order consistency check reports 0.00\% violations for
-its item-shippoint predictions (Section \ref{sec:lgbm-results}) -- an apparently perfect
-result. But item-shippoint's LightGBM accuracy is 2.97\%, below the task's 48.2\%
-majority-class baseline (Section \ref{sec:lgbm-accuracy}): the predictions are not just wrong,
-they concentrate on a handful of classes, so items in the same order trivially agree with each
-other on a wrong answer. The cross-task functional-dependency check
-(shippingpoint\_pred\_determines\_plant\_pred, derived from the same OBKG relation used to
-verify the ground-truth \texttt{SHIPPINGPOINT}$\to$\texttt{PLANT} dependency) exposes the same
-failure directly, at 27.29\%, because a model whose shippingpoint predictions are near-random
-cannot also produce a plant prediction consistent with them.
+An earlier, unseeded run of the LightGBM reference illustrates why this audit uses more than one
+constraint type per relation. In that run, LightGBM's within-order consistency check reported
+0.00\% violations for its item-shippoint predictions -- an apparently perfect result -- while its
+item-shippoint accuracy was 2.97\%, below the task's 48.2\% majority-class baseline: the
+predictions had collapsed onto a handful of classes, so items in the same order trivially
+agreed with each other on a wrong answer. The cross-task functional-dependency check
+(shippingpoint\_pred\_determines\_plant\_pred, derived from the same OBKG relation used to verify
+the ground-truth \texttt{SHIPPINGPOINT}$\to$\texttt{PLANT} dependency) exposed the same failure
+directly, at 27.29\%, because a model whose shipping-point predictions are near-random cannot
+also produce a plant prediction consistent with them.
 
-We take two things from this. First, methodologically: a single same-relation consistency
-check is not sufficient evidence of model competence, for either model audited here -- it is
-why TabPFN's results above are reported across several independent constraint types rather
-than one. Second: TabPFN did not show this failure mode on the same task (97.02\% accuracy,
-Section \ref{sec:tabpfn-results}), now measured on the same full test split LightGBM uses, so
-this particular comparison is no longer a small-sample artifact -- though the two models still
-trained on very differently sized data (8{,}000 rows vs.\ the full $\sim$1.6M, Section 2.3),
-so a matched-training-scale follow-up remains the natural next step.
+That collapse, however, was a property of that run, not of LightGBM on this task. The
+configuration set no random seed, and LightGBM's multithreaded tree building is not
+reproducible without one. Across five runs of identical code on identical data -- two unseeded
+runs on two machines, two runs with seed 0 on two machines, and one with seed 42 --
+item-shippoint accuracy was 2.97\%, 59.67\%, 97.98\%, 0.28\% and 90.02\%; sales-shipcond accuracy
+ranged from 11.46\% to 86.16\% and sales-group accuracy from 1.25\% to 86.67\%, while the other
+five tasks agreed to within 0.03 points. A sweep with the seed as the only setting changed
+showed seed 0 to be an unlucky draw for sales-group (0.72\%, against 85.5--85.8\% for seeds 1,
+2, 42 and 123). With a fixed seed and LightGBM's deterministic mode, two runs on the same
+machine gave identical results (on one machine we checked every prediction), though not across
+machines (seed 0 gave 97.98\% on one machine and 0.28\% on another). Every LightGBM number in this report comes from the seed-42 run, in which
+item-shippoint does not collapse (90.02\%) and the same-relation and cross-task checks agree that
+its predictions are incoherent (0.60\% and 6.70\%).
+
+We take three things from this. First, methodologically: a single same-relation consistency
+check is not sufficient evidence of model competence, for either model audited here -- a
+collapsed predictor satisfies it trivially, and only an independently sourced cross-task
+constraint (or accuracy) exposes the failure. Second, a reference baseline must be run with a
+fixed seed and checked for reproducibility before its numbers are compared with anything; ours
+initially was not, and its weakest numbers turned out to be seed artifacts. Third, the problem
+surfaced only because two runs of the same reference were compared; a single run would have
+been reported as a stable property of LightGBM.
 
 \subsection{Constraint engineering at real scale}
 
@@ -489,6 +574,98 @@ the predicate needs reduced this to under a second per constraint with identical
 counts. Constraint auditing at production scale is not just a modeling exercise; the
 constraint engine itself must be engineered for the data volumes real relational benchmarks
 involve.
+
+\section{A first test of constraint-conditioned decoding}
+\label{sec:ccd}
+
+The audit shows per-cell predictors breaking constraints that hold in the data. A remedy that
+needs no retraining is to condition the model's per-cell predictive distributions on the
+constraint: take the product of the distributions of the cells a constraint couples, restrict it
+to the assignments that satisfy the constraint, renormalize, and decode the most probable
+satisfying assignment (hard conditioning); or, for constraints with exceptions, down-weight
+violating assignments by a strength $\delta$ fitted on held-out data (soft conditioning). For the
+shipping point $\to$ plant dependency, an item's shipping point $s$ and plant $p$ must satisfy
+$p = g(s)$. The model puts mass $q(C) = \sum_s q_{\mathrm{ship}}(s)\, q_{\mathrm{plant}}(g(s))$ on
+satisfying pairs, its coherence deficit is $\Delta = -\log q(C)$, and the conditioned decision is
+$\arg\max_s q_{\mathrm{ship}}(s)\, q_{\mathrm{plant}}(g(s))$. At order level, every item of an order
+must in addition share one plant. All formulas are exact and are checked against brute-force
+enumeration in our code.
+
+We tested this on the seeded LightGBM reference on rel-salt, on all 402{,}855 test items in
+88{,}942 orders. The map $g$ is each shipping point's majority plant among the training items,
+not SAP's configuration table, which is not part of rel-salt. Under this $g$ the data itself
+breaks the dependency for 1.16\% of test items: 4{,}319 items (1.07\%) have a shipping point
+never seen in training, which no decoder can recover, and 338 (0.084\%) are genuine exceptions.
+We compare raw per-cell decisions with a greedy repair that changes the less confident of the two
+cells, a Hamming-nearest repair that ignores confidence (it keeps the shipping point and sets its
+plant), and hard and soft conditioning, each on the model's own probabilities and after per-task
+temperature scaling. Every fitted parameter (temperatures and $\delta$) is cross-fitted: the test
+orders are split into two halves, and each half is decoded with parameters fitted on the other.
+Intervals are 95\% bootstrap intervals that resample whole orders.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Constraint-conditioned decoding on rel-salt's shipping point $\to$ plant dependency
+(LightGBM reference, seed 42; 402{,}855 test items in 88{,}942 orders). Item columns condition
+each item on the dependency; ``Orders correct'' conditions whole orders on plant agreement and
+the dependency. Joint log-loss is in nats per item, over the 398{,}198 items whose true labels
+the model can predict and satisfy the dependency, where every method is finite. Repairs change
+decisions, not probabilities, so their log-loss equals the raw one; ``--'': not defined at order
+level.}
+\label{tab:ccd}
+\begin{tabular}{@{} l l r r r r r @{}}
+\toprule
+\textbf{Probabilities} & \textbf{Decoder} & \textbf{Both corr.} & \textbf{Plant acc.} & \textbf{Viol.\ items} & \textbf{Orders corr.} & \textbf{Log-loss} \\
+\midrule
+model's own & raw argmax & 89.96\% & 99.09\% & 34{,}344 & 79.28\% & 8{,}895.5 \\
+model's own & conditioned (hard) & 90.31\% & 91.71\% & 0 & 80.19\% & 8{,}894.1 \\
+\midrule
+calibrated & raw argmax & 89.96\% & 99.09\% & 34{,}344 & 79.28\% & 4.41 \\
+calibrated & greedy repair & 94.60\% & 99.07\% & 0 & -- & 4.41 \\
+calibrated & Hamming repair & 89.96\% & 91.31\% & 0 & -- & 4.41 \\
+calibrated & conditioned (hard) & 94.61\% & 99.08\% & 0 & 86.22\% & 1.70 \\
+calibrated & conditioned (soft) & 94.61\% & 99.08\% & 0 & 86.22\% & 1.70 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Conditioning only helps once the probabilities are calibrated.} On LightGBM's own
+probabilities, conditioning removes every violation but barely improves decisions (+0.36 points
+of items with both cells correct) and lowers plant accuracy by 7.4 points: it turns 29{,}870
+correct plants wrong and corrects 124. LightGBM is so overconfident on rel-salt -- its
+second-ranked shipping point typically gets a probability around $10^{-71}$, and its own joint
+log-loss is about 8{,}900 nats per item -- that on a contradicting item the probabilities cannot
+tell which cell is wrong. After per-task temperature scaling, conditioning raises the share of
+items with both cells correct from 89.96\% to 94.61\% (+4.65 points, [4.38, 4.92]), keeps plant
+accuracy (99.08\% vs.\ 99.09\%), and raises the share of orders with every item correct from
+79.28\% to 86.22\% (+6.94 points, [6.78, 7.11]). The best single temperature for the
+shipping-point model lies at our search limit ($10^7$): it flattens those probabilities to almost
+uniform and keeps only their ranking, so the gain comes from trusting the well-calibrated plant
+model (temperature $\approx 1.5$) and taking the best-ranked shipping point within its plant.
+
+\paragraph{On decisions, conditioning matches but does not beat a confidence-based repair.}
+Greedy repair reaches 94.60\% against 94.61\% for conditioning; conditioning is never worse on any
+item and better on 32 of 402{,}855 (+0.008 points, [0.004, 0.013]), which is detectable but
+negligible. Repair that ignores confidence gains essentially nothing (14 items). The decision
+gain therefore comes from using calibrated confidence to decide which cell to change, which both
+methods do.
+
+\paragraph{Conditioning improves the probabilities, which repair cannot.} On items whose true
+labels satisfy the dependency, hard conditioning lowers the joint log-loss by exactly each item's
+coherence deficit, 2.71 nats per item on average ([2.69, 2.73]), as the theory predicts. Soft
+conditioning, with $\delta$ fitted on held-out orders, stays finite on the 338 genuine exceptions,
+where hard conditioning assigns zero probability, and lowers the log-loss over all scored items
+from 4.42 to 1.72 nats. Conditioning whole orders adds coherence beyond conditioning items one at
+a time on the model's own probabilities (item-level conditioning leaves 969 orders whose items
+disagree on the plant, order-level conditioning none), but once the probabilities are calibrated,
+item-level conditioning already leaves only 12 such orders.
+
+These are single-seed results for one model, one constraint and one database; the intervals
+cover which items happen to be in the test set, not training randomness, which Section
+\ref{sec:masking} shows can be large for this reference. Whether conditioning beats repair on
+decisions, and whether TabPFN's probabilities need calibrating first, remain open until the same
+experiment is run with TabPFN.
 
 \section{Limitations}
 \label{sec:limitations}
@@ -508,11 +685,12 @@ involve.
 \item \textbf{A hard architectural ceiling.} TabPFN has an unbypassable 160-class limit that
   excludes it entirely from sales-group (502 classes in the full vocabulary, still 378 within
   just its 8{,}000-row training draw); every comparison involving that task is one-sided.
-\item \textbf{An unexplained weak point in the LightGBM reference.} LightGBM's item-shippoint
-  and sales-shipcond weakness (Section \ref{sec:lgbm-accuracy}) has a plausible explanation --
-  distribution shift toward customer identities unseen at training time -- that we did not
-  test; raising \texttt{n\_estimators} from 200 to 800 did not change the result, ruling out
-  simple undertraining. This is a property of the reference baseline, not of TabPFN.
+\item \textbf{A reference baseline that is sensitive to its seed.} Without a fixed seed,
+  LightGBM's accuracy on item-shippoint, sales-shipcond and sales-group varied enormously
+  between runs of identical code on identical data (Section \ref{sec:masking}); with a fixed
+  seed it reproduces on one machine, but not across machines. We report one seed (42); other
+  seeds can give materially different numbers on those three tasks. This is a property of the
+  reference baseline, not of TabPFN.
 \item \textbf{Two different TabPFN pipelines.} rel-f1's TabPFN-Rel (RelArena, DFS relational
   features, internal tuning) and rel-salt's plain TabPFN (hand-built flat features, no
   tuning) are not the same experimental setup; results from the two should not be pooled or
@@ -520,23 +698,36 @@ involve.
 \item \textbf{Small denominators.} rel-f1's top3\_predictions\_per\_window check has only 30
   test windows; an 11-vs-4 count difference reads as a large percentage gap (36.7\% vs.\
   13.3\%).
+\item \textbf{Conditioning tested on one model and one constraint.} Section \ref{sec:ccd} uses
+  only the LightGBM reference, one seed, and a shipping point $\to$ plant map learned from
+  training items rather than SAP's configuration table. Its decision gain depends on
+  calibrating the probabilities first, and the best temperature for the shipping-point model lay
+  at our search limit.
 \end{itemize}
 
 \section{Conclusion (preliminary)}
 
 This is an initial, single-configuration audit, not a finished evaluation. In this first pass,
 TabPFN showed low constraint-violation rates and high accuracy across most of rel-salt's
-tasks, and did not reproduce the one collapsed-prediction failure mode seen in the LightGBM
-reference baseline; it was also more monotonic than that reference on HELOC. We hold all of
-these as preliminary observations: TabPFN's rel-salt runs used a small, untuned, single-seed
-training sample (evaluation now runs on the full test split), and its rel-f1 numbers come
-from a different pipeline (TabPFN-Rel) than its rel-salt
-numbers, so the two should not be pooled into one claim about ``TabPFN.'' The audit's more
-durable finding is methodological: a same-relation consistency check gave a misleadingly
-perfect result for the LightGBM reference's one collapsed-prediction task, and only an
-independently-sourced, cross-task constraint exposed it -- a caution that applies to auditing
-any model, including TabPFN, going forward. A matched-sample-size, repeated-seed, tuned
-follow-up is the natural next step before drawing firmer conclusions about TabPFN's constraint
-compliance.
+tasks, but against the data's own rates on the same items it breaks the cross-task shipping
+point $\to$ plant dependency 7.5 times as often as the data does, and the rel-f1 top-three bound
+in 11 of 30 windows where the data breaks it in none; on within-order plant agreement it is more
+coherent than the data. It was also more monotonic than the LightGBM reference on HELOC. We hold
+all of these as preliminary observations: TabPFN's rel-salt runs used a small, untuned,
+single-seed training sample (evaluation runs on the full test split), and its rel-f1 numbers
+come from a different pipeline (TabPFN-Rel) than its rel-salt numbers, so the two should not be
+pooled into one claim about ``TabPFN.''
+
+Three methodological lessons are more durable than any single number. A constraint-violation
+rate must be compared with the data's own rate on the same items, not with zero, because a model
+can be less coherent than the data or more. A same-relation consistency check can certify a
+collapsed predictor as perfectly coherent, which only an independently sourced cross-task
+constraint exposes. And a reference baseline must be seeded and checked for reproducibility:
+our unseeded LightGBM reference ranged from 0.28\% to 97.98\% accuracy on one task across runs
+of identical code. A first test of constraint-conditioned decoding on that reference removed
+every violation and lowered the joint log-loss by exactly the coherence deficit; with calibrated
+probabilities it also raised the share of fully correct items by 4.65 points, matching but not
+beating a simple confidence-based repair. A repeated-seed follow-up, with TabPFN as the
+conditioned model, is the natural next step.
 
 \end{document}

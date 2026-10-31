@@ -1,0 +1,9 @@
+name,kind,n_checked,n_violations,violation_rate,database
+plant_consistent_within_order,denial,6184238,346,5.594868761519204e-05,rel-salt
+shippingpoint_consistent_within_order,denial,6184238,321,5.190615238288048e-05,rel-salt
+itemincotermsclassification_consistent_within_order,denial,6184238,303,4.899552701561615e-05,rel-salt
+shippingpoint_pred_determines_plant_pred,functional_dependency,402855,333,0.0008266001414901143,rel-salt
+salesgroup_pred_determines_salesoffice_pred,functional_dependency,88942,103,0.0011580580603089653,rel-salt
+item_incoterms_pred_matches_header_incoterms_pred,denial,402855,267,0.000662769482816398,rel-salt
+top3_predictions_per_window,cardinality,30,0,0.0,rel-f1
+position_pred_in_domain,denial,760,0,0.0,rel-f1
